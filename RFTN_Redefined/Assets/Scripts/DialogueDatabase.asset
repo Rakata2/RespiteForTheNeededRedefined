@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff9fb0f54eba2046b2b4bd856889374, type: 3}
+  m_Name: DialogueDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueDatabase
+  ShelterDialogues:
+  - Are there any beds available left?
+  - Can I stay here for the night?
+  - Is there any spot that has not been taken yet?
+  - Can I get a bed to sleep on here?
+  - May I rest here for the night?
+  SoupDialogues:
+  - Do you have any soup left?
+  - I could eat something hot right now...
+  - May I have some soup?
+  - Any comfort food? kinda feeling under the weather.
+  - I'll take the soup if you have any left.
+  PorridgeDialogues:
+  - Is there any porridge left?
+  - Do you have anything that is easy to digest?
+  - You have porridges right? i'll take one.
+  - A porridge sounds nice to eat right now.
+  - I'll take a bowl of porridge please.
+  SandwichDialogues:
+  - Can I get a sandwich please?
+  - Are there any sandwiches left?
+  - I'll take a sandwich.
+  - Bread good, have any?
+  - That sandwich looks nice.
