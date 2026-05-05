@@ -72,7 +72,7 @@ public class NPCMovement : MonoBehaviour
                 MoveTo(ExitPoint);
                 if (IsAtPosition(ExitPoint))
                 {
-                    Destroy(gameObject); 
+                    Destroy(gameObject);
                 }
                 break;
         }
@@ -109,11 +109,11 @@ public class NPCMovement : MonoBehaviour
         }
     }
 
-    //public void CloseDialogue()
-    //{
-    //    GameUIManager.instance.SetDialogueActive(false);
-    //    ChatBubble.SetActive(false);
-    //}
+    public void CloseDialogue()
+    {
+        GameUIManager.instance.SetDialogueActive(false);
+        ChatBubble.SetActive(false);
+    }
 
     List<string> GetListByType(RequestType type)
     {
