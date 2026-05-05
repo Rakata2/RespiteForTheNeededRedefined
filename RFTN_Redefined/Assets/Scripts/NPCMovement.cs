@@ -109,12 +109,6 @@ public class NPCMovement : MonoBehaviour
         }
     }
 
-    public void CloseDialogue()
-    {
-        GameUIManager.instance.SetDialogueActive(false);
-        ChatBubble.SetActive(false);
-    }
-
     List<string> GetListByType(RequestType type)
     {
         switch (type)
