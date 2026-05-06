@@ -21,6 +21,11 @@ public class GameUIManager : MonoBehaviour
         FoodDisplayPanel.gameObject.SetActive(false);
     }
 
+    public bool IsMouseBlocked()
+    {
+        return UIBlocker.activeInHierarchy || isDialogueActive;
+    }
+
     public void SetDialogueActive(bool active)
     {
         isDialogueActive = active;
@@ -28,29 +33,43 @@ public class GameUIManager : MonoBehaviour
 
     public void OpenComputer()
     {
-        ComputerPanel.gameObject.SetActive(true);
-        UIBlocker.SetActive(true);
+        ShowPanel(ComputerPanel);
     }
 
     public void OpenFoodDisplay()
     {
-        FoodDisplayPanel.gameObject.SetActive(true);
-        UIBlocker.SetActive(true);
+        ShowPanel(FoodDisplayPanel);
     }
 
     public void CloseComputer()
     {
-        ComputerPanel.gameObject.SetActive(false);
-        UIBlocker.SetActive(false);
+        HidePanel(ComputerPanel);
     }
 
     public void CloseFoodDisplay()
     {
-        FoodDisplayPanel.gameObject.SetActive(false);
-        UIBlocker.SetActive(false);
+        HidePanel(FoodDisplayPanel);
     }
 
-    
+    public void ShowPanel(CanvasGroup panel)
+    {
+        UIBlocker.SetActive(true);
+        panel.gameObject.SetActive(true);
+
+        panel.alpha = 1;
+        panel.interactable = true;
+        panel.blocksRaycasts = true;
+    }
+
+    public void HidePanel(CanvasGroup panel)
+    {
+        UIBlocker.SetActive(false);
+        panel.alpha = 0;
+        panel.interactable = false;
+        panel.blocksRaycasts = false;
+        panel.gameObject.SetActive(false);
+    }
+
     public void CloseDialogue(CanvasGroup PrefabPanel)
     {
         PrefabPanel.alpha = 0;

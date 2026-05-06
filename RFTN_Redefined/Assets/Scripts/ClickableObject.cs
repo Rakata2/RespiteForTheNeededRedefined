@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ClickableObject : MonoBehaviour
 {
@@ -11,7 +12,11 @@ public class ClickableObject : MonoBehaviour
 
     private void OnMouseDown()
     {
-        
+        if (GameUIManager.instance.IsMouseBlocked())
+        {
+            return; // Ignore clicks on UI elements
+        }
+
         if (ObjectType == InteractionType.Computer)
         {
             GameUIManager.instance.OpenComputer();
