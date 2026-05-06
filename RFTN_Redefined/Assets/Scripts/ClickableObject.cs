@@ -14,7 +14,7 @@ public class ClickableObject : MonoBehaviour
     {
         if (GameUIManager.instance.IsMouseBlocked())
         {
-            return; // Ignore clicks on UI elements
+            return; 
         }
 
         if (ObjectType == InteractionType.Computer)
