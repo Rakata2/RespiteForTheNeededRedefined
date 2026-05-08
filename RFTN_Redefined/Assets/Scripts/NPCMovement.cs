@@ -56,12 +56,13 @@ public class NPCMovement : MonoBehaviour
                 if (IsAtPosition(CenterPoint))
                 {
                     CurrentState = NPCState.Interact;
+
                     if(ChatBubble != null)
                     {
                         ChatBubble.SetActive(true);
                     }
-
                     StartCoroutine(StartInteraction());
+                    
                 }
                 break;
             case NPCState.Interact:
@@ -89,6 +90,7 @@ public class NPCMovement : MonoBehaviour
 
     IEnumerator StartInteraction()
     {
+        GetComponent<AudioSource>().Play();
         GameUIManager.instance.SetDialogueActive(true);
 
         List<string> SelectedList = GetListByType(NPCRequestType);
