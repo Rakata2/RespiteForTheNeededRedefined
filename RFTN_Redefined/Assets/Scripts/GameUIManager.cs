@@ -7,6 +7,12 @@ public class GameUIManager : MonoBehaviour
 {
     public static GameUIManager instance;
     [SerializeField] private CanvasGroup ComputerPanel;
+    [Header("ComputerDisplay")]
+    [SerializeField] private GameObject MainMenuPanel;
+    [SerializeField] private GameObject BedAssignmentPanel;
+    [SerializeField] private GameObject ShelterDiversionPanel;
+    [SerializeField] private GameObject RestockFoodPanel;
+
     [SerializeField] private CanvasGroup FoodDisplayPanel;
     [SerializeField] private GameObject UIBlocker;
     private bool isDialogueActive = false;
@@ -32,6 +38,25 @@ public class GameUIManager : MonoBehaviour
     public void OpenComputer()
     {
         ShowPanel(ComputerPanel);
+        MainMenuPanel.SetActive(true);
+
+        BedAssignmentPanel.SetActive(false);
+        ShelterDiversionPanel.SetActive(false);
+        RestockFoodPanel.SetActive(false);
+    }
+
+    public void SwitchToSubPanel(GameObject TargetPanel)
+    {
+        MainMenuPanel.SetActive(false);
+        TargetPanel.SetActive(true);
+    }
+
+    public void ReturnToComputerMainMenu()
+    {
+        MainMenuPanel.SetActive(true);
+        BedAssignmentPanel.SetActive(false);
+        ShelterDiversionPanel.SetActive(false);
+        RestockFoodPanel.SetActive(false);
     }
 
     public void OpenFoodDisplay()
