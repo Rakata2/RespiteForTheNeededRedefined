@@ -42,7 +42,9 @@ public class NPCMovement : MonoBehaviour
 
     void Start()
     {
-        if(NextButton != null)
+        int randomType = Random.Range(0, System.Enum.GetNames(typeof(RequestType)).Length);
+        NPCRequestType = (RequestType)randomType;
+        if (NextButton != null)
         {
             NextButton.gameObject.SetActive(false);
         }

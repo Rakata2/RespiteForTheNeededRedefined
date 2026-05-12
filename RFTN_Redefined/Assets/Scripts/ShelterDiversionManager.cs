@@ -1,0 +1,78 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.U2D;
+using UnityEngine.UI;
+
+public class ShelterDiversionManager : MonoBehaviour
+{
+    [Header("Selection settings")]
+    public List<string> SelectedNeeds = new List<string>();
+
+    public Sprite DefaultMedical;
+    public Sprite DefaultIsolation;
+    public Sprite DefaultBehavioral;
+
+    public Sprite SelectedMedical;
+    public Sprite SelectedIsolation;
+    public Sprite SelectedBehavioral;
+
+    [Header("UI reference")]
+    public GameObject ClarificationWindow;
+    public TMP_Text PopupBodyText;
+
+    public Image MedicalImage;
+    public Image IsolationImage;
+    public Image BehavioralImage;
+
+    public void ToggleNeed(string needName)
+    {
+        if(SelectedNeeds.Contains(needName))
+        {
+            SelectedNeeds.Remove(needName);
+            UpdateVisual(needName, false);
+        }
+        else
+        {
+            SelectedNeeds.Add(needName);
+            UpdateVisual(needName, true);
+        }
+    }
+
+    private void UpdateVisual(string needName, bool active)
+    {
+        if (needName == "Medical")
+            MedicalImage.sprite = active ? SelectedMedical : DefaultMedical;
+        if(needName == "Isolation")
+            IsolationImage.sprite = active ? SelectedIsolation : DefaultIsolation;
+        if (needName == "Behavioral")
+            BehavioralImage.sprite = active ? SelectedBehavioral : DefaultBehavioral;
+    }
+
+    public void ClearAll()
+    {
+        SelectedNeeds.Clear();
+        MedicalImage.sprite = DefaultMedical;
+        IsolationImage.sprite = DefaultIsolation;
+        BehavioralImage.sprite= DefaultBehavioral;
+    }
+
+    public void ShowClarificationWindow()
+    {
+        ClarificationWindow.SetActive(true);
+    }
+
+    public void CancelAssignment()
+    {
+        ClarificationWindow.SetActive(false);
+    }
+
+    public void Divert()
+    {
+        GameUIManager.instance.CloseComputer();
+    }
+
+}

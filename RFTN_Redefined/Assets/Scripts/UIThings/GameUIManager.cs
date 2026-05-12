@@ -93,6 +93,8 @@ public class GameUIManager : MonoBehaviour
         panel.gameObject.SetActive(false);
     }
 
+
+
     public void CloseDialogue(CanvasGroup PrefabPanel)
     {
         PrefabPanel.alpha = 0;
