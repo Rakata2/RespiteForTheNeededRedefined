@@ -62,6 +62,8 @@ public class ShelterDiversionManager : MonoBehaviour
 
     public void ShowClarificationWindow()
     {
+        string NeedsDisplay = SelectedNeeds.Count == 0 ? "None" : string.Join(", ", SelectedNeeds);
+        PopupBodyText.text = $"Needs selected: {NeedsDisplay}";
         ClarificationWindow.SetActive(true);
     }
 
@@ -72,7 +74,9 @@ public class ShelterDiversionManager : MonoBehaviour
 
     public void Divert()
     {
+        ClarificationWindow.SetActive(false);
         GameUIManager.instance.CloseComputer();
+        ClearAll();
     }
 
 }

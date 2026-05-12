@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ResourceDatabase
   m_EditorClassIdentifier: 
   TotalBeds: 30
-  OccupiedBeds: 13
+  OccupiedBeds: 21
   PorrdigeStock: 20
   SoupStock: 20
   SandwichStock: 20

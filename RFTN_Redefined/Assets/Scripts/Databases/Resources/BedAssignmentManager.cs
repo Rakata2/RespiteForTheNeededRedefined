@@ -27,7 +27,6 @@ public class BedAssignmentManager : MonoBehaviour
             displayScript.UpdateShelterUI();
         }
         ClarificationWindow.SetActive(false);
-
         GameUIManager.instance.CloseComputer();
     }
 }
