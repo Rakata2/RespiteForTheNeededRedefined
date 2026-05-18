@@ -11,7 +11,12 @@ public class ResourceDatabase : ScriptableObject
     public int AvailableBeds => TotalBeds - OccupiedBeds;
 
     [Header("Food")]
-    public int PorrdigeStock = 20;
-    public int SoupStock = 20;
-    public int SandwichStock = 20;  
+    public int PorridgeStock = 10;
+    public int PorrdigeMax = 20;
+
+    public int SoupStock = 10;
+    public int SoupMax = 20;
+
+    public int SandwichStock = 10;
+    public int SandwichMax = 20;
 }
