@@ -22,6 +22,7 @@ public class NPCMovement : MonoBehaviour
 
     public DialogueDatabase Database;
     public RequestType NPCRequestType;
+    private Animator BellAnimator;
     
     public enum NPCState
     {
@@ -44,10 +45,12 @@ public class NPCMovement : MonoBehaviour
     {
         int randomType = Random.Range(0, System.Enum.GetNames(typeof(RequestType)).Length);
         NPCRequestType = (RequestType)randomType;
+        
         if (NextButton != null)
         {
             NextButton.gameObject.SetActive(false);
         }
+
     }
     void Update()
     {
@@ -58,13 +61,11 @@ public class NPCMovement : MonoBehaviour
                 if (IsAtPosition(CenterPoint))
                 {
                     CurrentState = NPCState.Interact;
-
                     if(ChatBubble != null)
                     {
                         ChatBubble.SetActive(true);
                     }
                     StartCoroutine(StartInteraction());
-                    
                 }
                 break;
             case NPCState.Interact:
@@ -92,6 +93,14 @@ public class NPCMovement : MonoBehaviour
 
     IEnumerator StartInteraction()
     {
+        if(BellBridge.instance != null)
+        {
+            BellBridge.instance.SetTrigger("RingBell");
+        }
+        else
+        {
+            Debug.LogError("Bellbridge missing from scene");
+        }
         GetComponent<AudioSource>().Play();
         GameUIManager.instance.SetDialogueActive(true);
 
