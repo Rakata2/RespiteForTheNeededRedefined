@@ -43,6 +43,9 @@ public class NPCMovement : MonoBehaviour
     public NPCState CurrentState = NPCState.MovingToCenter;
 
     public static NPCMovement CurrentClient;
+
+    public IdentityProfile[] PossibleIDs;
+    public IdentityProfile ChosenID;
     
 
     void Start()
@@ -53,6 +56,11 @@ public class NPCMovement : MonoBehaviour
             NextButton.gameObject.SetActive(false);
         }
 
+        if(NPCRequestType == RequestType.Shelter && PossibleIDs != null && PossibleIDs.Length > 0)
+        {
+            int randomIndex = Random.Range(0, PossibleIDs.Length);
+            ChosenID = PossibleIDs[randomIndex];
+        }
     }
     void Update()
     {
@@ -111,8 +119,11 @@ public class NPCMovement : MonoBehaviour
         GetComponent<AudioSource>().Play();
         GameUIManager.instance.SetDialogueActive(true);
         
-        
-
+        if(NPCRequestType == RequestType.Shelter && GameUIManager.instance.DeskCard != null && ChosenID != null)
+        {
+            GameUIManager.instance.DeskCard.gameObject.SetActive(true);
+            GameUIManager.instance.DeskCard.ReceiveID(ChosenID);
+        }
         List<string> SelectedList = GetListByType(NPCRequestType);
         string ChosenText = SelectedList[Random.Range(0, SelectedList.Count)];
         DialogueText.text = "";

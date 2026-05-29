@@ -20,6 +20,8 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private GameObject UIBlocker;
     private bool isDialogueActive = false;
 
+    public DeskCardInteractable DeskCard;
+
 
 
     private void Awake()

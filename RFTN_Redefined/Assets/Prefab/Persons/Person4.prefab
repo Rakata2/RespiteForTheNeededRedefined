@@ -280,12 +280,8 @@ MonoBehaviour:
   Database: {fileID: 11400000, guid: 926404fca0f7be64aac9b270267f92f5, type: 2}
   NPCRequestType: 0
   CurrentState: 0
-  PossibleIDs:
-  - {fileID: 11400000, guid: 52fc5fe27c1be2e4093aa39bfb145fca, type: 2}
-  - {fileID: 11400000, guid: 50de17846b30ad64d9caa6612b569c28, type: 2}
-  - {fileID: 11400000, guid: 513926d6102220b489bd5225da30ddb7, type: 2}
+  PossibleIDs: []
   ChosenID: {fileID: 0}
-  DeskCard: {fileID: 0}
 --- !u!82 &255220711468574801
 AudioSource:
   m_ObjectHideFlags: 0
