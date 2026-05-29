@@ -345,6 +345,13 @@ MonoBehaviour:
   TypingSpeed: 0.05
   Database: {fileID: 11400000, guid: 926404fca0f7be64aac9b270267f92f5, type: 2}
   NPCRequestType: 0
+  CurrentState: 0
+  PossibleIDs:
+  - {fileID: 11400000, guid: d18327c021cdbd94eba211048e82b241, type: 2}
+  - {fileID: 11400000, guid: 970422f4b0c3d2041820c9adc891f9a9, type: 2}
+  - {fileID: 11400000, guid: 7285a73b28129c945be475b528b0cb45, type: 2}
+  ChosenID: {fileID: 0}
+  DeskCard: {fileID: 0}
 --- !u!82 &6875034737332021160
 AudioSource:
   m_ObjectHideFlags: 0

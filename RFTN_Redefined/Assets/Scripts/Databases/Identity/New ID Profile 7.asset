@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f9125fa2d130524d909369a9a2c006c, type: 3}
-  m_Name: ResourceDatabase
+  m_Script: {fileID: 11500000, guid: b8a5b14d2448b4a45a175cf0e1ef5ee2, type: 3}
+  m_Name: New ID Profile 7
   m_EditorClassIdentifier: 
-  TotalBeds: 20
-  OccupiedBeds: 10
-  PorridgeStock: 20
-  PorrdigeMax: 20
-  SoupStock: 20
-  SoupMax: 20
-  SandwichStock: 20
-  SandwichMax: 20
+  Name: Maya Linwood
+  DateOfBirth: 17/06/1950
+  Gender: F
+  DateIssued: 07/11/2020
+  ExpiryDate: 07/11/2026
+  IsGovernmentIssued: 1

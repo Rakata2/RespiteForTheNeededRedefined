@@ -22,6 +22,7 @@ public class ShelterDiversionManager : MonoBehaviour
 
     [Header("UI reference")]
     public GameObject ClarificationWindow;
+    public GameObject ShelterDiversionWarningWindow;
     public TMP_Text PopupBodyText;
 
     public Image MedicalImage;
@@ -60,6 +61,26 @@ public class ShelterDiversionManager : MonoBehaviour
         BehavioralImage.sprite= DefaultBehavioral;
     }
 
+    public void HandleShelterDiversionClick()
+    {
+        if (NPCMovement.CurrentClient == null)
+        {
+            ShowWarningWindow();
+            return;
+        }
+
+        if (NPCMovement.CurrentClient.CurrentState == NPCMovement.NPCState.MovingToCenter || NPCMovement.CurrentClient.CurrentState == NPCMovement.NPCState.Interact)
+        {
+            ShowWarningWindow();
+            return;
+        }
+
+        if (NPCMovement.CurrentClient.CurrentState == NPCMovement.NPCState.WaitingForDecision)
+        {
+            ShowClarificationWindow();
+        }
+    }
+
     public void ShowClarificationWindow()
     {
         string NeedsDisplay = SelectedNeeds.Count == 0 ? "None" : string.Join(", ", SelectedNeeds);
@@ -70,6 +91,16 @@ public class ShelterDiversionManager : MonoBehaviour
     public void CancelAssignment()
     {
         ClarificationWindow.SetActive(false);
+    }
+
+    public void ShowWarningWindow()
+    {
+        ShelterDiversionWarningWindow.SetActive(true);
+    }
+
+    public void CloseWarningWindow()
+    {
+        ShelterDiversionWarningWindow.SetActive(false);
     }
 
     public void Divert()

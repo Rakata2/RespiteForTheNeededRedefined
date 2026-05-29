@@ -28,6 +28,7 @@ public class NPCMovement : MonoBehaviour
     {
         MovingToCenter,
         Interact,
+        WaitingForDecision,
         MovingToExit
     }
 
@@ -39,13 +40,14 @@ public class NPCMovement : MonoBehaviour
         Sandwich
     }
 
-    private NPCState CurrentState = NPCState.MovingToCenter;
+    public NPCState CurrentState = NPCState.MovingToCenter;
+
+    public static NPCMovement CurrentClient;
+    
 
     void Start()
     {
-        int randomType = Random.Range(0, System.Enum.GetNames(typeof(RequestType)).Length);
-        NPCRequestType = (RequestType)randomType;
-        
+
         if (NextButton != null)
         {
             NextButton.gameObject.SetActive(false);
@@ -61,16 +63,18 @@ public class NPCMovement : MonoBehaviour
                 if (IsAtPosition(CenterPoint))
                 {
                     CurrentState = NPCState.Interact;
-                    if(ChatBubble != null)
-                    {
-                        ChatBubble.SetActive(true);
-                    }
+
+                    if(ChatBubble != null) ChatBubble.SetActive(true);
                     StartCoroutine(StartInteraction());
                 }
                 break;
             case NPCState.Interact:
                 
                 break;
+            case NPCState.WaitingForDecision:
+                
+                break;
+
             case NPCState.MovingToExit:
                 MoveTo(ExitPoint);
                 if (IsAtPosition(ExitPoint))
@@ -93,7 +97,10 @@ public class NPCMovement : MonoBehaviour
 
     IEnumerator StartInteraction()
     {
-        if(BellBridge.instance != null)
+        CurrentClient = this;
+
+        //CurrentState = NPCState.Interact;
+        if (BellBridge.instance != null)
         {
             BellBridge.instance.SetTrigger("RingBell");
         }
@@ -103,6 +110,8 @@ public class NPCMovement : MonoBehaviour
         }
         GetComponent<AudioSource>().Play();
         GameUIManager.instance.SetDialogueActive(true);
+        
+        
 
         List<string> SelectedList = GetListByType(NPCRequestType);
         string ChosenText = SelectedList[Random.Range(0, SelectedList.Count)];

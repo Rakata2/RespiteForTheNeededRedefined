@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.InputSystem.XR.Haptics;
 
 public class GameUIManager : MonoBehaviour
 {
@@ -14,8 +16,11 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private GameObject RestockFoodPanel;
 
     [SerializeField] private CanvasGroup FoodDisplayPanel;
+    [SerializeField] private CanvasGroup IDCardPanel;
     [SerializeField] private GameObject UIBlocker;
     private bool isDialogueActive = false;
+
+
 
     private void Awake()
     {
@@ -23,6 +28,7 @@ public class GameUIManager : MonoBehaviour
         UIBlocker.SetActive(false);
         ComputerPanel.gameObject.SetActive(false);
         FoodDisplayPanel.gameObject.SetActive(false);
+        IDCardPanel.gameObject.SetActive(false);
     }
 
     public bool IsMouseBlocked()
@@ -74,6 +80,16 @@ public class GameUIManager : MonoBehaviour
         HidePanel(FoodDisplayPanel);
     }
 
+    public void OpenIDCard()
+    {
+        ShowPanel(IDCardPanel);
+    }
+
+    public void CloseIDCard()
+    {
+        HidePanel(IDCardPanel);
+    }
+
     public void ShowPanel(CanvasGroup panel)
     {
         UIBlocker.SetActive(true);
@@ -103,6 +119,8 @@ public class GameUIManager : MonoBehaviour
 
         SetDialogueActive(false);
         
+        NPCMovement.CurrentClient.CurrentState = NPCMovement.NPCState.WaitingForDecision; //i added the line here
+
         Debug.Log("Closed dialogue panel, other interactions are unlocked"); 
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DialogueDatabase
   m_EditorClassIdentifier: Assembly-CSharp::DialogueDatabase
   ShelterDialogues:
-  - Are there any beds available left?
+  - Good day. Are there any beds available?
   - Can I stay here for the night?
   - Is there any spot that has not been taken yet?
   - Can I get a bed to sleep on here?
