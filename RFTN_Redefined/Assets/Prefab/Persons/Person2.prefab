@@ -516,11 +516,13 @@ MonoBehaviour:
   NPCRequestType: 0
   CurrentState: 0
   PossibleIDs:
+  - {fileID: 11400000, guid: 970422f4b0c3d2041820c9adc891f9a9, type: 2}
   - {fileID: 11400000, guid: af0033a184512ac43a49fedf9ef7b61a, type: 2}
-  - {fileID: 11400000, guid: cf1afb3d4a51c0a44985197ae1000a59, type: 2}
   - {fileID: 11400000, guid: c9df0bd862d7313408bd9fe046f16d72, type: 2}
+  - {fileID: 11400000, guid: d5bf35d63842d1048997e37b8660563e, type: 2}
+  - {fileID: 11400000, guid: 52fc5fe27c1be2e4093aa39bfb145fca, type: 2}
+  - {fileID: 11400000, guid: 513926d6102220b489bd5225da30ddb7, type: 2}
   ChosenID: {fileID: 0}
-  DeskCard: {fileID: 0}
 --- !u!82 &1324385302338178486
 AudioSource:
   m_ObjectHideFlags: 0

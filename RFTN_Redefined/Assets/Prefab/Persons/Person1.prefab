@@ -348,10 +348,12 @@ MonoBehaviour:
   CurrentState: 0
   PossibleIDs:
   - {fileID: 11400000, guid: d18327c021cdbd94eba211048e82b241, type: 2}
-  - {fileID: 11400000, guid: 970422f4b0c3d2041820c9adc891f9a9, type: 2}
   - {fileID: 11400000, guid: 7285a73b28129c945be475b528b0cb45, type: 2}
+  - {fileID: 11400000, guid: cf1afb3d4a51c0a44985197ae1000a59, type: 2}
+  - {fileID: 11400000, guid: 20562bde8c6714447a751add99b61867, type: 2}
+  - {fileID: 11400000, guid: 42570eea4d54d1e40a5395782b8ad447, type: 2}
+  - {fileID: 11400000, guid: 50de17846b30ad64d9caa6612b569c28, type: 2}
   ChosenID: {fileID: 0}
-  DeskCard: {fileID: 0}
 --- !u!82 &6875034737332021160
 AudioSource:
   m_ObjectHideFlags: 0

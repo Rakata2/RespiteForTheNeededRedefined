@@ -16,8 +16,8 @@ public class DeskCardInteractable : MonoBehaviour
 
         if(NPCProfile != null)
         {
-            IDPanelManager.instance.DisplayID(NPCProfile);
             GameUIManager.instance.OpenIDCard();
+            IDPanelManager.instance.DisplayID(NPCProfile);
         }
     }
 }

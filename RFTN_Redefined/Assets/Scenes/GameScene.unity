@@ -4410,6 +4410,7 @@ MonoBehaviour:
   FoodDisplayPanel: {fileID: 389876851}
   IDCardPanel: {fileID: 1778589554}
   UIBlocker: {fileID: 1084684741}
+  DeskCard: {fileID: 1280246314}
 --- !u!4 &421387639
 Transform:
   m_ObjectHideFlags: 0
@@ -11974,6 +11975,7 @@ GameObject:
   - component: {fileID: 1280246313}
   - component: {fileID: 1280246312}
   - component: {fileID: 1280246311}
+  - component: {fileID: 1280246314}
   m_Layer: 0
   m_Name: IDCard
   m_TagString: Untagged
@@ -12093,6 +12095,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1314292558}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1280246314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280246309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8300076f9498cf41886e7029b522c59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1280538176
 GameObject:
   m_ObjectHideFlags: 0
@@ -16559,13 +16573,14 @@ GameObject:
   - component: {fileID: 1778589556}
   - component: {fileID: 1778589555}
   - component: {fileID: 1778589554}
+  - component: {fileID: 1778589557}
   m_Layer: 5
   m_Name: IdCardPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1778589552
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16639,6 +16654,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1778589551}
   m_CullTransparentMesh: 1
+--- !u!114 &1778589557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778589551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 623c46e482f382f44b8487af85c78d13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IDPanelContainer: {fileID: 1778589551}
+  Name: {fileID: 1861129138}
+  DateOfBirth: {fileID: 545601327}
+  Gender: {fileID: 270361836}
+  DateIssued: {fileID: 1128840427}
+  ExpiryDate: {fileID: 76105098}
+  GovernmentStampCheck: {fileID: 1976668655}
 --- !u!1 &1782025536
 GameObject:
   m_ObjectHideFlags: 0
@@ -17821,9 +17855,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: IDPanelController, Assembly-CSharp
-        m_MethodName: ClosePanel
+      - m_Target: {fileID: 421387638}
+        m_TargetAssemblyTypeName: GameUIManager, Assembly-CSharp
+        m_MethodName: CloseIDCard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
