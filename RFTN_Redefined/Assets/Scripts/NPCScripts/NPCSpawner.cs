@@ -23,10 +23,14 @@ public class NPCSpawner : MonoBehaviour
     IEnumerator SpawnRoutine()
     {
         yield return new WaitForSeconds(spawnInterval);
-        NPCMovement.RequestType randomRequest = (NPCMovement.RequestType)Random.Range(0, System.Enum.GetNames(typeof(NPCMovement.RequestType)).Length);
+        
         GameObject ChosenPrefab;
         Transform selectedSpawnPoint;
-        if(randomRequest == NPCMovement.RequestType.Shelter)
+
+        int RequestRandomizer = Random.Range(0, 2);
+
+
+        if (RequestRandomizer == 0)
         {
             selectedSpawnPoint = LeftSpawnPoint;
             ChosenPrefab = ShelterPrefab[Random.Range(0, ShelterPrefab.Length)];
@@ -42,7 +46,6 @@ public class NPCSpawner : MonoBehaviour
         NPCMovement MovementScript = NewNPC.GetComponent<NPCMovement>();
         if(MovementScript != null)
         {
-            MovementScript.NPCRequestType = randomRequest;
             MovementScript.SpawnPoint = selectedSpawnPoint;
             MovementScript.CenterPoint = this.CenterPoint;
         }

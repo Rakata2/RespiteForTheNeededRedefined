@@ -16,8 +16,18 @@ MonoBehaviour:
   - Good day. Are there any beds available?
   - Can I stay here for the night?
   - Is there any spot that has not been taken yet?
-  - Can I get a bed to sleep on here?
-  - May I rest here for the night?
+  ShelterMedicalNeeds:
+  - Does this shelter provide any medical needs?
+  - Do you guys provide any medical treatment?
+  - Im hurt. Can i stay in this shelter for the night?
+  ShelterIsolationNeeds:
+  - I need shelter, but im heavily sick. What do i do?
+  - Is it okay if i *Cough* stay in this shelter?
+  - Do you mind if i *Cough* stay here?
+  ShelterBehavioralNeeds:
+  - Shelter. NOW!
+  - Give me shelter, or else.
+  - Shelter. Give it to me
   SoupDialogues:
   - Do you have any soup left?
   - I could eat something hot right now...

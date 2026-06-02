@@ -11109,7 +11109,7 @@ Transform:
   m_GameObject: {fileID: 1174922237}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.71, y: -1.14, z: 0}
+  m_LocalPosition: {x: -3.48, y: -1.04, z: 0}
   m_LocalScale: {x: 1.06, y: 1.06, z: 1.06}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -11823,6 +11823,12 @@ MonoBehaviour:
   ShelterPrefab:
   - {fileID: 1801314920445815837, guid: 2f7195d2273442049b51f8c4d5399eb6, type: 3}
   - {fileID: 2758761709392876516, guid: 98f3428176c68ba4b9bb9f89237637b5, type: 3}
+  - {fileID: 1801314920445815837, guid: ead00faf9aae08a408b7f8a0e16ef167, type: 3}
+  - {fileID: 2758761709392876516, guid: fdcb9c887a9e8a54daaf651814735e12, type: 3}
+  - {fileID: 1801314920445815837, guid: 5a731119d722bc94d98b1b8eb2e88500, type: 3}
+  - {fileID: 2758761709392876516, guid: 74e4e194e1123ec4dbcd6a34f1870d92, type: 3}
+  - {fileID: 1801314920445815837, guid: b85942172ecbc44439c0aafca3cb8977, type: 3}
+  - {fileID: 2758761709392876516, guid: 9d90acbad71f00e44a6b70ce6e311e97, type: 3}
   FoodPrefab:
   - {fileID: 8764127819399348421, guid: bdd171ed6694e0747a6b05c283f242a4, type: 3}
   - {fileID: 1106604392133920052, guid: 58548d11087bf8c4482b8aa52bc8347a, type: 3}
@@ -16580,7 +16586,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1778589552
 RectTransform:
   m_ObjectHideFlags: 0

@@ -35,9 +35,13 @@ public class NPCMovement : MonoBehaviour
     public enum RequestType
     {
         Shelter,
+        Medical,
+        Isolation,
+        Behavioral,
         Soup,
         Porridge,
-        Sandwich
+        Sandwich,
+        Food
     }
 
     public NPCState CurrentState = NPCState.MovingToCenter;
@@ -46,6 +50,8 @@ public class NPCMovement : MonoBehaviour
 
     public IdentityProfile[] PossibleIDs;
     public IdentityProfile ChosenID;
+
+    
     
 
     void Start()
@@ -56,7 +62,13 @@ public class NPCMovement : MonoBehaviour
             NextButton.gameObject.SetActive(false);
         }
 
-        if(NPCRequestType == RequestType.Shelter && PossibleIDs != null && PossibleIDs.Length > 0)
+        if(IsFoodType())
+        {
+            RequestType[] FoodOptions = { RequestType.Soup, RequestType.Porridge, RequestType.Sandwich };
+            NPCRequestType = FoodOptions[Random.Range(0, FoodOptions.Length)];
+        }
+
+        if(IsShelterType() && PossibleIDs != null && PossibleIDs.Length > 0)
         {
             int randomIndex = Random.Range(0, PossibleIDs.Length);
             ChosenID = PossibleIDs[randomIndex];
@@ -119,11 +131,14 @@ public class NPCMovement : MonoBehaviour
         GetComponent<AudioSource>().Play();
         GameUIManager.instance.SetDialogueActive(true);
         
-        if(NPCRequestType == RequestType.Shelter && GameUIManager.instance.DeskCard != null && ChosenID != null)
+        if(IsShelterType()&& GameUIManager.instance.DeskCard != null && ChosenID != null)
         {
             GameUIManager.instance.DeskCard.gameObject.SetActive(true);
             GameUIManager.instance.DeskCard.ReceiveID(ChosenID);
         }
+
+        Debug.Log("Interaction type: " + NPCRequestType);
+
         List<string> SelectedList = GetListByType(NPCRequestType);
         string ChosenText = SelectedList[Random.Range(0, SelectedList.Count)];
         DialogueText.text = "";
@@ -147,6 +162,12 @@ public class NPCMovement : MonoBehaviour
         {
             case RequestType.Shelter:
                 return Database.ShelterDialogues;
+            case RequestType.Medical:
+                return Database.ShelterMedicalNeeds;
+            case RequestType.Isolation:
+                return Database.ShelterIsolationNeeds;
+            case RequestType.Behavioral:
+                return Database.ShelterBehavioralNeeds;
             case RequestType.Soup:
                 return Database.SoupDialogues;
             case RequestType.Porridge:
@@ -156,6 +177,21 @@ public class NPCMovement : MonoBehaviour
             default:
                 return Database.ShelterDialogues; //MIND THIS PLEASE MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW 
         }
+    }
+
+    public bool IsShelterType()
+    {
+        return NPCRequestType == RequestType.Shelter ||
+               NPCRequestType == RequestType.Medical ||
+               NPCRequestType == RequestType.Isolation;       
+    }
+
+    public bool IsFoodType()
+    {
+        return NPCRequestType == RequestType.Food ||
+               NPCRequestType == RequestType.Soup ||
+               NPCRequestType == RequestType.Porridge ||
+               NPCRequestType == RequestType.Sandwich;
     }
     public void StartLeaving()
     {

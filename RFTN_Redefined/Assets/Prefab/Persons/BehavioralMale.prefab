@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 3287263052810136180}
   - component: {fileID: 6875034737332021160}
   m_Layer: 0
-  m_Name: Person1
+  m_Name: BehavioralMale
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -278,7 +278,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 47bc66ae05fe8af49b2d968c426ae9a7, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.13962269, g: 0.038725536, b: 0.06293159, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -344,7 +344,7 @@ MonoBehaviour:
   DialogueText: {fileID: 2212045435756881556}
   TypingSpeed: 0.05
   Database: {fileID: 11400000, guid: 926404fca0f7be64aac9b270267f92f5, type: 2}
-  NPCRequestType: 0
+  NPCRequestType: 3
   CurrentState: 0
   PossibleIDs:
   - {fileID: 11400000, guid: d18327c021cdbd94eba211048e82b241, type: 2}
