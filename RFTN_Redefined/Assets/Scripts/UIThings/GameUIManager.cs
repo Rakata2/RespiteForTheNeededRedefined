@@ -41,6 +41,7 @@ public class GameUIManager : MonoBehaviour
     public void SetDialogueActive(bool active)
     {
         isDialogueActive = active;
+        
     }
 
     public void OpenComputer()

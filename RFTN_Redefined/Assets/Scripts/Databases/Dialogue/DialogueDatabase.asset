@@ -46,3 +46,18 @@ MonoBehaviour:
   - I'll take a sandwich.
   - Bread good, have any?
   - That sandwich looks nice.
+  FoodThankYou:
+  - Thank you so much
+  - Thanks for the food
+  FoodCorrectionPorridge:
+  - Uhm, a porridge please, not that
+  - I don't want this. I want a porridge please
+  FoodCorrectionSoup:
+  - Uhm, a soup please, not that
+  - I don't want this. I want a soup please
+  FoodCorrectionSandwich:
+  - Uhm, a sandwich please, not that
+  - I don't want this. I want a sandwich please
+  FoodSecondDecline:
+  - ....Fine, i'll take this. Thanks
+  - This is not what i want, but i will take it. Thanks

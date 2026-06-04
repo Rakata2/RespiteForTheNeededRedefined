@@ -36,20 +36,27 @@ public class FoodDispenseManager : MonoBehaviour
     }
     public void DispenseFood()
     {
-        if(PendingFood == "Porridge" && resources.PorridgeStock > 0)
+        if (PendingFood == "Porridge" && resources.PorridgeStock > 0)
         {
-            resources.PorridgeStock--;
+            //resources.PorridgeStock--;
+            if (NPCMovement.CurrentClient != null) NPCMovement.CurrentClient.PlayerGivesPorridge();
         }
         else if (PendingFood == "Soup" && resources.SoupStock > 0)
         {
-            resources.SoupStock--;
+            //resources.SoupStock--;
+            if (NPCMovement.CurrentClient != null) NPCMovement.CurrentClient.PlayerGivesSoup();
         }
         else if (PendingFood == "Sandwich" && resources.SandwichStock > 0)
         {
-            resources.SandwichStock--;
+            //resources.SandwichStock--;
+            if (NPCMovement.CurrentClient != null) NPCMovement.CurrentClient.PlayerGivesSandwich();
+        }
+        else
+        {
+            Debug.Log("Stock empty");
         }
 
-        displayScript.UpdateFoodUI();
+        //displayScript.UpdateFoodUI();
         ClarificationWindow.SetActive(false);
         GameUIManager.instance.CloseFoodDisplay();
     }
@@ -74,8 +81,5 @@ public class FoodDispenseManager : MonoBehaviour
     {
         FoodCaseWarningWindow.SetActive(false);
     }
-
-    
-
     
 }

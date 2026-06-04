@@ -13,4 +13,9 @@ public class DialogueDatabase : ScriptableObject
     public List<string> SoupDialogues;
     public List<string> PorridgeDialogues;
     public List<string> SandwichDialogues;
+    public List<string> FoodThankYou;
+    public List<string> FoodCorrectionPorridge;
+    public List<string> FoodCorrectionSoup;
+    public List<string> FoodCorrectionSandwich;
+    public List<string> FoodSecondDecline;
 }

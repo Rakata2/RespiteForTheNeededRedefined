@@ -7,7 +7,17 @@ public class DialogueButtonLink : MonoBehaviour
 
     public void OnClick()
     {
+        
+        if(NPCMovement.CurrentClient != null)
+        {
+            if(NPCMovement.CurrentClient.CurrentState == NPCMovement.NPCState.Finished)
+            {
+                NPCMovement.CurrentClient.OnCloseDialogueClicked();
+                return;
+            }
+        }
+
         GameUIManager.instance.CloseDialogue(myPanel);
-        ChatBubble.SetActive(false);
+        if(ChatBubble != null) ChatBubble.SetActive(false);
     }
 }

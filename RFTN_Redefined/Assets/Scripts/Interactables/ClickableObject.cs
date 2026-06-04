@@ -20,12 +20,12 @@ public class ClickableObject : MonoBehaviour
         if (ObjectType == InteractionType.Computer)
         {
             GameUIManager.instance.OpenComputer();
-            Debug.Log("Computer clicked");
+            //Debug.Log("Computer clicked");
         }
         else if(ObjectType == InteractionType.FoodDisplay)
         {
             GameUIManager.instance.OpenFoodDisplay();
-            Debug.Log("Food Display clicked"); 
+            //Debug.Log("Food Display clicked"); 
         }
     }
 }

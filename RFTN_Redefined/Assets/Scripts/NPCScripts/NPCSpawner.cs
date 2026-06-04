@@ -12,6 +12,9 @@ public class NPCSpawner : MonoBehaviour
     public Transform LeftSpawnPoint;
     public Transform RightSpawnPoint;
     public Transform CenterPoint;
+    public Transform ExitPointFood;
+    public Transform ExitPointShelter;
+    public Transform ExitPointShelterFailed;
 
     public float spawnInterval = 3f;
 
@@ -48,6 +51,10 @@ public class NPCSpawner : MonoBehaviour
         {
             MovementScript.SpawnPoint = selectedSpawnPoint;
             MovementScript.CenterPoint = this.CenterPoint;
+
+            MovementScript.ExitPointFood = this.ExitPointFood;
+            MovementScript.ExitPointShelter = this.ExitPointShelter;
+            MovementScript.ExitPointShelterFailed = this.ExitPointShelter;
         }
 
     }

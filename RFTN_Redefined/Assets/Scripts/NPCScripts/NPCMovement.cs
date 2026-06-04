@@ -4,13 +4,18 @@ using JetBrains.Annotations;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Security.Cryptography;
 
 
 public class NPCMovement : MonoBehaviour
 {
     public Transform SpawnPoint;
     public Transform CenterPoint;
-    public Transform ExitPoint;
+    public Transform ExitPointFood;
+    public Transform ExitPointShelter;
+    public Transform ExitPointShelterFailed;
+
+    private Transform ChosenExit;
 
     public Button NextButton;
 
@@ -29,6 +34,7 @@ public class NPCMovement : MonoBehaviour
         MovingToCenter,
         Interact,
         WaitingForDecision,
+        Finished,
         MovingToExit
     }
 
@@ -51,9 +57,9 @@ public class NPCMovement : MonoBehaviour
     public IdentityProfile[] PossibleIDs;
     public IdentityProfile ChosenID;
 
-    
-    
+    private int MistakeCount = 0;
 
+    public ResourceDatabase Resources;
     void Start()
     {
 
@@ -96,8 +102,8 @@ public class NPCMovement : MonoBehaviour
                 break;
 
             case NPCState.MovingToExit:
-                MoveTo(ExitPoint);
-                if (IsAtPosition(ExitPoint))
+                MoveTo(ChosenExit);
+                if (IsAtPosition(ChosenExit))
                 {
                     Destroy(gameObject);
                 }
@@ -154,6 +160,8 @@ public class NPCMovement : MonoBehaviour
         {
             NextButton.gameObject.SetActive(true);
         }
+
+        CurrentState = NPCState.WaitingForDecision;
     }
 
     List<string> GetListByType(RequestType type)
@@ -179,6 +187,93 @@ public class NPCMovement : MonoBehaviour
         }
     }
 
+    public void PlayerGivesSoup() => ProcessFoodDelivery(RequestType.Soup);
+    public void PlayerGivesPorridge() => ProcessFoodDelivery(RequestType.Porridge);
+    public void PlayerGivesSandwich() => ProcessFoodDelivery(RequestType.Sandwich);
+
+    IEnumerator CorrectFoodRoutine()
+    {
+        CurrentState = NPCState.Finished;
+
+        ShowChatBubble();
+        string ThankYouText = Database.FoodThankYou[Random.Range(0, Database.FoodThankYou.Count)];
+        DialogueText.text = "";
+        foreach(char letter in ThankYouText.ToCharArray())
+        {
+            DialogueText.text += letter;
+            yield return new WaitForSeconds(TypingSpeed);
+        }
+        if (NextButton != null)
+        {
+            NextButton.gameObject.SetActive(true);
+        }
+    }
+
+    IEnumerator FirstMistakeRoutine()
+    {
+        CurrentState = NPCState.Interact;
+        ShowChatBubble();
+        
+        DialogueText.text = "";
+        string MistakeText = "";
+
+        switch(NPCRequestType)
+        {
+            case RequestType.Soup:
+                MistakeText = Database.FoodCorrectionSoup[Random.Range(0, Database.FoodCorrectionSoup.Count)];
+                break;
+            case RequestType.Porridge:
+                MistakeText = Database.FoodCorrectionPorridge[Random.Range(0, Database.FoodCorrectionPorridge.Count)];
+                break;
+            case RequestType.Sandwich:
+                MistakeText = Database.FoodCorrectionSandwich[Random.Range(0, Database.FoodCorrectionSandwich.Count)];
+                break;
+        }
+
+        foreach (char letter in MistakeText.ToCharArray())
+        {
+            DialogueText.text += letter;
+            yield return new WaitForSeconds(TypingSpeed);
+        }
+        if (NextButton != null)
+        {
+            NextButton.gameObject.SetActive(true);
+        }
+
+        CurrentState = NPCState.WaitingForDecision;
+    }
+
+    IEnumerator SecondMistakeRoutine()
+    {
+        CurrentState = NPCState.Finished;
+        ShowChatBubble();
+        DialogueText.text = "";
+
+        string FrustratedText = Database.FoodSecondDecline[Random.Range(0, Database.FoodSecondDecline.Count)];
+        foreach (char letter in FrustratedText.ToCharArray())
+        {
+            DialogueText.text += letter;
+            yield return new WaitForSeconds(TypingSpeed);
+        }
+        if (NextButton != null)
+        {
+            NextButton.gameObject.SetActive(true);
+        }
+        if(ViolationManager.instance != null)
+        {
+            ViolationManager.instance.AddViolation();
+        }
+    }
+
+    public void OnCloseDialogueClicked()
+    {
+        if (NextButton != null) NextButton.gameObject.SetActive(false);
+        GameUIManager.instance.SetDialogueActive(false);
+        if(ChatBubble != null) ChatBubble.SetActive(false);
+        StartLeaving(true);
+    }
+
+
     public bool IsShelterType()
     {
         return NPCRequestType == RequestType.Shelter ||
@@ -193,8 +288,78 @@ public class NPCMovement : MonoBehaviour
                NPCRequestType == RequestType.Porridge ||
                NPCRequestType == RequestType.Sandwich;
     }
-    public void StartLeaving()
+
+    private void ProcessFoodDelivery(RequestType OfferedFood)
     {
+        if (CurrentState != NPCState.WaitingForDecision) return;
+
+        if (OfferedFood == NPCRequestType)
+        {
+            StartCoroutine(CorrectFoodRoutine());
+        }
+        else
+        {
+            Debug.Log("Wrong food selected");
+            MistakeCount++;
+            if (MistakeCount == 1)
+            {
+                StartCoroutine(FirstMistakeRoutine());
+            }
+            else if (MistakeCount >= 2)
+            {
+                TakeFood(OfferedFood);
+                StartCoroutine(SecondMistakeRoutine());
+            }
+        }
+    }
+
+    private void TakeFood(RequestType Food)
+    {
+            switch (Food)
+            {
+                case RequestType.Soup:
+                Resources.SoupStock--;
+                    break;
+                case RequestType.Porridge:
+                    Resources.PorridgeStock--;
+                    break;
+                case RequestType.Sandwich:
+                    Resources.SandwichStock--;
+                    break;
+        }
+
+        FindObjectOfType<FoodDisplay>().UpdateFoodUI(); //to be updated later maybe
+    }
+
+    private void ShowChatBubble()
+    {
+        if (ChatBubble != null)
+        {
+            ChatBubble.SetActive(true);
+            CanvasGroup cg = ChatBubble.GetComponent<CanvasGroup>();
+            if (cg == null) cg = ChatBubble.GetComponentInParent<CanvasGroup>();
+
+            if (cg != null)
+            {
+                cg.alpha = 1;
+                cg.interactable = true;
+                cg.blocksRaycasts = true;
+            }
+        }
+        GameUIManager.instance.SetDialogueActive(true);
+        if(NextButton != null) NextButton.gameObject.SetActive(false);
+    }
+
+    public void StartLeaving(bool IsSuccess)
+    {
+        if(IsFoodType())
+        {
+            ChosenExit = ExitPointFood;
+        }
+        else if(IsShelterType())
+        {
+            ChosenExit = IsSuccess ? ExitPointShelter : ExitPointShelterFailed;
+        }
         CurrentState = NPCState.MovingToExit;
     }
 }
