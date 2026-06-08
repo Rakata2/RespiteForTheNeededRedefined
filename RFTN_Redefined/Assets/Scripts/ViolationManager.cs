@@ -16,6 +16,10 @@ public class ViolationManager : MonoBehaviour
     public void AddViolation()
     {
         TotalViolations++;
+        if(MailManager.Instance != null)
+        {
+            MailManager.Instance.ReceiveViolationMail($"Violation Detected ({TotalViolations}/3)", $"You got violation");
+        }
         Debug.Log("Violations: " + TotalViolations + "/" + MaxViolations);
         if(TotalViolations >= MaxViolations)
         {

@@ -292,7 +292,9 @@ MonoBehaviour:
   ChatBubble: {fileID: 7950572036407909790}
   DialogueText: {fileID: 2212045435756881556}
   TypingSpeed: 0.05
-  Database: {fileID: 11400000, guid: 926404fca0f7be64aac9b270267f92f5, type: 2}
+  ShelterDialogueDB: {fileID: 11400000, guid: 926404fca0f7be64aac9b270267f92f5, type: 2}
+  FoodDialogueDB: {fileID: 11400000, guid: c58dc2aa79fcd7e4e91bebf723f357aa, type: 2}
+  FoodResponsesDB: {fileID: 11400000, guid: 84a45ee3e39babc44be12fbc34e5c594, type: 2}
   NPCRequestType: 2
   CurrentState: 0
   PossibleIDs:

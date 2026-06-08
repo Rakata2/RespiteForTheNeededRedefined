@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff9fb0f54eba2046b2b4bd856889374, type: 3}
+  m_Name: ShelterDialogueDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueDatabase
+  ShelterDialogues:
+  - Good day. Are there any beds available?
+  - Can I stay here for the night?
+  - Is there any spot that has not been taken yet?
+  ShelterMedicalNeeds:
+  - Does this shelter provide any medical needs?
+  - Do you guys provide any medical treatment?
+  - Im hurt. Can i stay in this shelter for the night?
+  ShelterIsolationNeeds:
+  - I need shelter, but im heavily sick. What do i do?
+  - Is it okay if i *Cough* stay in this shelter?
+  - Do you mind if i *Cough* stay here?
+  ShelterBehavioralNeeds:
+  - Shelter. NOW!
+  - Give me shelter, or else.
+  - Shelter. Give it to me

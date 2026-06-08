@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TotalBeds: 20
   OccupiedBeds: 10
-  PorridgeStock: 20
-  PorrdigeMax: 20
-  SoupStock: 20
-  SoupMax: 20
-  SandwichStock: 20
-  SandwichMax: 20
+  PorridgeStock: 10
+  PorrdigeMax: 10
+  SoupStock: 10
+  SoupMax: 10
+  SandwichStock: 9
+  SandwichMax: 10

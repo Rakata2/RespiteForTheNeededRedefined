@@ -124,6 +124,6 @@ public class GameUIManager : MonoBehaviour
         
         NPCMovement.CurrentClient.CurrentState = NPCMovement.NPCState.WaitingForDecision; //i added the line here
 
-        Debug.Log("Closed dialogue panel, other interactions are unlocked"); 
+        //Debug.Log("Closed dialogue panel, other interactions are unlocked"); 
     }
 }

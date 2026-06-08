@@ -25,7 +25,13 @@ public class NPCMovement : MonoBehaviour
     public TMP_Text DialogueText;
     public float TypingSpeed = 0.05f;
 
-    public DialogueDatabase Database;
+    [Header("Databases")]
+
+
+    public ShelterDialogueDatabase ShelterDialogueDB;
+    public FoodDialogueDatabase FoodDialogueDB;
+    public FoodResponsesDatabase FoodResponsesDB;
+
     public RequestType NPCRequestType;
     private Animator BellAnimator;
     
@@ -169,21 +175,21 @@ public class NPCMovement : MonoBehaviour
         switch (type)
         {
             case RequestType.Shelter:
-                return Database.ShelterDialogues;
+                return ShelterDialogueDB.ShelterDialogues;
             case RequestType.Medical:
-                return Database.ShelterMedicalNeeds;
+                return ShelterDialogueDB.ShelterMedicalNeeds;
             case RequestType.Isolation:
-                return Database.ShelterIsolationNeeds;
+                return ShelterDialogueDB.ShelterIsolationNeeds;
             case RequestType.Behavioral:
-                return Database.ShelterBehavioralNeeds;
+                return ShelterDialogueDB.ShelterBehavioralNeeds;
             case RequestType.Soup:
-                return Database.SoupDialogues;
+                return FoodDialogueDB.SoupDialogues;
             case RequestType.Porridge:
-                return Database.PorridgeDialogues;
+                return FoodDialogueDB.PorridgeDialogues;
             case RequestType.Sandwich:
-                return Database.SandwichDialogues;
+                return FoodDialogueDB.SandwichDialogues;
             default:
-                return Database.ShelterDialogues; //MIND THIS PLEASE MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW 
+                return ShelterDialogueDB.ShelterDialogues; //MIND THIS PLEASE MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW 
         }
     }
 
@@ -196,7 +202,7 @@ public class NPCMovement : MonoBehaviour
         CurrentState = NPCState.Finished;
 
         ShowChatBubble();
-        string ThankYouText = Database.FoodThankYou[Random.Range(0, Database.FoodThankYou.Count)];
+        string ThankYouText = FoodResponsesDB.FoodThankYou[Random.Range(0, FoodResponsesDB.FoodThankYou.Count)];
         DialogueText.text = "";
         foreach(char letter in ThankYouText.ToCharArray())
         {
@@ -220,13 +226,13 @@ public class NPCMovement : MonoBehaviour
         switch(NPCRequestType)
         {
             case RequestType.Soup:
-                MistakeText = Database.FoodCorrectionSoup[Random.Range(0, Database.FoodCorrectionSoup.Count)];
+                MistakeText = FoodResponsesDB.FoodCorrectionSoup[Random.Range(0, FoodResponsesDB.FoodCorrectionSoup.Count)];
                 break;
             case RequestType.Porridge:
-                MistakeText = Database.FoodCorrectionPorridge[Random.Range(0, Database.FoodCorrectionPorridge.Count)];
+                MistakeText = FoodResponsesDB.FoodCorrectionPorridge[Random.Range(0, FoodResponsesDB.FoodCorrectionPorridge.Count)];
                 break;
             case RequestType.Sandwich:
-                MistakeText = Database.FoodCorrectionSandwich[Random.Range(0, Database.FoodCorrectionSandwich.Count)];
+                MistakeText = FoodResponsesDB.FoodCorrectionSandwich[Random.Range(0, FoodResponsesDB.FoodCorrectionSandwich.Count)];
                 break;
         }
 
@@ -249,7 +255,7 @@ public class NPCMovement : MonoBehaviour
         ShowChatBubble();
         DialogueText.text = "";
 
-        string FrustratedText = Database.FoodSecondDecline[Random.Range(0, Database.FoodSecondDecline.Count)];
+        string FrustratedText = FoodResponsesDB.FoodSecondDecline[Random.Range(0, FoodResponsesDB.FoodSecondDecline.Count)];
         foreach (char letter in FrustratedText.ToCharArray())
         {
             DialogueText.text += letter;
@@ -276,9 +282,9 @@ public class NPCMovement : MonoBehaviour
 
     public bool IsShelterType()
     {
-        return NPCRequestType == RequestType.Shelter ||
-               NPCRequestType == RequestType.Medical ||
-               NPCRequestType == RequestType.Isolation;       
+        return NPCRequestType == RequestType.Shelter;
+               //NPCRequestType == RequestType.Medical ||
+               //NPCRequestType == RequestType.Isolation;       
     }
 
     public bool IsFoodType()
@@ -295,6 +301,7 @@ public class NPCMovement : MonoBehaviour
 
         if (OfferedFood == NPCRequestType)
         {
+            TakeFood(OfferedFood);
             StartCoroutine(CorrectFoodRoutine());
         }
         else
