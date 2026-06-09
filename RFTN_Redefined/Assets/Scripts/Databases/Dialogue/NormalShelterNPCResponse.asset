@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90312fb1f6b407b41a45dc48f345fd23, type: 3}
+  m_Name: NormalShelterNPCResponse
+  m_EditorClassIdentifier: 
+  ShelterThankYou:
+  - Thank you for giving me a shelter to stay.
+  - Thank you so much
+  - Thanks a lot
+  ShelterDiversion:
+  - Ah. You caught my fake id... But thanks for the diversion pass.
+  - Oh i didn't know i need the ID government issued. Thanks
+  ShelterFirstRejection:
+  - Please, i have no place to stay
+  - If this shelter isn't the place to stay, where else should i stay...
+  ShelterSecondRejection:
+  - Why.. Why would you do such thing...
+  - I tried everything i could, and yet i still can't get in any shelter??
+  ShelterDiversionUnwated:
+  - I already have my ID government issued. Weren't you supposed to let me in?
+  - But i already have my ID government issued.
+  ShelterDiversionUnwatedSecondTime:
+  - I said i don't want this!
+  - Why do u keep giving me this useless pass?!
+  MultipleMistakes:
+  - You really can't listen to instructions can you?
+  - Why can't you listen to me properly?

@@ -31,6 +31,7 @@ public class NPCMovement : MonoBehaviour
     public ShelterDialogueDatabase ShelterDialogueDB;
     public FoodDialogueDatabase FoodDialogueDB;
     public FoodResponsesDatabase FoodResponsesDB;
+    public NormalShelterNPCResponse NormalShelterNPCResponseDB;
 
     public RequestType NPCRequestType;
     private Animator BellAnimator;
@@ -197,6 +198,8 @@ public class NPCMovement : MonoBehaviour
     public void PlayerGivesPorridge() => ProcessFoodDelivery(RequestType.Porridge);
     public void PlayerGivesSandwich() => ProcessFoodDelivery(RequestType.Sandwich);
 
+
+
     IEnumerator CorrectFoodRoutine()
     {
         CurrentState = NPCState.Finished;
@@ -337,6 +340,8 @@ public class NPCMovement : MonoBehaviour
 
         FindObjectOfType<FoodDisplay>().UpdateFoodUI(); //to be updated later maybe
     }
+
+
 
     private void ShowChatBubble()
     {
