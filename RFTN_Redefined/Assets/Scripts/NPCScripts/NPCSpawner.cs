@@ -7,12 +7,9 @@ using UnityEngine;
 public class NPCSpawner : MonoBehaviour
 {
     public GameObject[] ShelterPrefab;
-    public GameObject[] FoodPrefab;
 
     public Transform LeftSpawnPoint;
-    public Transform RightSpawnPoint;
     public Transform CenterPoint;
-    public Transform ExitPointFood;
     public Transform ExitPointShelter;
     public Transform ExitPointShelterFailed;
 
@@ -27,23 +24,9 @@ public class NPCSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(spawnInterval);
         
-        GameObject ChosenPrefab;
-        Transform selectedSpawnPoint;
-
-        int RequestRandomizer = Random.Range(0, 2);
-
-
-        if (RequestRandomizer == 0)
-        {
-            selectedSpawnPoint = LeftSpawnPoint;
-            ChosenPrefab = ShelterPrefab[Random.Range(0, ShelterPrefab.Length)];
-        }
-        else
-        {
-            selectedSpawnPoint = RightSpawnPoint;
-            ChosenPrefab = FoodPrefab[Random.Range(0, FoodPrefab.Length)];
-        }
-
+        
+        Transform selectedSpawnPoint = LeftSpawnPoint;
+        GameObject ChosenPrefab = ShelterPrefab[Random.Range(0, ShelterPrefab.Length)];
         GameObject NewNPC = Instantiate(ChosenPrefab, selectedSpawnPoint.position, Quaternion.identity);
 
         NPCMovement MovementScript = NewNPC.GetComponent<NPCMovement>();
@@ -52,7 +35,6 @@ public class NPCSpawner : MonoBehaviour
             MovementScript.SpawnPoint = selectedSpawnPoint;
             MovementScript.CenterPoint = this.CenterPoint;
 
-            MovementScript.ExitPointFood = this.ExitPointFood;
             MovementScript.ExitPointShelter = this.ExitPointShelter;
             MovementScript.ExitPointShelterFailed = this.ExitPointShelter;
         }

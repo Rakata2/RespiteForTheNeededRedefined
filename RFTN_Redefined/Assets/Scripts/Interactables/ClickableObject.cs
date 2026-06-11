@@ -5,8 +5,7 @@ public class ClickableObject : MonoBehaviour
 {
     public enum InteractionType
     {
-        Computer,
-        FoodDisplay
+        Computer
     }
     public InteractionType ObjectType;
 
@@ -22,10 +21,6 @@ public class ClickableObject : MonoBehaviour
             GameUIManager.instance.OpenComputer();
             //Debug.Log("Computer clicked");
         }
-        else if(ObjectType == InteractionType.FoodDisplay)
-        {
-            GameUIManager.instance.OpenFoodDisplay();
-            //Debug.Log("Food Display clicked"); 
-        }
+        
     }
 }

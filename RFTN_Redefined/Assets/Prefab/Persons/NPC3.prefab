@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 2434833603080678434}
   - component: {fileID: 1324385302338178486}
   m_Layer: 0
-  m_Name: Behavioralfemale
+  m_Name: NPC3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -394,7 +394,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: e06a5c13615cc3740a320c685b48512e, type: 3}
-  m_Color: {r: 0.23018861, g: 0.01867566, b: 0.01867566, a: 1}
+  m_Color: {r: 1, g: 0.5366485, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -463,9 +463,9 @@ MonoBehaviour:
   TypingSpeed: 0.05
   ShelterDialogueDB: {fileID: 11400000, guid: 926404fca0f7be64aac9b270267f92f5, type: 2}
   NormalShelterNPCResponseDB: {fileID: 0}
-  NPCRequestType: 3
+  NPCRequestType: 0
   CurrentState: 0
-  ChosenID: {fileID: 0}
+  ChosenID: {fileID: 11400000, guid: af0033a184512ac43a49fedf9ef7b61a, type: 2}
   PhysicalIDIsGovIssued: 0
 --- !u!82 &1324385302338178486
 AudioSource:

@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class DeskCardInteractable : MonoBehaviour
+public class DeskLetterInteractable : MonoBehaviour
 {
     private IdentityProfile NPCProfile;
     private bool IsGovIssued;
-    public void ReceiveID(IdentityProfile IncomingProfile, bool IncomingGovStatus)
+    
+    public void ReceiveLetterData(IdentityProfile IncomingProfile, bool IncomingGovStatus)
     {
         NPCProfile = IncomingProfile;
         IsGovIssued = IncomingGovStatus;
@@ -16,10 +18,11 @@ public class DeskCardInteractable : MonoBehaviour
     {
         if (GameUIManager.instance.IsMouseBlocked()) return;
 
-        if(NPCProfile != null)
+        if (NPCProfile != null)
         {
-            GameUIManager.instance.OpenIDCard();
-            IDPanelManager.instance.DisplayID(NPCProfile, IsGovIssued);
+            GameUIManager.instance.OpenLetter();
+            LetterPanelManager.instance.DisplayLetter(NPCProfile, IsGovIssued);
         }
     }
+
 }

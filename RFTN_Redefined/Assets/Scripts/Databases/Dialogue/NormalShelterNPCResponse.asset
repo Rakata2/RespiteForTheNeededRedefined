@@ -25,12 +25,8 @@ MonoBehaviour:
   ShelterSecondRejection:
   - Why.. Why would you do such thing...
   - I tried everything i could, and yet i still can't get in any shelter??
-  ShelterDiversionUnwated:
-  - I already have my ID government issued. Weren't you supposed to let me in?
-  - But i already have my ID government issued.
-  ShelterDiversionUnwatedSecondTime:
-  - I said i don't want this!
-  - Why do u keep giving me this useless pass?!
+  ShelterDiversionUnwanted: []
+  ShelterDiversionUnwantedSecondTime: []
   MultipleMistakes:
   - You really can't listen to instructions can you?
   - Why can't you listen to me properly?

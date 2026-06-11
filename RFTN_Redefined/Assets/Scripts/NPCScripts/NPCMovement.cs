@@ -29,8 +29,6 @@ public class NPCMovement : MonoBehaviour
 
 
     public ShelterDialogueDatabase ShelterDialogueDB;
-    public FoodDialogueDatabase FoodDialogueDB;
-    public FoodResponsesDatabase FoodResponsesDB;
     public NormalShelterNPCResponse NormalShelterNPCResponseDB;
 
     public RequestType NPCRequestType;
@@ -50,23 +48,21 @@ public class NPCMovement : MonoBehaviour
         Shelter,
         Medical,
         Isolation,
-        Behavioral,
-        Soup,
-        Porridge,
-        Sandwich,
-        Food
+        Behavioral
     }
 
     public NPCState CurrentState = NPCState.MovingToCenter;
 
     public static NPCMovement CurrentClient;
 
-    public IdentityProfile[] PossibleIDs;
+    
     public IdentityProfile ChosenID;
+
+    [HideInInspector] public bool PhysicalIDIsGovIssued;
 
     private int MistakeCount = 0;
 
-    public ResourceDatabase Resources;
+    
     void Start()
     {
 
@@ -75,16 +71,9 @@ public class NPCMovement : MonoBehaviour
             NextButton.gameObject.SetActive(false);
         }
 
-        if(IsFoodType())
+        if(ChosenID != null)
         {
-            RequestType[] FoodOptions = { RequestType.Soup, RequestType.Porridge, RequestType.Sandwich };
-            NPCRequestType = FoodOptions[Random.Range(0, FoodOptions.Length)];
-        }
-
-        if(IsShelterType() && PossibleIDs != null && PossibleIDs.Length > 0)
-        {
-            int randomIndex = Random.Range(0, PossibleIDs.Length);
-            ChosenID = PossibleIDs[randomIndex];
+            PhysicalIDIsGovIssued = (Random.Range(0, 2) == 1);
         }
     }
     void Update()
@@ -147,7 +136,13 @@ public class NPCMovement : MonoBehaviour
         if(IsShelterType()&& GameUIManager.instance.DeskCard != null && ChosenID != null)
         {
             GameUIManager.instance.DeskCard.gameObject.SetActive(true);
-            GameUIManager.instance.DeskCard.ReceiveID(ChosenID);
+            GameUIManager.instance.DeskCard.ReceiveID(ChosenID, PhysicalIDIsGovIssued);
+        }
+
+        if (IsShelterType() && GameUIManager.instance.DeskLetter != null && ChosenID != null)
+        {
+            GameUIManager.instance.DeskLetter.gameObject.SetActive(true);
+            GameUIManager.instance.DeskLetter.ReceiveLetterData(ChosenID, PhysicalIDIsGovIssued);
         }
 
         Debug.Log("Interaction type: " + NPCRequestType);
@@ -183,96 +178,14 @@ public class NPCMovement : MonoBehaviour
                 return ShelterDialogueDB.ShelterIsolationNeeds;
             case RequestType.Behavioral:
                 return ShelterDialogueDB.ShelterBehavioralNeeds;
-            case RequestType.Soup:
-                return FoodDialogueDB.SoupDialogues;
-            case RequestType.Porridge:
-                return FoodDialogueDB.PorridgeDialogues;
-            case RequestType.Sandwich:
-                return FoodDialogueDB.SandwichDialogues;
             default:
                 return ShelterDialogueDB.ShelterDialogues; //MIND THIS PLEASE MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW 
         }
     }
 
-    public void PlayerGivesSoup() => ProcessFoodDelivery(RequestType.Soup);
-    public void PlayerGivesPorridge() => ProcessFoodDelivery(RequestType.Porridge);
-    public void PlayerGivesSandwich() => ProcessFoodDelivery(RequestType.Sandwich);
 
 
 
-    IEnumerator CorrectFoodRoutine()
-    {
-        CurrentState = NPCState.Finished;
-
-        ShowChatBubble();
-        string ThankYouText = FoodResponsesDB.FoodThankYou[Random.Range(0, FoodResponsesDB.FoodThankYou.Count)];
-        DialogueText.text = "";
-        foreach(char letter in ThankYouText.ToCharArray())
-        {
-            DialogueText.text += letter;
-            yield return new WaitForSeconds(TypingSpeed);
-        }
-        if (NextButton != null)
-        {
-            NextButton.gameObject.SetActive(true);
-        }
-    }
-
-    IEnumerator FirstMistakeRoutine()
-    {
-        CurrentState = NPCState.Interact;
-        ShowChatBubble();
-        
-        DialogueText.text = "";
-        string MistakeText = "";
-
-        switch(NPCRequestType)
-        {
-            case RequestType.Soup:
-                MistakeText = FoodResponsesDB.FoodCorrectionSoup[Random.Range(0, FoodResponsesDB.FoodCorrectionSoup.Count)];
-                break;
-            case RequestType.Porridge:
-                MistakeText = FoodResponsesDB.FoodCorrectionPorridge[Random.Range(0, FoodResponsesDB.FoodCorrectionPorridge.Count)];
-                break;
-            case RequestType.Sandwich:
-                MistakeText = FoodResponsesDB.FoodCorrectionSandwich[Random.Range(0, FoodResponsesDB.FoodCorrectionSandwich.Count)];
-                break;
-        }
-
-        foreach (char letter in MistakeText.ToCharArray())
-        {
-            DialogueText.text += letter;
-            yield return new WaitForSeconds(TypingSpeed);
-        }
-        if (NextButton != null)
-        {
-            NextButton.gameObject.SetActive(true);
-        }
-
-        CurrentState = NPCState.WaitingForDecision;
-    }
-
-    IEnumerator SecondMistakeRoutine()
-    {
-        CurrentState = NPCState.Finished;
-        ShowChatBubble();
-        DialogueText.text = "";
-
-        string FrustratedText = FoodResponsesDB.FoodSecondDecline[Random.Range(0, FoodResponsesDB.FoodSecondDecline.Count)];
-        foreach (char letter in FrustratedText.ToCharArray())
-        {
-            DialogueText.text += letter;
-            yield return new WaitForSeconds(TypingSpeed);
-        }
-        if (NextButton != null)
-        {
-            NextButton.gameObject.SetActive(true);
-        }
-        if(ViolationManager.instance != null)
-        {
-            ViolationManager.instance.AddViolation();
-        }
-    }
 
     public void OnCloseDialogueClicked()
     {
@@ -288,57 +201,6 @@ public class NPCMovement : MonoBehaviour
         return NPCRequestType == RequestType.Shelter;
                //NPCRequestType == RequestType.Medical ||
                //NPCRequestType == RequestType.Isolation;       
-    }
-
-    public bool IsFoodType()
-    {
-        return NPCRequestType == RequestType.Food ||
-               NPCRequestType == RequestType.Soup ||
-               NPCRequestType == RequestType.Porridge ||
-               NPCRequestType == RequestType.Sandwich;
-    }
-
-    private void ProcessFoodDelivery(RequestType OfferedFood)
-    {
-        if (CurrentState != NPCState.WaitingForDecision) return;
-
-        if (OfferedFood == NPCRequestType)
-        {
-            TakeFood(OfferedFood);
-            StartCoroutine(CorrectFoodRoutine());
-        }
-        else
-        {
-            Debug.Log("Wrong food selected");
-            MistakeCount++;
-            if (MistakeCount == 1)
-            {
-                StartCoroutine(FirstMistakeRoutine());
-            }
-            else if (MistakeCount >= 2)
-            {
-                TakeFood(OfferedFood);
-                StartCoroutine(SecondMistakeRoutine());
-            }
-        }
-    }
-
-    private void TakeFood(RequestType Food)
-    {
-            switch (Food)
-            {
-                case RequestType.Soup:
-                Resources.SoupStock--;
-                    break;
-                case RequestType.Porridge:
-                    Resources.PorridgeStock--;
-                    break;
-                case RequestType.Sandwich:
-                    Resources.SandwichStock--;
-                    break;
-        }
-
-        FindObjectOfType<FoodDisplay>().UpdateFoodUI(); //to be updated later maybe
     }
 
 
@@ -364,11 +226,7 @@ public class NPCMovement : MonoBehaviour
 
     public void StartLeaving(bool IsSuccess)
     {
-        if(IsFoodType())
-        {
-            ChosenExit = ExitPointFood;
-        }
-        else if(IsShelterType())
+        if(IsShelterType())
         {
             ChosenExit = IsSuccess ? ExitPointShelter : ExitPointShelterFailed;
         }
