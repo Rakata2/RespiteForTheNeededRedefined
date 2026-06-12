@@ -15,7 +15,7 @@ public class DatabaseManager : MonoBehaviour
     public Button RightArrowButton;
 
     private int CurrentPage = 0;
-    private int TotalPage = 3;
+    private int TotalPage = 4; //changed from 3 to 4
     private List<IdentityProfile> ShuffledProfiles = new List<IdentityProfile>();
     void Start()
     {

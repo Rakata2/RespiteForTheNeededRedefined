@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 
 
 public class NPCMovement : MonoBehaviour
@@ -58,7 +59,9 @@ public class NPCMovement : MonoBehaviour
     
     public IdentityProfile ChosenID;
 
-    [HideInInspector] public bool PhysicalIDIsGovIssued;
+    public bool PhysicalIDIsGovIssued;
+    public bool HasLetter;
+    public bool PhysicalLetterIsGovIssued;
 
     private int MistakeCount = 0;
 
@@ -71,10 +74,41 @@ public class NPCMovement : MonoBehaviour
             NextButton.gameObject.SetActive(false);
         }
 
-        if(ChosenID != null)
+        int MasterRoll = Random.Range(0, 101);
+
+        if (MasterRoll <= 60)
         {
-            PhysicalIDIsGovIssued = (Random.Range(0, 2) == 1);
+            PhysicalIDIsGovIssued = true;
+            HasLetter = true;
+            PhysicalLetterIsGovIssued = true;
         }
+        else
+        {
+            int TrickRoll = Random.Range(0, 5);
+             switch (TrickRoll)
+            {
+                case 0:
+                    PhysicalIDIsGovIssued = true;
+                    HasLetter = true;
+                    PhysicalLetterIsGovIssued = false;
+                    break;
+                case 1:
+                    PhysicalIDIsGovIssued = true;
+                    HasLetter = false;
+                    PhysicalLetterIsGovIssued = false;
+                    break;
+                case 2:
+                    PhysicalIDIsGovIssued = false;
+                    HasLetter = true;
+                    PhysicalLetterIsGovIssued = true;
+                    break;
+                case 3:
+                    PhysicalIDIsGovIssued = false;
+                    HasLetter = true;
+                    PhysicalLetterIsGovIssued = false;
+                    break;
+            }
+        }   
     }
     void Update()
     {
@@ -141,8 +175,15 @@ public class NPCMovement : MonoBehaviour
 
         if (IsShelterType() && GameUIManager.instance.DeskLetter != null && ChosenID != null)
         {
-            GameUIManager.instance.DeskLetter.gameObject.SetActive(true);
-            GameUIManager.instance.DeskLetter.ReceiveLetterData(ChosenID, PhysicalIDIsGovIssued);
+            if(HasLetter == true)
+            {
+                GameUIManager.instance.DeskLetter.gameObject.SetActive(true);
+                GameUIManager.instance.DeskLetter.ReceiveLetterData(ChosenID, PhysicalLetterIsGovIssued);
+            }
+            else
+            {
+                GameUIManager.instance.DeskLetter.gameObject.SetActive (false);
+            }
         }
 
         Debug.Log("Interaction type: " + NPCRequestType);
