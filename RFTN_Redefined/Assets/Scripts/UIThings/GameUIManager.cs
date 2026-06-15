@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using JetBrains.Annotations;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.XR.Haptics;
 
@@ -15,10 +17,15 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private GameObject MainMenuPanel;
     [SerializeField] private GameObject DatabasePanel;
     [SerializeField] private GameObject PoliciesPanel;
+    
 
 
     [SerializeField] private CanvasGroup IDCardPanel;
     [SerializeField] private CanvasGroup LetterPanel;
+    [SerializeField] private CanvasGroup ActionPanel;
+    [SerializeField] private GameObject Action;
+    [SerializeField] private GameObject Question;
+    [SerializeField] private GameObject Application;
     [SerializeField] private GameObject UIBlocker;
 
     [SerializeField] private GameObject MinimizedTray;
@@ -111,6 +118,92 @@ public class GameUIManager : MonoBehaviour
     {
         HidePanel(LetterPanel);
     }
+
+    public void OpenActionMenu()
+    {
+        ShowPanel(ActionPanel);
+    }
+
+    public void CloseActionMenu()
+    {
+        Question.SetActive(false);
+        Action.SetActive(true);
+        Application.SetActive(false);
+        HidePanel(ActionPanel);
+    }
+
+    public void AcceptEntrance()
+    {
+        Question.SetActive(false);
+        Action.SetActive(true);
+        Application.SetActive(false);
+        CloseActionMenu();
+        //accepted saying thank you or something
+    }
+
+    public void RejectEntrance()
+    {
+        Question.SetActive(false);
+        Action.SetActive(false);
+        Application.SetActive(true);
+    }
+
+    public void RejectWithApplication()
+    {
+        Question.SetActive(false);
+        Action.SetActive(true);
+        Application.SetActive(false);
+        CloseActionMenu();
+    }
+
+    public void RejectWithoutApplication()
+    {
+        Question.SetActive(false);
+        Action.SetActive(true);
+        Application.SetActive(false);
+        CloseActionMenu();
+    }
+    public void QuestionClicked()
+    {
+        Question.SetActive(true);
+        Action.SetActive(false);
+        Application.SetActive(false);
+    }
+
+    public void QuestionID()
+    {
+        Question.SetActive(false);
+        Action.SetActive(true);
+        Application.SetActive(false);
+        CloseActionMenu();
+    }
+
+    public void QuestionLetter()
+    {
+        Question.SetActive(false);
+        Action.SetActive(true);
+        Application.SetActive(false);
+        CloseActionMenu();
+    }
+
+    public void QuestionData()
+    {
+        Question.SetActive(false);
+        Action.SetActive(true);
+        Application.SetActive(false);
+        CloseActionMenu();
+    }
+
+    
+
+    public void BackButton()
+    {
+        Question.SetActive(false);
+        Action.SetActive(true);
+        Application.SetActive(false);
+    }
+
+    
 
     public void ShowPanel(CanvasGroup panel)
     {

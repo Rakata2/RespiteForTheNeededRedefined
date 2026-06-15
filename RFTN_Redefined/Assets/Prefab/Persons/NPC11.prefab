@@ -285,6 +285,9 @@ MonoBehaviour:
   CurrentState: 0
   ChosenID: {fileID: 11400000, guid: 513926d6102220b489bd5225da30ddb7, type: 2}
   PhysicalIDIsGovIssued: 0
+  HasLetter: 0
+  PhysicalLetterIsGovIssued: 0
+  HighlitedSprite: {fileID: 21300000, guid: e1dc75b3625da9c46a97e1c68748d8d8, type: 3}
 --- !u!82 &255220711468574801
 AudioSource:
   m_ObjectHideFlags: 0

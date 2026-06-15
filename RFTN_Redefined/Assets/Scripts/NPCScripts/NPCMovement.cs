@@ -30,7 +30,7 @@ public class NPCMovement : MonoBehaviour
 
 
     public ShelterDialogueDatabase ShelterDialogueDB;
-    public NormalShelterNPCResponse NormalShelterNPCResponseDB;
+    public NPCResponseCompleteData NPCCompleteDataDB;
 
     public RequestType NPCRequestType;
     private Animator BellAnimator;
@@ -65,7 +65,15 @@ public class NPCMovement : MonoBehaviour
 
     private int MistakeCount = 0;
 
-    
+    private SpriteRenderer NPCSpriteRenderer;
+    private Sprite NormalSprite;
+    public Sprite HighlitedSprite;
+
+    void Awake()
+    {
+        NPCSpriteRenderer = GetComponent<SpriteRenderer>();    
+    }
+
     void Start()
     {
 
@@ -108,7 +116,9 @@ public class NPCMovement : MonoBehaviour
                     PhysicalLetterIsGovIssued = false;
                     break;
             }
-        }   
+        }
+
+        NormalSprite = NPCSpriteRenderer.sprite;
     }
     void Update()
     {
@@ -224,6 +234,7 @@ public class NPCMovement : MonoBehaviour
         }
     }
 
+    
 
 
 
@@ -239,9 +250,7 @@ public class NPCMovement : MonoBehaviour
 
     public bool IsShelterType()
     {
-        return NPCRequestType == RequestType.Shelter;
-               //NPCRequestType == RequestType.Medical ||
-               //NPCRequestType == RequestType.Isolation;       
+        return NPCRequestType == RequestType.Shelter;           
     }
 
 
@@ -263,6 +272,34 @@ public class NPCMovement : MonoBehaviour
         }
         GameUIManager.instance.SetDialogueActive(true);
         if(NextButton != null) NextButton.gameObject.SetActive(false);
+    }
+
+    private void OnMouseDown()
+    {
+        if (GameUIManager.instance.IsMouseBlocked()) return;
+
+        if(CurrentState == NPCState.WaitingForDecision)
+        {
+            GameUIManager.instance.OpenActionMenu();
+        }
+    }
+
+    private void OnMouseEnter()
+    {
+        if (GameUIManager.instance.IsMouseBlocked()) return;
+
+        if(CurrentState == NPCState.WaitingForDecision && HighlitedSprite != null)
+        {
+            NPCSpriteRenderer.sprite = HighlitedSprite;
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if(NPCSpriteRenderer != null && NormalSprite != null)
+        {
+            NPCSpriteRenderer.sprite = NormalSprite;
+        }
     }
 
     public void StartLeaving(bool IsSuccess)
