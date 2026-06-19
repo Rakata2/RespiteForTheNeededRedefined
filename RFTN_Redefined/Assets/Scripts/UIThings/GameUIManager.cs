@@ -22,6 +22,7 @@ public class GameUIManager : MonoBehaviour
 
     [SerializeField] private CanvasGroup IDCardPanel;
     [SerializeField] private CanvasGroup LetterPanel;
+    [SerializeField] private CanvasGroup ApplicationPanel;
     [SerializeField] private CanvasGroup ActionPanel;
     [SerializeField] private GameObject Action;
     [SerializeField] private GameObject Question;
@@ -45,6 +46,8 @@ public class GameUIManager : MonoBehaviour
 
     public DeskCardInteractable DeskCard;
     public DeskLetterInteractable DeskLetter;
+    public DeskApplicationInteractable DeskApplication;
+    
 
 
 
@@ -117,6 +120,16 @@ public class GameUIManager : MonoBehaviour
     public void CloseLetter()
     {
         HidePanel(LetterPanel);
+    }
+
+    public void OpenApplication()
+    {
+        ShowPanel(ApplicationPanel);
+    }
+
+    public void CloseApplication()
+    {
+        HidePanel(ApplicationPanel);
     }
 
     public void OpenActionMenu()
@@ -203,8 +216,7 @@ public class GameUIManager : MonoBehaviour
         Application.SetActive(false);
     }
 
-    
-
+ 
     public void ShowPanel(CanvasGroup panel)
     {
         UIBlocker.SetActive(true);

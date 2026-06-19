@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90312fb1f6b407b41a45dc48f345fd23, type: 3}
+  m_Name: NPCResponse
+  m_EditorClassIdentifier: 
+  Accept:
+  - Thank you so much
+  - Thank you for giving me a place to stay
+  - Oh really, thank you so much
+  QuestionIDPass:
+  - I have my ID government issued. Please check again
+  - But my ID is government issued. Can you check again please?
+  QuestionIDFailed:
+  - Oh wait did i not have my ID government issued? My bad
+  QuestionFakeID:
+  - Oh.. You caught my disguise
+  - Yikes. You caught my disguise. You got me.
+  QuestionLetterPassed:
+  - I already have my letter government issued. Please check again.
+  - But my letter is government issued. Can you check again please?
+  QuestionLetterFailed:
+  - Oh.. I think i forgot to make my letter government issued. Sorry about that.
+  QuestionDataPassed:
+  - I already registered for the shelter today. Please check again.
+  - I think there has been a mistake, because i already registered for the shelter
+    today.
+  QuestionDataFailed:
+  - I did not register because I just got discharged from the hospital, and i need
+    a place to stay ASAP.
+  - I didn't have time to register because I had to flee a violent situation.
+  - I did not register because i've never been homeless before, and i didn't know
+    that we need to register in the first place.
+  RejectApplicationConfirmed:
+  - Thanks for the application. I'll fill it in as soon as possible
+  - Thank you for this application. I will return it once i have filled this in.
+  RejectApplicationFirstUnwanted:
+  - I don't think I need to fill in this application. My letter is already government
+    issued.
+  - I'm not filling in this form. I already have my letter government issued
+  RejectApplicationSecondUnwanted:
+  - This is ridiculous. You are trying to push me away
+  - Fine. I don't have the energy to argue with you today. I'm leaving
+  RejectFirstComplete:
+  - But i have everything set. Shouldn't you let me in?
+  - I already fullfilled everything. Please let me stay
+  RejectSecondComplete:
+  - ...Fine, i'll just find another shelter
+  - I can't believe i get rejected, after everything I did.
+  RejectFirstIncomplete:
+  - Even if my data is incomplete, can you at least do something about it?
+  - Please help me find any alternatives, i just need a place to stay.
+  RejectSecondIncomplete:
+  - You're not even trying your best to give people shelter..
+  - ...Fine, i'll just find another shelter
+  MultipleMistakes:
+  - I am not cooperating with you anymore. I'm leaving
+  - You really can't do your job properly huh? Fine, i'll just find another shelter.

@@ -30,7 +30,7 @@ public class NPCMovement : MonoBehaviour
 
 
     public ShelterDialogueDatabase ShelterDialogueDB;
-    public NPCResponseCompleteData NPCCompleteDataDB;
+    public NPCResponse NPCResponseDB;
 
     public RequestType NPCRequestType;
     private Animator BellAnimator;
@@ -59,8 +59,13 @@ public class NPCMovement : MonoBehaviour
     
     public IdentityProfile ChosenID;
 
+    public bool HasID;
     public bool PhysicalIDIsGovIssued;
+    public bool PhysicalApplicationIsGovIssued;
     public bool HasLetter;
+    public bool HasApplication;
+    public bool AppCircle;
+    public int CheckReasonIndex; //0 = eviction, 1= family, 2= job
     public bool PhysicalLetterIsGovIssued;
 
     private int MistakeCount = 0;
@@ -76,49 +81,45 @@ public class NPCMovement : MonoBehaviour
 
     void Start()
     {
+        CheckReasonIndex = Random.Range(0, 3);
 
-        if (NextButton != null)
+        bool IsApplicationNPC = (Random.value > 0.5f);
+
+        if(IsApplicationNPC)
         {
-            NextButton.gameObject.SetActive(false);
-        }
+            HasLetter = false;
+            HasApplication = true;
+            PhysicalApplicationIsGovIssued = (Random.Range(1, 101) <= 70);
 
-        int MasterRoll = Random.Range(0, 101);
-
-        if (MasterRoll <= 60)
-        {
-            PhysicalIDIsGovIssued = true;
-            HasLetter = true;
-            PhysicalLetterIsGovIssued = true;
+            int AppBehavior = Random.Range(0, 3);
+            if (AppBehavior == 0)
+            {
+                AppCircle = false;
+                HasID = false;
+                PhysicalIDIsGovIssued = false;
+            }
+            else if(AppBehavior == 1)
+            {
+                AppCircle = true;
+                HasID = true;
+                PhysicalIDIsGovIssued = (Random.Range(1, 101) <= 70);
+            }
+            else
+            {
+                AppCircle = true;
+                HasID = false;
+                PhysicalIDIsGovIssued = false;
+            }
         }
         else
         {
-            int TrickRoll = Random.Range(0, 5);
-             switch (TrickRoll)
-            {
-                case 0:
-                    PhysicalIDIsGovIssued = true;
-                    HasLetter = true;
-                    PhysicalLetterIsGovIssued = false;
-                    break;
-                case 1:
-                    PhysicalIDIsGovIssued = true;
-                    HasLetter = false;
-                    PhysicalLetterIsGovIssued = false;
-                    break;
-                case 2:
-                    PhysicalIDIsGovIssued = false;
-                    HasLetter = true;
-                    PhysicalLetterIsGovIssued = true;
-                    break;
-                case 3:
-                    PhysicalIDIsGovIssued = false;
-                    HasLetter = true;
-                    PhysicalLetterIsGovIssued = false;
-                    break;
-            }
-        }
+            HasApplication = false;
+            HasLetter = true;
+            PhysicalLetterIsGovIssued = (Random.Range(1, 101) <= 70);
 
-        NormalSprite = NPCSpriteRenderer.sprite;
+            HasID = (Random.Range(1, 101) <= 70);
+            PhysicalIDIsGovIssued = HasID ? (Random.Range(1, 101) <= 70) : false;
+        }
     }
     void Update()
     {
@@ -179,20 +180,29 @@ public class NPCMovement : MonoBehaviour
         
         if(IsShelterType()&& GameUIManager.instance.DeskCard != null && ChosenID != null)
         {
-            GameUIManager.instance.DeskCard.gameObject.SetActive(true);
-            GameUIManager.instance.DeskCard.ReceiveID(ChosenID, PhysicalIDIsGovIssued);
+            if(HasID)
+            {
+                GameUIManager.instance.DeskCard.gameObject.SetActive(true);
+                GameUIManager.instance.DeskCard.ReceiveID(ChosenID, PhysicalIDIsGovIssued);
+            }
+            else
+            {
+                GameUIManager.instance.DeskCard.gameObject.SetActive(false);
+            }
         }
 
         if (IsShelterType() && GameUIManager.instance.DeskLetter != null && ChosenID != null)
         {
-            if(HasLetter == true)
+            GameUIManager.instance.DeskLetter.gameObject.SetActive(HasLetter);
+            if (HasLetter) GameUIManager.instance.DeskLetter.ReceiveLetterData(ChosenID, PhysicalLetterIsGovIssued);
+        }
+
+        if (IsShelterType() && GameUIManager.instance.DeskApplication != null && ChosenID != null)
+        {
+            GameUIManager.instance.DeskApplication.gameObject.SetActive(HasApplication);
+            if(HasApplication)
             {
-                GameUIManager.instance.DeskLetter.gameObject.SetActive(true);
-                GameUIManager.instance.DeskLetter.ReceiveLetterData(ChosenID, PhysicalLetterIsGovIssued);
-            }
-            else
-            {
-                GameUIManager.instance.DeskLetter.gameObject.SetActive (false);
+                GameUIManager.instance.DeskApplication.ReceiveApplicationData(ChosenID, PhysicalApplicationIsGovIssued, CheckReasonIndex, AppCircle);
             }
         }
 

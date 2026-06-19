@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using TMPro;
+using UnityEngine.UI;
 using UnityEngine;
+
 
 public class IDPanelManager : MonoBehaviour
 {
@@ -15,6 +17,7 @@ public class IDPanelManager : MonoBehaviour
     public TMP_Text DateIssued;
     public TMP_Text ExpiryDate;
     public TMP_Text GovernmentStampCheck;
+    public Image PhotoImage;
 
     void Awake()
     {
@@ -37,6 +40,14 @@ public class IDPanelManager : MonoBehaviour
         else
         {
             GovernmentStampCheck.text = "";
+        }
+
+        if(profile != null && PhotoImage != null)
+        {
+            // Replace this line:
+            // PhotoImage.Sprite = profile.Photo;
+            // With the following line:
+            PhotoImage.sprite = profile.Photo;
         }
 
         IDPanelContainer.SetActive(true);
