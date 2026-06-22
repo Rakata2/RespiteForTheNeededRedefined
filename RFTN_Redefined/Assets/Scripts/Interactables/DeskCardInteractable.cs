@@ -6,10 +6,12 @@ public class DeskCardInteractable : MonoBehaviour
 {
     private IdentityProfile NPCProfile;
     private bool IsGovIssued;
-    public void ReceiveID(IdentityProfile IncomingProfile, bool IncomingGovStatus)
+    private Sprite CardFaceSprite;
+    public void ReceiveID(IdentityProfile IncomingProfile, bool IncomingGovStatus, Sprite IncomingFace)
     {
         NPCProfile = IncomingProfile;
         IsGovIssued = IncomingGovStatus;
+        CardFaceSprite = IncomingFace;
     }
 
     private void OnMouseDown()
@@ -19,7 +21,7 @@ public class DeskCardInteractable : MonoBehaviour
         if(NPCProfile != null)
         {
             GameUIManager.instance.OpenIDCard();
-            IDPanelManager.instance.DisplayID(NPCProfile, IsGovIssued);
+            IDPanelManager.instance.DisplayID(NPCProfile, IsGovIssued, CardFaceSprite);
         }
     }
 }

@@ -68,15 +68,20 @@ public class NPCMovement : MonoBehaviour
     public int CheckReasonIndex; //0 = eviction, 1= family, 2= job
     public bool PhysicalLetterIsGovIssued;
 
-    private int MistakeCount = 0;
+    
 
     private SpriteRenderer NPCSpriteRenderer;
     private Sprite NormalSprite;
     public Sprite HighlitedSprite;
 
+    public Sprite[] AllGameFaces;
+    public bool IsFaceMissmatch;
+    private Sprite FaceOnIDCard;
+
     void Awake()
     {
-        NPCSpriteRenderer = GetComponent<SpriteRenderer>();    
+        NPCSpriteRenderer = GetComponent<SpriteRenderer>();
+        NormalSprite = NPCSpriteRenderer.sprite;
     }
 
     void Start()
@@ -84,8 +89,10 @@ public class NPCMovement : MonoBehaviour
         CheckReasonIndex = Random.Range(0, 3);
 
         bool IsApplicationNPC = (Random.value > 0.5f);
+        FaceOnIDCard = ChosenID.Photo;
+        IsFaceMissmatch = false;
 
-        if(IsApplicationNPC)
+        if (IsApplicationNPC)
         {
             HasLetter = false;
             HasApplication = true;
@@ -119,6 +126,22 @@ public class NPCMovement : MonoBehaviour
 
             HasID = (Random.Range(1, 101) <= 70);
             PhysicalIDIsGovIssued = HasID ? (Random.Range(1, 101) <= 70) : false;
+        }
+
+        
+
+        if(HasID && PhysicalIDIsGovIssued)
+        {
+            if(Random.Range(1, 101) <= 15)
+            {
+                IsFaceMissmatch = true;
+                FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
+
+                while(FaceOnIDCard == ChosenID.Photo)
+                {
+                    FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
+                }
+            }
         }
     }
     void Update()
@@ -183,7 +206,7 @@ public class NPCMovement : MonoBehaviour
             if(HasID)
             {
                 GameUIManager.instance.DeskCard.gameObject.SetActive(true);
-                GameUIManager.instance.DeskCard.ReceiveID(ChosenID, PhysicalIDIsGovIssued);
+                GameUIManager.instance.DeskCard.ReceiveID(ChosenID, PhysicalIDIsGovIssued, FaceOnIDCard);
             }
             else
             {
@@ -243,10 +266,6 @@ public class NPCMovement : MonoBehaviour
                 return ShelterDialogueDB.ShelterDialogues; //MIND THIS PLEASE MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW 
         }
     }
-
-    
-
-
 
 
     public void OnCloseDialogueClicked()

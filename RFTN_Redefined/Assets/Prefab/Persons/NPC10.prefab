@@ -596,14 +596,25 @@ MonoBehaviour:
   DialogueText: {fileID: 741246917347633095}
   TypingSpeed: 0.05
   ShelterDialogueDB: {fileID: 11400000, guid: 926404fca0f7be64aac9b270267f92f5, type: 2}
-  NormalShelterNPCResponseDB: {fileID: 0}
+  NPCResponseDB: {fileID: 0}
   NPCRequestType: 0
   CurrentState: 0
   ChosenID: {fileID: 11400000, guid: 50de17846b30ad64d9caa6612b569c28, type: 2}
+  HasID: 0
   PhysicalIDIsGovIssued: 0
+  PhysicalApplicationIsGovIssued: 0
   HasLetter: 0
+  HasApplication: 0
+  AppCircle: 0
+  CheckReasonIndex: 0
   PhysicalLetterIsGovIssued: 0
   HighlitedSprite: {fileID: 21300000, guid: 9c2324b00b534834099be6c90657ebff, type: 3}
+  AllGameFaces:
+  - {fileID: 21300000, guid: 47bc66ae05fe8af49b2d968c426ae9a7, type: 3}
+  - {fileID: 21300000, guid: e06a5c13615cc3740a320c685b48512e, type: 3}
+  - {fileID: 21300000, guid: 50789b81a34b2394bb67b283cdba664e, type: 3}
+  - {fileID: 21300000, guid: 0015f522d20779640b45043802706d87, type: 3}
+  IsFaceMissmatch: 0
 --- !u!82 &42306082313287276
 AudioSource:
   m_ObjectHideFlags: 0

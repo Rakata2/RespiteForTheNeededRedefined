@@ -24,7 +24,7 @@ public class IDPanelManager : MonoBehaviour
         if (instance == null) instance = this;
     }
 
-    public void DisplayID(IdentityProfile profile, bool IsValidGovID)
+    public void DisplayID(IdentityProfile profile, bool IsValidGovID, Sprite FaceSprite)
     {
         Name.text = profile.Name;
         DateOfBirth.text = profile.DateOfBirth;
@@ -44,10 +44,12 @@ public class IDPanelManager : MonoBehaviour
 
         if(profile != null && PhotoImage != null)
         {
-            // Replace this line:
-            // PhotoImage.Sprite = profile.Photo;
-            // With the following line:
             PhotoImage.sprite = profile.Photo;
+        }
+
+        if(PhotoImage != null && FaceSprite != null)
+        {
+            PhotoImage.sprite = FaceSprite;
         }
 
         IDPanelContainer.SetActive(true);
