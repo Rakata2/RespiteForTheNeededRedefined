@@ -8,9 +8,9 @@ public class NPCResponse : ScriptableObject
 {
     public List<string> Accept; //simply lets them in 
 
-    public List<string> QuestionIDPass; //example: I have my ID government issued. Please check again
-    public List<string> QuestionIDFailed; //example: Oh wait did i not have my ID government issued? My bad
-    public List<string> QuestionFakeID; //Oh.. You caught my disguise
+    public List<string> QuestionIDPass; 
+    public List<string> QuestionIDFailed; 
+    public List<string> QuestionFakeID; 
     public List<string> QuestionLetterPassed;
     public List<string> QuestionLetterFailed;
     public List<string> QuestionApplicationPassed;

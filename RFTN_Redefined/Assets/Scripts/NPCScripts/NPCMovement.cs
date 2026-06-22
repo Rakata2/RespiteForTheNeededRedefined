@@ -78,6 +78,8 @@ public class NPCMovement : MonoBehaviour
     public bool IsFaceMissmatch;
     private Sprite FaceOnIDCard;
 
+    //public GameObject ActionPanel;
+
     void Awake()
     {
         NPCSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -185,6 +187,11 @@ public class NPCMovement : MonoBehaviour
         return Vector2.Distance(transform.position, target.position) < 0.1f;
     }
 
+    //public void TriggerInterrogation(string ResponseText)
+    //{
+    //    StartCoroutine(InterrogationRoutine(ResponseText));
+    //}
+
     IEnumerator StartInteraction()
     {
         CurrentClient = this;
@@ -250,6 +257,24 @@ public class NPCMovement : MonoBehaviour
         CurrentState = NPCState.WaitingForDecision;
     }
 
+    //private IEnumerator InterrogationRoutine(string ResponseText)
+    //{
+    //    if (ActionPanel != null) ActionPanel.SetActive(false);
+    //    GameUIManager.instance.SetDialogueActive(true);
+    //    if (NextButton != null) NextButton.gameObject.SetActive(false);
+    //    DialogueText.text = "";
+
+    //    foreach(char letter in ResponseText.ToCharArray())
+    //    {
+    //        DialogueText.text += letter;
+    //        yield return new WaitForSeconds(TypingSpeed);
+    //    }
+    //    if (NextButton != null)
+    //    {
+    //        NextButton.gameObject.SetActive(true);
+    //    }
+    //}
+
     List<string> GetListByType(RequestType type)
     {
         switch (type)
@@ -266,6 +291,61 @@ public class NPCMovement : MonoBehaviour
                 return ShelterDialogueDB.ShelterDialogues; //MIND THIS PLEASE MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW 
         }
     }
+
+    //public void EvaluateQuestion(string Topic)
+    //{
+    //    string ChosenText = "...";
+    //    if(Topic == "ID")
+    //    {
+    //        if(IsFaceMissmatch)
+    //        {
+    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionFakeID); //they will leave here
+    //        }
+    //        else if(PhysicalIDIsGovIssued)
+    //        {
+    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDPass);
+    //        }
+    //        else
+    //        {
+    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDFailed);
+    //        }
+    //    }
+    //    else if(Topic == "Application")
+    //    {
+    //        if(AppCircle == true && HasID == false)
+    //        {
+    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationIDFailed);
+    //        }
+    //        else if(PhysicalApplicationIsGovIssued)
+    //        {
+    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationPassed);
+    //        }
+    //        else
+    //        {
+    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationFailed);
+    //        }
+    //    }
+    //    else if(Topic == "Letter")
+    //    {
+    //        if(PhysicalLetterIsGovIssued)
+    //        {
+    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionLetterPassed);
+    //        }
+    //        else
+    //        {
+    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionLetterFailed);
+    //        }
+    //    }
+    //}
+
+    //private string PickRandomResponse(List<string> ResponseList)
+    //{
+    //    if(ResponseList == null || ResponseList.Count == 0)
+    //    {
+    //        return "...";
+    //    }
+    //    return ResponseList[Random.Range(0, ResponseList.Count)];
+    //}
 
 
     public void OnCloseDialogueClicked()
