@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class DatabaseManager : MonoBehaviour
 {
+
+    public static DatabaseManager Instance; //tentative
     public List<IdentityProfile> AllProfiles;
 
     public ProfileUISlot LeftSlot;
@@ -17,6 +19,13 @@ public class DatabaseManager : MonoBehaviour
     private int CurrentPage = 0;
     private int TotalPage = 4; //changed from 3 to 4
     private List<IdentityProfile> ShuffledProfiles = new List<IdentityProfile>();
+
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    } //tentative
+
     void Start()
     {
         ShuffleDatabase();
@@ -105,6 +114,26 @@ public class DatabaseManager : MonoBehaviour
         if(UISlot.DOBText != null) UISlot.DOBText.text = $"{Profile.DateOfBirth}";
         if(UISlot.GenderText != null) UISlot.GenderText.text = $"{Profile.Gender}";
     }
+
+    public bool IsNPCIsVisibleInDatabse(IdentityProfile profile)
+    {
+        if(profile == null) return false;
+
+        int MaxPickedSlots = TotalPage * 2; //4 * 2 = 8, 8 max data, no more
+
+        for(int i = 0; i< MaxPickedSlots; i++)
+        {
+            if (i >= ShuffledProfiles.Count) break;
+
+            if (ShuffledProfiles[i] == profile) return true;
+        }
+
+        return false;
+    } 
+
+    //fucking around and finding out, this is tentative
+    
+
 }
 
 [System.Serializable]

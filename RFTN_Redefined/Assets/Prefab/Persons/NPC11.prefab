@@ -280,7 +280,7 @@ MonoBehaviour:
   DialogueText: {fileID: 1386553133658775573}
   TypingSpeed: 0.05
   ShelterDialogueDB: {fileID: 11400000, guid: 926404fca0f7be64aac9b270267f92f5, type: 2}
-  NPCResponseDB: {fileID: 0}
+  NPCResponseDB: {fileID: 11400000, guid: 5b5de0d9e03fa22488bc8067a32d4abb, type: 2}
   NPCRequestType: 0
   CurrentState: 0
   ChosenID: {fileID: 11400000, guid: 513926d6102220b489bd5225da30ddb7, type: 2}
@@ -299,6 +299,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 50789b81a34b2394bb67b283cdba664e, type: 3}
   - {fileID: 21300000, guid: 0015f522d20779640b45043802706d87, type: 3}
   IsFaceMissmatch: 0
+  ActionPanel: {fileID: 0}
 --- !u!82 &255220711468574801
 AudioSource:
   m_ObjectHideFlags: 0

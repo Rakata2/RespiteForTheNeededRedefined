@@ -12,7 +12,7 @@ public class DialogueButtonLink : MonoBehaviour
         {
             if(NPCMovement.CurrentClient.CurrentState == NPCMovement.NPCState.Finished)
             {
-                NPCMovement.CurrentClient.OnCloseDialogueClicked();
+                NPCMovement.CurrentClient.OnNextButtonClicked();
                 return;
             }
         }

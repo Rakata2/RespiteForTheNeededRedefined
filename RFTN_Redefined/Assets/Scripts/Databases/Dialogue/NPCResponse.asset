@@ -21,6 +21,7 @@ MonoBehaviour:
   - But my ID is government issued. Can you check again please?
   QuestionIDFailed:
   - Oh wait did i not have my ID government issued? My bad
+  - I forgot that my ID is not government issued. My bad
   QuestionFakeID:
   - Oh.. You caught my disguise
   - Yikes. You caught my disguise. You got me.
@@ -29,6 +30,16 @@ MonoBehaviour:
   - But my letter is government issued. Can you check again please?
   QuestionLetterFailed:
   - Oh.. I think i forgot to make my letter government issued. Sorry about that.
+  - Wait.. My Letter Isn't government issued?? My fault
+  QuestionApplicationPassed:
+  - My Application is Government issued. Please check again
+  - But my application is government issued. Kindly check again
+  QuestionApplicationFailed:
+  - Oh its not government issued? My bad
+  - Oh you need to have it government issued as well? oops
+  QuestionApplicationIDFailed:
+  - Oh right. I didn't read the small text below
+  - Oh really?? I thought IDs without government issued is allowed
   QuestionDataPassed:
   - I already registered for the shelter today. Please check again.
   - I think there has been a mistake, because i already registered for the shelter

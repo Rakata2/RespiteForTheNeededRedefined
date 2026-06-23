@@ -23,7 +23,7 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private CanvasGroup IDCardPanel;
     [SerializeField] private CanvasGroup LetterPanel;
     [SerializeField] private CanvasGroup ApplicationPanel;
-    [SerializeField] private CanvasGroup ActionPanel;
+    [SerializeField] public CanvasGroup ActionPanel;
     [SerializeField] private GameObject Action;
     [SerializeField] private GameObject Question;
     [SerializeField] private GameObject Application;
@@ -31,6 +31,8 @@ public class GameUIManager : MonoBehaviour
 
     [SerializeField] private GameObject MinimizedTray;
     [SerializeField] private TMP_Text TrayText;
+
+    
 
     public enum WindowType
     {

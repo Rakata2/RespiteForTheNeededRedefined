@@ -78,7 +78,7 @@ public class NPCMovement : MonoBehaviour
     public bool IsFaceMissmatch;
     private Sprite FaceOnIDCard;
 
-    //public GameObject ActionPanel;
+    public GameObject ActionPanel;
 
     void Awake()
     {
@@ -93,6 +93,11 @@ public class NPCMovement : MonoBehaviour
         bool IsApplicationNPC = (Random.value > 0.5f);
         FaceOnIDCard = ChosenID.Photo;
         IsFaceMissmatch = false;
+
+        if (GameUIManager.instance != null && GameUIManager.instance.ActionPanel != null)
+        {
+            ActionPanel = GameUIManager.instance.ActionPanel.gameObject;
+        }
 
         if (IsApplicationNPC)
         {
@@ -187,10 +192,10 @@ public class NPCMovement : MonoBehaviour
         return Vector2.Distance(transform.position, target.position) < 0.1f;
     }
 
-    //public void TriggerInterrogation(string ResponseText)
-    //{
-    //    StartCoroutine(InterrogationRoutine(ResponseText));
-    //}
+    public void TriggerInterrogation(string ResponseText)
+    {
+        StartCoroutine(InterrogationRoutine(ResponseText));
+    }
 
     IEnumerator StartInteraction()
     {
@@ -257,23 +262,24 @@ public class NPCMovement : MonoBehaviour
         CurrentState = NPCState.WaitingForDecision;
     }
 
-    //private IEnumerator InterrogationRoutine(string ResponseText)
-    //{
-    //    if (ActionPanel != null) ActionPanel.SetActive(false);
-    //    GameUIManager.instance.SetDialogueActive(true);
-    //    if (NextButton != null) NextButton.gameObject.SetActive(false);
-    //    DialogueText.text = "";
+    IEnumerator InterrogationRoutine(string ResponseText)
+    {
+        if (ActionPanel != null) ActionPanel.SetActive(false);
+        GameUIManager.instance.SetDialogueActive(true);
+        if (ChatBubble != null) ShowChatBubble();
+        if (NextButton != null) NextButton.gameObject.SetActive(false);
+        DialogueText.text = "";
 
-    //    foreach(char letter in ResponseText.ToCharArray())
-    //    {
-    //        DialogueText.text += letter;
-    //        yield return new WaitForSeconds(TypingSpeed);
-    //    }
-    //    if (NextButton != null)
-    //    {
-    //        NextButton.gameObject.SetActive(true);
-    //    }
-    //}
+        foreach (char letter in ResponseText.ToCharArray())
+        {
+            DialogueText.text += letter;
+            yield return new WaitForSeconds(TypingSpeed);
+        }
+        if (NextButton != null)
+        {
+            NextButton.gameObject.SetActive(true);
+        }
+    }
 
     List<string> GetListByType(RequestType type)
     {
@@ -292,60 +298,77 @@ public class NPCMovement : MonoBehaviour
         }
     }
 
-    //public void EvaluateQuestion(string Topic)
-    //{
-    //    string ChosenText = "...";
-    //    if(Topic == "ID")
-    //    {
-    //        if(IsFaceMissmatch)
-    //        {
-    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionFakeID); //they will leave here
-    //        }
-    //        else if(PhysicalIDIsGovIssued)
-    //        {
-    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDPass);
-    //        }
-    //        else
-    //        {
-    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDFailed);
-    //        }
-    //    }
-    //    else if(Topic == "Application")
-    //    {
-    //        if(AppCircle == true && HasID == false)
-    //        {
-    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationIDFailed);
-    //        }
-    //        else if(PhysicalApplicationIsGovIssued)
-    //        {
-    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationPassed);
-    //        }
-    //        else
-    //        {
-    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationFailed);
-    //        }
-    //    }
-    //    else if(Topic == "Letter")
-    //    {
-    //        if(PhysicalLetterIsGovIssued)
-    //        {
-    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionLetterPassed);
-    //        }
-    //        else
-    //        {
-    //            ChosenText = PickRandomResponse(NPCResponseDB.QuestionLetterFailed);
-    //        }
-    //    }
-    //}
+    public void EvaluateQuestion(string Topic)
+    {
+        string ChosenText = "...";
+        if (Topic == "ID")
+        {
+            if (IsFaceMissmatch)
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionFakeID); //they will leave here
+            }
+            else if (PhysicalIDIsGovIssued)
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDPass);
+            }
+            else
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDFailed);
+            }
+        }
+        else if (Topic == "Application")
+        {
+            if (AppCircle == true && HasID == false)
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationIDFailed);
+            }
+            else if (PhysicalApplicationIsGovIssued)
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationPassed);
+            }
+            else
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationFailed);
+            }
+        }
+        else if (Topic == "Letter")
+        {
+            if (PhysicalLetterIsGovIssued)
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionLetterPassed);
+            }
+            else
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionLetterFailed);
+            }
+        }
+        else if(Topic == "Database")
+        {
+            if(DatabaseManager.Instance != null)
+            {
+                bool IsFound = DatabaseManager.Instance.IsNPCIsVisibleInDatabse(ChosenID);
 
-    //private string PickRandomResponse(List<string> ResponseList)
-    //{
-    //    if(ResponseList == null || ResponseList.Count == 0)
-    //    {
-    //        return "...";
-    //    }
-    //    return ResponseList[Random.Range(0, ResponseList.Count)];
-    //}
+                if(IsFound)
+                {
+                    ChosenText = PickRandomResponse(NPCResponseDB.QuestionDataPassed);
+                }
+                else
+                {
+                    ChosenText = PickRandomResponse(NPCResponseDB.QuestionDataFailed);
+                }
+            }
+        }
+        TriggerInterrogation(ChosenText);
+    }
+
+    private string PickRandomResponse(List<string> ResponseList)
+    {
+        if (ResponseList == null || ResponseList.Count == 0)
+        {
+            return "...";
+        }
+        return ResponseList[Random.Range(0, ResponseList.Count)];
+    }
 
 
     public void OnCloseDialogueClicked()
@@ -353,7 +376,16 @@ public class NPCMovement : MonoBehaviour
         if (NextButton != null) NextButton.gameObject.SetActive(false);
         GameUIManager.instance.SetDialogueActive(false);
         if(ChatBubble != null) ChatBubble.SetActive(false);
-        StartLeaving(true);
+    }
+
+    public void OnNextButtonClicked()
+    {
+        if (ChatBubble != null) ChatBubble.SetActive(false);
+        if (NextButton != null) NextButton.gameObject.SetActive(false);
+        if(GameUIManager.instance != null)
+        {
+            GameUIManager.instance.SetDialogueActive(false);
+        }
     }
 
 
