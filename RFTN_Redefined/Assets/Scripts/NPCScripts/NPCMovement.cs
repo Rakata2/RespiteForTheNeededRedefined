@@ -310,57 +310,65 @@ public class NPCMovement : MonoBehaviour
         string ChosenText = "...";
         if (Topic == "ID")
         {
-            if (IsFaceMissmatch)
-            {
-                ChosenText = PickRandomResponse(NPCResponseDB.QuestionFakeID); //they will leave here
-            }
-            else if(HasID == false)
-            {
-                ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThere);
-            }
-            else if(HasLetter == true && HasID == false)
-            {
-                ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThereLetter);
-            }
-            else if(HasApplication == true && AppCircle == true && PhysicalApplicationIsGovIssued == true)
-            {
-                ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThereApplicationPassed);
-            }
-            else if(HasApplication == true && AppCircle == true && PhysicalApplicationIsGovIssued == false)
-            {
-                ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDFailed);
-            }
-            else if (HasApplication == true && AppCircle == false)
-            {
-                ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThereApplicationFailed);
-            }
-            else if (PhysicalIDIsGovIssued)
+            if(HasID == true && PhysicalIDIsGovIssued == true)
             {
                 ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDPass);
             }
-            else
+            else if(HasID == true && PhysicalIDIsGovIssued == false)
             {
                 ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDFailed);
             }
+            else
+            {
+                if(HasLetter)
+                {
+                    ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThereLetter);
+                }
+
+                if(HasApplication)
+                {
+                    if(AppCircle == true)
+                    {
+                        ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThereApplicationFailed);
+                    }
+                    else
+                    {
+                        ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThereApplicationPassed);
+                    }
+                }
+
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThere);
+            }
+
+            if(IsFaceMissmatch == true)
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionFakeID);
+            }
+
         }
         else if (Topic == "Application")
         {
-            if (AppCircle == true && HasID == false)
+            if(HasApplication == true && PhysicalApplicationIsGovIssued == true)
             {
-                ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationIDFailed);
+                if(HasID == true && AppCircle == true)
+                {
+                    ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationPassed);
+                }
+                else if(HasID == false && AppCircle == true)
+                {
+                    ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThereApplicationFailed);
+                }
+                else
+                {
+                    ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThereApplicationPassed);
+                }
             }
-            else if(AppCircle == true && HasID == true)
-            {
-                ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationPassed);
-            }
-            else if (PhysicalApplicationIsGovIssued)
-            {
-                ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationPassed);
-            }
-            else
+            
+            if(HasApplication == true && PhysicalApplicationIsGovIssued == false)
             {
                 ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationFailed);
             }
+            
         }
         else if (Topic == "Letter")
         {

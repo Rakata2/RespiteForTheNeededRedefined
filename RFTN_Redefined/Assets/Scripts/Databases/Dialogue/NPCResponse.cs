@@ -29,6 +29,7 @@ public class NPCResponse : ScriptableObject
     public List<string> QuestionDataFailedViolentSituationReasoning; //[NEW] NPC is not on database, gives out violent situation reasoning, only needed 1
     public List<string> QuestionDataFailed;//NPC is not on database because they didn't know they need to register, only needed 1
 
+
     [Header("Rejection")]
     public List<string> RejectApplicationConfirmed; //their letter is not gov issued and they needed an application
     public List<string> RejectApplicationFirstUnwanted; //their letter is already gov issued
