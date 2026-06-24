@@ -18,38 +18,37 @@ MonoBehaviour:
   - Oh really, thank you so much
   QuestionIDPass:
   - I have my ID government issued. Please check again
-  - But my ID is government issued. Can you check again please?
   QuestionIDFailed:
   - Oh wait did i not have my ID government issued? My bad
-  - I forgot that my ID is not government issued. My bad
+  QuestionIDNotThere:
+  - I don't have an ID. How do i apply to this
+  QuestionIDNotThereApplicationPassed:
+  - I already circled No id on the application. Please check again
+  QuestionIDNotThereApplicationFailed:
+  - Oh. I lost my ID. oops
+  QuestionIDNotThereLetter:
+  - I don't know how to get an ID in the first place. How do i get in?
   QuestionFakeID:
   - Oh.. You caught my disguise
   - Yikes. You caught my disguise. You got me.
   QuestionLetterPassed:
   - I already have my letter government issued. Please check again.
-  - But my letter is government issued. Can you check again please?
   QuestionLetterFailed:
   - Oh.. I think i forgot to make my letter government issued. Sorry about that.
-  - Wait.. My Letter Isn't government issued?? My fault
   QuestionApplicationPassed:
   - My Application is Government issued. Please check again
-  - But my application is government issued. Kindly check again
   QuestionApplicationFailed:
   - Oh its not government issued? My bad
-  - Oh you need to have it government issued as well? oops
   QuestionApplicationIDFailed:
   - Oh right. I didn't read the small text below
-  - Oh really?? I thought IDs without government issued is allowed
   QuestionDataPassed:
   - I already registered for the shelter today. Please check again.
-  - I think there has been a mistake, because i already registered for the shelter
-    today.
+  QuestionDataFailedHospitalReasoning:
+  - I did not register because I just got discharged from the hospital.
+  QuestionDataFailedViolentSituationReasoning:
+  - I did not have time to register because there was a violent situation going on
   QuestionDataFailed:
-  - I did not register because I just got discharged from the hospital, and i need
-    a place to stay ASAP.
-  - I didn't have time to register because I had to flee a violent situation.
-  - I did not register because i've never been homeless before, and i didn't know
-    that we need to register in the first place.
+  - wait. I didn't even know you need to register in the first place
   RejectApplicationConfirmed:
   - Thanks for the application. I'll fill it in as soon as possible
   - Thank you for this application. I will return it once i have filled this in.

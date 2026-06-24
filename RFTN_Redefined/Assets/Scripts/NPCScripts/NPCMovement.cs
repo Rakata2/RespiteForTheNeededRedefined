@@ -52,6 +52,9 @@ public class NPCMovement : MonoBehaviour
         Behavioral
     }
 
+    
+
+
     public NPCState CurrentState = NPCState.MovingToCenter;
 
     public static NPCMovement CurrentClient;
@@ -80,6 +83,9 @@ public class NPCMovement : MonoBehaviour
 
     public GameObject ActionPanel;
 
+    public bool IsHospitalized;
+    private int DatabaseExcuseChoice;
+
     void Awake()
     {
         NPCSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -93,6 +99,7 @@ public class NPCMovement : MonoBehaviour
         bool IsApplicationNPC = (Random.value > 0.5f);
         FaceOnIDCard = ChosenID.Photo;
         IsFaceMissmatch = false;
+        DatabaseExcuseChoice = Random.Range(0, 2);
 
         if (GameUIManager.instance != null && GameUIManager.instance.ActionPanel != null)
         {
@@ -307,6 +314,26 @@ public class NPCMovement : MonoBehaviour
             {
                 ChosenText = PickRandomResponse(NPCResponseDB.QuestionFakeID); //they will leave here
             }
+            else if(HasID == false)
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThere);
+            }
+            else if(HasLetter == true && HasID == false)
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThereLetter);
+            }
+            else if(HasApplication == true && AppCircle == true && PhysicalApplicationIsGovIssued == true)
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThereApplicationPassed);
+            }
+            else if(HasApplication == true && AppCircle == true && PhysicalApplicationIsGovIssued == false)
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDFailed);
+            }
+            else if (HasApplication == true && AppCircle == false)
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThereApplicationFailed);
+            }
             else if (PhysicalIDIsGovIssued)
             {
                 ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDPass);
@@ -321,6 +348,10 @@ public class NPCMovement : MonoBehaviour
             if (AppCircle == true && HasID == false)
             {
                 ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationIDFailed);
+            }
+            else if(AppCircle == true && HasID == true)
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionApplicationPassed);
             }
             else if (PhysicalApplicationIsGovIssued)
             {
@@ -344,17 +375,28 @@ public class NPCMovement : MonoBehaviour
         }
         else if(Topic == "Database")
         {
-            if(DatabaseManager.Instance != null)
-            {
-                bool IsFound = DatabaseManager.Instance.IsNPCIsVisibleInDatabse(ChosenID);
+            bool IsFound = DatabaseManager.Instance.IsNPCIsVisibleInDatabse(ChosenID);
 
-                if(IsFound)
+            if(IsFound)
+            {
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionDataPassed);
+            }
+            else
+            {
+                if(IsHospitalized)
                 {
-                    ChosenText = PickRandomResponse(NPCResponseDB.QuestionDataPassed);
+                    ChosenText = PickRandomResponse(NPCResponseDB.QuestionDataFailedHospitalReasoning);
                 }
                 else
                 {
-                    ChosenText = PickRandomResponse(NPCResponseDB.QuestionDataFailed);
+                    if(DatabaseExcuseChoice == 0)
+                    {
+                        ChosenText = PickRandomResponse(NPCResponseDB.QuestionDataFailed);
+                    }
+                    else
+                    {
+                        ChosenText = PickRandomResponse(NPCResponseDB.QuestionDataFailedViolentSituationReasoning);
+                    }
                 }
             }
         }
