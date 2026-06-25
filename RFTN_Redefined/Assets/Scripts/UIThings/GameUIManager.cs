@@ -26,7 +26,6 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] public CanvasGroup ActionPanel;
     [SerializeField] private GameObject Action;
     [SerializeField] private GameObject Question;
-    [SerializeField] private GameObject Application;
     [SerializeField] private GameObject UIBlocker;
 
     [SerializeField] private GameObject MinimizedTray;
@@ -143,7 +142,6 @@ public class GameUIManager : MonoBehaviour
     {
         Question.SetActive(false);
         Action.SetActive(true);
-        Application.SetActive(false);
         HidePanel(ActionPanel);
     }
 
@@ -151,7 +149,6 @@ public class GameUIManager : MonoBehaviour
     {
         Question.SetActive(false);
         Action.SetActive(true);
-        Application.SetActive(false);
         CloseActionMenu();
         //accepted saying thank you or something
     }
@@ -159,37 +156,19 @@ public class GameUIManager : MonoBehaviour
     public void RejectEntrance()
     {
         Question.SetActive(false);
-        Action.SetActive(false);
-        Application.SetActive(true);
-    }
-
-    public void RejectWithApplication()
-    {
-        Question.SetActive(false);
         Action.SetActive(true);
-        Application.SetActive(false);
-        CloseActionMenu();
-    }
-
-    public void RejectWithoutApplication()
-    {
-        Question.SetActive(false);
-        Action.SetActive(true);
-        Application.SetActive(false);
         CloseActionMenu();
     }
     public void QuestionClicked()
     {
         Question.SetActive(true);
         Action.SetActive(false);
-        Application.SetActive(false);
     }
 
     public void QuestionID()
     {
         Question.SetActive(false);
         Action.SetActive(true);
-        Application.SetActive(false);
         CloseActionMenu();
     }
 
@@ -197,7 +176,6 @@ public class GameUIManager : MonoBehaviour
     {
         Question.SetActive(false);
         Action.SetActive(true);
-        Application.SetActive(false);
         CloseActionMenu();
     }
 
@@ -205,7 +183,6 @@ public class GameUIManager : MonoBehaviour
     {
         Question.SetActive(false);
         Action.SetActive(true);
-        Application.SetActive(false);
         CloseActionMenu();
     }
 
@@ -215,7 +192,6 @@ public class GameUIManager : MonoBehaviour
     {
         Question.SetActive(false);
         Action.SetActive(true);
-        Application.SetActive(false);
     }
 
  
