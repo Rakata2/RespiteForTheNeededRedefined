@@ -26,6 +26,8 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] public CanvasGroup ActionPanel;
     [SerializeField] private GameObject Action;
     [SerializeField] private GameObject Question;
+    [SerializeField] private GameObject ClarificationAccept;
+    [SerializeField] private GameObject ClarificationReject;
     [SerializeField] private GameObject UIBlocker;
 
     [SerializeField] private GameObject MinimizedTray;
@@ -141,24 +143,60 @@ public class GameUIManager : MonoBehaviour
     public void CloseActionMenu()
     {
         Question.SetActive(false);
+        ClarificationAccept.SetActive(false);
+        ClarificationReject.SetActive(false);
         Action.SetActive(true);
         HidePanel(ActionPanel);
     }
 
     public void AcceptEntrance()
     {
+        //Question.SetActive(false);
+        //Action.SetActive(true);
+        //CloseActionMenu();
+        ////accepted saying thank you or something
         Question.SetActive(false);
+        Action.SetActive(false);
+        ClarificationAccept.SetActive(true);
+    }
+
+    public void ClarifiedAccept()
+    {
+        Question.SetActive(false);
+        ClarificationAccept.SetActive(false);
         Action.SetActive(true);
         CloseActionMenu();
-        //accepted saying thank you or something
+    }
+
+    public void CanceledAccept()
+    {
+        Question.SetActive(false);
+        ClarificationAccept.SetActive(false);
+        Action.SetActive(true);
     }
 
     public void RejectEntrance()
     {
         Question.SetActive(false);
+        Action.SetActive(false);
+        ClarificationAccept.SetActive(true);
+    }
+
+    public void ClarifiedReject()
+    {
+        Question.SetActive(false);
+        ClarificationAccept.SetActive(false);
         Action.SetActive(true);
         CloseActionMenu();
     }
+
+    public void CanceledReject()
+    {
+        Question.SetActive(false);
+        ClarificationAccept.SetActive(false);
+        Action.SetActive(true);
+    }
+
     public void QuestionClicked()
     {
         Question.SetActive(true);
