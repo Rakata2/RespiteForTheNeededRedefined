@@ -12,6 +12,7 @@ public class NPCSpawner : MonoBehaviour
     public Transform CenterPoint;
     public Transform ExitPointShelter;
     public Transform ExitPointShelterFailed;
+    public NPCMovement CurrentNPC;
 
     public float spawnInterval = 3f;
 
@@ -22,22 +23,28 @@ public class NPCSpawner : MonoBehaviour
 
     IEnumerator SpawnRoutine()
     {
-        yield return new WaitForSeconds(spawnInterval);
-        
-        
-        Transform selectedSpawnPoint = LeftSpawnPoint;
-        GameObject ChosenPrefab = ShelterPrefab[Random.Range(0, ShelterPrefab.Length)];
-        GameObject NewNPC = Instantiate(ChosenPrefab, selectedSpawnPoint.position, Quaternion.identity);
-
-        NPCMovement MovementScript = NewNPC.GetComponent<NPCMovement>();
-        if(MovementScript != null)
+        while (true)
         {
-            MovementScript.SpawnPoint = selectedSpawnPoint;
-            MovementScript.CenterPoint = this.CenterPoint;
+            yield return new WaitUntil(() => CurrentNPC == null);
 
-            MovementScript.ExitPointShelter = this.ExitPointShelter;
-            MovementScript.ExitPointShelterFailed = this.ExitPointShelter;
+            yield return new WaitForSeconds(spawnInterval);
+
+
+            Transform selectedSpawnPoint = LeftSpawnPoint;
+            GameObject ChosenPrefab = ShelterPrefab[Random.Range(0, ShelterPrefab.Length)];
+            GameObject NewNPC = Instantiate(ChosenPrefab, selectedSpawnPoint.position, Quaternion.identity);
+
+            NPCMovement MovementScript = NewNPC.GetComponent<NPCMovement>();
+            if (MovementScript != null)
+            {
+                MovementScript.SpawnPoint = selectedSpawnPoint;
+                MovementScript.CenterPoint = this.CenterPoint;
+
+                MovementScript.ExitPointShelter = this.ExitPointShelter;
+                MovementScript.ExitPointShelterFailed = this.ExitPointShelterFailed;
+
+                CurrentNPC = MovementScript;
+            }
         }
-
     }
 }

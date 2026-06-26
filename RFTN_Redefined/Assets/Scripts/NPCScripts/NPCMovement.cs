@@ -52,8 +52,13 @@ public class NPCMovement : MonoBehaviour
         Behavioral
     }
 
-    
-
+    //[NEW] Reaction
+    public enum LeaveReaction
+    {
+        Accepted,
+        RejectedCorrectly,
+        RejectIncorrectly
+    }
 
     public NPCState CurrentState = NPCState.MovingToCenter;
 
@@ -84,7 +89,10 @@ public class NPCMovement : MonoBehaviour
     public GameObject ActionPanel;
 
     public bool IsHospitalized;
-    private int DatabaseExcuseChoice;
+    public int DatabaseExcuseChoice;
+
+    public bool IsLeaving = false;
+    public bool IsSuccessExit = false;
 
     void Awake()
     {
@@ -203,6 +211,12 @@ public class NPCMovement : MonoBehaviour
     {
         StartCoroutine(InterrogationRoutine(ResponseText));
     }
+    
+    //[NEW] triggers reaction
+    public void TriggerReaction(LeaveReaction Reaction)
+    {
+        StartCoroutine(LeaveRoutine(Reaction));
+    }
 
     IEnumerator StartInteraction()
     {
@@ -278,6 +292,44 @@ public class NPCMovement : MonoBehaviour
         DialogueText.text = "";
 
         foreach (char letter in ResponseText.ToCharArray())
+        {
+            DialogueText.text += letter;
+            yield return new WaitForSeconds(TypingSpeed);
+        }
+        if (NextButton != null)
+        {
+            NextButton.gameObject.SetActive(true);
+        }
+    }
+
+    //[NEW] coroutine for NPC reactions
+    IEnumerator LeaveRoutine(LeaveReaction Reaction)
+    {
+        string ChosenText = "...";
+        IsLeaving = true;
+
+        switch (Reaction)
+        {
+            case LeaveReaction.Accepted:
+                ChosenText = PickRandomResponse(NPCResponseDB.Accept);
+                IsSuccessExit = true;
+                break;
+            case LeaveReaction.RejectedCorrectly:
+                ChosenText = PickRandomResponse(NPCResponseDB.RejectApplicationConfirmed);
+                IsSuccessExit = false;
+                break;
+            case LeaveReaction.RejectIncorrectly:
+                ChosenText = PickRandomResponse(NPCResponseDB.RejectSecondComplete);
+                IsSuccessExit = false;
+                break;
+        }
+        if (ActionPanel != null) ActionPanel.SetActive(false);
+        GameUIManager.instance.SetDialogueActive(true);
+        if (ChatBubble != null) ShowChatBubble();
+        if (NextButton != null) NextButton.gameObject.SetActive(false);
+        DialogueText.text = "";
+
+        foreach (char letter in ChosenText.ToCharArray())
         {
             DialogueText.text += letter;
             yield return new WaitForSeconds(TypingSpeed);

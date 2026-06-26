@@ -33,6 +33,8 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private GameObject MinimizedTray;
     [SerializeField] private TMP_Text TrayText;
 
+    private bool PendingDecision;
+
     
 
     public enum WindowType
@@ -151,10 +153,7 @@ public class GameUIManager : MonoBehaviour
 
     public void AcceptEntrance()
     {
-        //Question.SetActive(false);
-        //Action.SetActive(true);
-        //CloseActionMenu();
-        ////accepted saying thank you or something
+        PendingDecision = true; //[NEW]
         Question.SetActive(false);
         Action.SetActive(false);
         ClarificationAccept.SetActive(true);
@@ -166,6 +165,16 @@ public class GameUIManager : MonoBehaviour
         ClarificationAccept.SetActive(false);
         Action.SetActive(true);
         CloseActionMenu();
+
+        //[NEW]
+        if(NPCMovement.CurrentClient != null)
+        {
+            ViolationManager.instance.ProcessPlayerDecision(PendingDecision, NPCMovement.CurrentClient);
+        }
+        else
+        {
+            Debug.LogWarning("No npc at counter");
+        }
     }
 
     public void CanceledAccept()
@@ -177,6 +186,7 @@ public class GameUIManager : MonoBehaviour
 
     public void RejectEntrance()
     {
+        PendingDecision = false;
         Question.SetActive(false);
         Action.SetActive(false);
         ClarificationAccept.SetActive(true);
@@ -188,12 +198,21 @@ public class GameUIManager : MonoBehaviour
         ClarificationAccept.SetActive(false);
         Action.SetActive(true);
         CloseActionMenu();
+
+        if (NPCMovement.CurrentClient != null)
+        {
+            ViolationManager.instance.ProcessPlayerDecision(PendingDecision, NPCMovement.CurrentClient);
+        }
+        else
+        {
+            Debug.LogWarning("No npc at counter");
+        }
     }
 
     public void CanceledReject()
     {
         Question.SetActive(false);
-        ClarificationAccept.SetActive(false);
+        ClarificationReject.SetActive(false);
         Action.SetActive(true);
     }
 
@@ -223,6 +242,8 @@ public class GameUIManager : MonoBehaviour
         Action.SetActive(true);
         CloseActionMenu();
     }
+
+    
 
     
 
@@ -291,7 +312,24 @@ public class GameUIManager : MonoBehaviour
 
         SetDialogueActive(false);
         
-        NPCMovement.CurrentClient.CurrentState = NPCMovement.NPCState.WaitingForDecision; //i added the line here
+         //i added the line here
+
+        //untrustable block
+
+        if (NPCMovement.CurrentClient != null)
+        {
+            if(NPCMovement.CurrentClient.IsLeaving == true)
+            {
+                NPCMovement.CurrentClient.StartLeaving(NPCMovement.CurrentClient.IsSuccessExit);
+                DeskCard.gameObject.SetActive(false);
+                DeskLetter.gameObject.SetActive(false);
+                DeskApplication.gameObject.SetActive(false);
+            }
+            else
+            {
+                NPCMovement.CurrentClient.CurrentState = NPCMovement.NPCState.WaitingForDecision;
+            }
+        }
 
         //Debug.Log("Closed dialogue panel, other interactions are unlocked"); 
     }
