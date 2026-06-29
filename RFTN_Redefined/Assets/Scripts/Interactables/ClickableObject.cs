@@ -9,6 +9,21 @@ public class ClickableObject : MonoBehaviour
     }
     public InteractionType ObjectType;
 
+    public SpriteRenderer ComputerSpriteRenderer;
+    public Sprite NormalComputerSprite;
+    public Sprite AlertedComputerSprite;
+
+    private bool IsAlerted = false;
+
+    public void TriggerComputerAlert()
+    {
+        if(ObjectType == InteractionType.Computer && ComputerSpriteRenderer != null)
+        {
+            IsAlerted = true;
+            ComputerSpriteRenderer.sprite = AlertedComputerSprite;
+        }
+    }
+
     private void OnMouseDown()
     {
         if (GameUIManager.instance.IsMouseBlocked())
@@ -19,7 +34,12 @@ public class ClickableObject : MonoBehaviour
         if (ObjectType == InteractionType.Computer)
         {
             GameUIManager.instance.OpenComputer();
-            //Debug.Log("Computer clicked");
+
+            if(IsAlerted && ComputerSpriteRenderer != null)
+            {
+                IsAlerted = false;
+                ComputerSpriteRenderer.sprite = NormalComputerSprite;
+            }
         }
         
     }

@@ -15,15 +15,14 @@ MonoBehaviour:
   Accept:
   - Thank you so much
   - Thank you for giving me a place to stay
-  - Oh really, thank you so much
   QuestionIDPass:
   - I have my ID government issued. Please check again
   QuestionIDFailed:
-  - Oh wait did i not have my ID government issued? My bad
+  - Did i not have my ID government issued? My bad
   QuestionIDNotThere:
-  - I don't have an ID. How do i apply to this
+  - I don't have an ID
   QuestionIDNotThereApplicationPassed:
-  - I already circled No id on the application. Please check again
+  - I already circled "No ID" on my application
   QuestionIDNotThereApplicationFailed:
   - Oh. I lost my ID. oops
   QuestionIDNotThereLetter:
@@ -44,13 +43,13 @@ MonoBehaviour:
   QuestionDataPassed:
   - I already registered for the shelter today. Please check again.
   QuestionDataFailedHospitalReasoning:
-  - I did not register because I just got discharged from the hospital.
+  - I did not register because i just got discharged from the hospital.
   QuestionDataFailedViolentSituationReasoning:
-  - I did not have time to register because there was a violent situation going on
+  - There was a violent situation outside, so I don't have time to do so.
   QuestionDataFailed:
   - wait. I didn't even know you need to register in the first place
   RejectApplicationConfirmed:
-  - Thanks for the application. I'll fill it in as soon as possible
+  - Thanks for the application. I will fill it in and return it once i am done.
   - Thank you for this application. I will return it once i have filled this in.
   RejectApplicationFirstUnwanted:
   - I don't think I need to fill in this application. My letter is already government

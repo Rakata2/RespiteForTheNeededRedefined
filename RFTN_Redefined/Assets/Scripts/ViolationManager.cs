@@ -33,7 +33,26 @@ public class ViolationManager : MonoBehaviour
 
         if(NPC.IsHospitalized || (!InDatabase && NPC.DatabaseExcuseChoice == 1))
         {
-            return true;
+            if(!NPC.IsFaceMissmatch)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        if(NPC.DatabaseExcuseChoice == 2)
+        {
+            if (!NPC.IsFaceMissmatch)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         if (NPC.IsFaceMissmatch) return false;
@@ -47,6 +66,7 @@ public class ViolationManager : MonoBehaviour
         if (NPC.HasID && NPC.HasLetter) return true;
         if (NPC.HasID && NPC.HasApplication) return true;
         if (NPC.HasApplication && NPC.AppCircle == false && !NPC.HasID) return true;
+        
         return false;
     }
 

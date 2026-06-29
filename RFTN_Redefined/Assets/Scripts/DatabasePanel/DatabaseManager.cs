@@ -7,21 +7,21 @@ public class DatabaseManager : MonoBehaviour
 {
     public static DatabaseManager Instance;
 
-    public List<IdentityProfile> AllProfiles;
+    public List<IdentityProfile> ShuffledProfiles;
     public int TotalPage = 4;
 
-    public List<IdentityProfile> ShuffledProfiles = new List<IdentityProfile>();
+    public List<IdentityProfile> AllProfiles = new List<IdentityProfile>();
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            ShuffleDatabase();
+        }
         else Destroy(gameObject);
     }
 
-    void start()
-    {
-        ShuffleDatabase();
-    }
 
     private void ShuffleDatabase()
     {

@@ -18,6 +18,8 @@ public class MailManager : MonoBehaviour
 
     private bool HasUnreadMail = false;
 
+    public ClickableObject ComputerObject;
+
     private void Awake()
     {
         Instance = this;
@@ -27,10 +29,16 @@ public class MailManager : MonoBehaviour
     {
         HasUnreadMail = true;
         MailIconButton.sprite = AlertMailSprite;
+        if(ComputerObject != null)
+        {
+            ComputerObject.TriggerComputerAlert();
+        }
         GameObject newMail = Instantiate(MailPrefab, ContentBox);
         newMail.transform.SetAsFirstSibling();
         MailItem mailscript = newMail.GetComponent<MailItem>();
         mailscript.SetupMail(subject, descripition);
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(ContentBox.GetComponent<RectTransform>());
     }
 
     public void ShowMailWindow()
