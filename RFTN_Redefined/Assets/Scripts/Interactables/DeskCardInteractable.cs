@@ -7,6 +7,7 @@ public class DeskCardInteractable : MonoBehaviour
     private IdentityProfile NPCProfile;
     private bool IsGovIssued;
     private Sprite CardFaceSprite;
+    
     public void ReceiveID(IdentityProfile IncomingProfile, bool IncomingGovStatus, Sprite IncomingFace)
     {
         NPCProfile = IncomingProfile;
@@ -24,4 +25,6 @@ public class DeskCardInteractable : MonoBehaviour
             IDPanelManager.instance.DisplayID(NPCProfile, IsGovIssued, CardFaceSprite);
         }
     }
+
+
 }

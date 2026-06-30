@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEditor;
 
 public class MailManager : MonoBehaviour
 {
@@ -12,11 +13,14 @@ public class MailManager : MonoBehaviour
     public Transform ContentBox;
 
     public Sprite NormalMailSprite;
+    public Sprite HoveredMailSprite;
     public Sprite AlertMailSprite;
+    public Sprite HoveredAlertMailSprite;
 
     public GameObject MailPrefab;
 
     private bool HasUnreadMail = false;
+    private bool IsMouseHovering = false;
 
     public ClickableObject ComputerObject;
 
@@ -28,11 +32,20 @@ public class MailManager : MonoBehaviour
     public void ReceiveViolationMail(string subject, string descripition)
     {
         HasUnreadMail = true;
-        MailIconButton.sprite = AlertMailSprite;
-        if(ComputerObject != null)
-        {
+       if(IsMouseHovering)
+       {
+            MailIconButton.sprite = HoveredAlertMailSprite;
+       }
+       else
+       {
+            MailIconButton.sprite = AlertMailSprite; 
+       }
+
+       if(ComputerObject != null)
+       {
             ComputerObject.TriggerComputerAlert();
-        }
+       }
+
         GameObject newMail = Instantiate(MailPrefab, ContentBox);
         newMail.transform.SetAsFirstSibling();
         MailItem mailscript = newMail.GetComponent<MailItem>();
@@ -47,14 +60,24 @@ public class MailManager : MonoBehaviour
         if(HasUnreadMail)
         {
             HasUnreadMail = false;
-            MailIconButton.sprite = NormalMailSprite;
+            MailIconButton.sprite = IsMouseHovering ? HoveredMailSprite : NormalMailSprite;
         }
+    }
+
+    public void OnHoverEnter()
+    {
+        IsMouseHovering = true;
+        MailIconButton.sprite = HasUnreadMail ? HoveredAlertMailSprite : HoveredMailSprite;
+    }
+
+    public void OnHoverExit()
+    {
+        IsMouseHovering = false;
+        MailIconButton.sprite = HasUnreadMail ? AlertMailSprite : NormalMailSprite;
     }
 
     public void CloseMailWindow()
     {
         MailWindow.SetActive(false);
     }
-
-
 }

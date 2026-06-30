@@ -11,7 +11,9 @@ public class ClickableObject : MonoBehaviour
 
     public SpriteRenderer ComputerSpriteRenderer;
     public Sprite NormalComputerSprite;
+    public Sprite HoveredSprite;
     public Sprite AlertedComputerSprite;
+    public Sprite AlertedHoverComputerSprite;
 
     private bool IsAlerted = false;
 
@@ -42,5 +44,36 @@ public class ClickableObject : MonoBehaviour
             }
         }
         
+    }
+
+    private void OnMouseEnter()
+    {
+        if(GameUIManager.instance.IsMouseBlocked())
+        {
+            ComputerSpriteRenderer.sprite = NormalComputerSprite;
+        }
+        else
+        {
+            if(IsAlerted == true)
+            {
+                ComputerSpriteRenderer.sprite = AlertedHoverComputerSprite;
+            }
+            else
+            {
+                ComputerSpriteRenderer.sprite = HoveredSprite;
+            }
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if(IsAlerted == true)
+        {
+            ComputerSpriteRenderer.sprite = AlertedComputerSprite;
+        }
+        else
+        {
+            ComputerSpriteRenderer.sprite= NormalComputerSprite;
+        }
     }
 }

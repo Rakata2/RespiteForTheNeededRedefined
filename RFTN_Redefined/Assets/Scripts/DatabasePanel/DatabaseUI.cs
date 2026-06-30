@@ -24,7 +24,6 @@ public class DatabaseUI : MonoBehaviour
 
     void OnEnable()
     {
-        CurrentPage = 0;
         UpdatePageDisplay();
     }
 

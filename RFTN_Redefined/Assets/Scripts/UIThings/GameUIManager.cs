@@ -291,10 +291,10 @@ public class GameUIManager : MonoBehaviour
         {
             ShowPanel(ComputerPanel);
             MinimizedTray.SetActive(false);
-             if(CurrentlyMinimizedWindow == WindowType.MainMenuPanel) SwitchToSubPanel(MainMenuPanel);
-             else if(CurrentlyMinimizedWindow == WindowType.DatabasePanel) SwitchToSubPanel(DatabasePanel);
-             else if(CurrentlyMinimizedWindow == WindowType.PoliciesPanel) SwitchToSubPanel(PoliciesPanel);
-             CurrentlyMinimizedWindow = WindowType.None;
+            if (CurrentlyMinimizedWindow == WindowType.MainMenuPanel) SwitchToSubPanel(MainMenuPanel);
+            else if (CurrentlyMinimizedWindow == WindowType.DatabasePanel) SwitchToSubPanel(DatabasePanel);
+            else if (CurrentlyMinimizedWindow == WindowType.PoliciesPanel) SwitchToSubPanel(PoliciesPanel);
+            CurrentlyMinimizedWindow = WindowType.None;
         }
     }
 
