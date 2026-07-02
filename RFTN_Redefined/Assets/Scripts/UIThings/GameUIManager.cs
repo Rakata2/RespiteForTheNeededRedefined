@@ -30,7 +30,7 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private GameObject ClarificationReject;
     [SerializeField] private GameObject UIBlocker;
 
-    [SerializeField] private GameObject MinimizedTray;
+    [SerializeField] public GameObject MinimizedTray;
     [SerializeField] private TMP_Text TrayText;
 
     private bool PendingDecision;
@@ -302,6 +302,11 @@ public class GameUIManager : MonoBehaviour
     {
         CurrentlyMinimizedWindow = WindowType.None;
         if(MinimizedTray != null) MinimizedTray.SetActive(false);
+    }
+
+    public bool IsComputerMinimized()
+    {
+        return CurrentlyMinimizedWindow != WindowType.None;
     }
 
     public void CloseDialogue(CanvasGroup PrefabPanel)

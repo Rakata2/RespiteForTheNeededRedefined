@@ -33,6 +33,10 @@ public class ClickableObject : MonoBehaviour
             return; 
         }
 
+        if(ObjectType == InteractionType.Computer && GameUIManager.instance.IsComputerMinimized())
+        {
+            return;
+        }
         if (ObjectType == InteractionType.Computer)
         {
             GameUIManager.instance.OpenComputer();
@@ -48,9 +52,10 @@ public class ClickableObject : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if(GameUIManager.instance.IsMouseBlocked())
+        if(GameUIManager.instance.IsMouseBlocked() || (ObjectType == InteractionType.Computer && GameUIManager.instance.IsComputerMinimized()))
         {
-            ComputerSpriteRenderer.sprite = NormalComputerSprite;
+            ComputerSpriteRenderer.sprite = IsAlerted ? AlertedComputerSprite : NormalComputerSprite;
+            return;
         }
         else
         {
