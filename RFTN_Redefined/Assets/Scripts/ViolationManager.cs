@@ -10,6 +10,8 @@ public class ViolationManager : MonoBehaviour
 
     public NPCMovement NPCAtCounter;
 
+    public ViolationList ViolationDatabase;
+
     private void Awake()
     {
         instance = this;
@@ -22,71 +24,78 @@ public class ViolationManager : MonoBehaviour
     }
 
     //[NEW]
-    private bool IsNPCValid(NPCMovement NPC)
+    private ViolationType GetViolationReason(NPCMovement NPC)
     {
         if(NPC == null || DatabaseManager.Instance == null || NPC.ChosenID == null)
         {
-            return false;
+            return ViolationType.IncompleteDocument;
         }
 
-        if (NPC.IsFaceMissmatch) return false;
+        if (NPC.IsFaceMissmatch) return ViolationType.FakeID;
         
 
         bool InDatabase = DatabaseManager.Instance.IsNPCIsVisibleInDatabse(NPC.ChosenID);
 
-        bool IsHospitalized = NPC.IsHospitalized || (!InDatabase && NPC.DatabaseExcuseChoice == 1);
+        bool IsHospitalized = NPC.IsHospitalized;
 
         if(!InDatabase)
         {
-            if (!IsHospitalized && NPC.DatabaseExcuseChoice != 2)
+            if (!IsHospitalized && NPC.DatabaseExcuseChoice == 0)
             {
-                return false;
+                return ViolationType.DatabaseMissing;
             }
         }
 
-        if (IsHospitalized) return true;
+        if (IsHospitalized) return ViolationType.None;
 
-        if (NPC.HasID && !NPC.PhysicalIDIsGovIssued) return false;
-        if (NPC.HasLetter && !NPC.PhysicalLetterIsGovIssued) return false;
-        if (NPC.HasApplication && !NPC.PhysicalApplicationIsGovIssued) return false;
-        if (NPC.HasApplication && NPC.AppCircle == true && !NPC.HasID) return false;
+        if (NPC.HasID && !NPC.PhysicalIDIsGovIssued) return ViolationType.InvalidDocument;
+        if (NPC.HasLetter && !NPC.PhysicalLetterIsGovIssued) return ViolationType.InvalidDocument;
+        if (NPC.HasApplication && !NPC.PhysicalApplicationIsGovIssued) return ViolationType.InvalidDocument;
+        if (NPC.HasApplication && NPC.AppCircle == true && !NPC.HasID) return ViolationType.ApplicationMissingID;
 
+        if (NPC.HasID && NPC.HasLetter) return ViolationType.None;
+        if (NPC.HasID && NPC.HasApplication) return ViolationType.None;
+        if (NPC.HasApplication && NPC.AppCircle == false && !NPC.HasID) return ViolationType.None;
         
-
-        if (NPC.HasID && NPC.HasLetter) return true;
-        if (NPC.HasID && NPC.HasApplication) return true;
-        if (NPC.HasApplication && NPC.AppCircle == false && !NPC.HasID) return true;
-        
-        return false;
+        return ViolationType.IncompleteDocument;
     }
 
     //[NEW]
     public void ProcessPlayerDecision(bool PlayerAccepted, NPCMovement CurrentNPC)
     {
         if(CurrentNPC == null) return;
-        bool Truth = IsNPCValid(CurrentNPC);
-        if(PlayerAccepted == true)
+        ViolationType violation = GetViolationReason(CurrentNPC);
+        bool IsNPCValid = (violation == ViolationType.None);
+        if (PlayerAccepted == true)
         {
-            if(Truth == true)
+            if(IsNPCValid)
             {
                 CurrentNPC.TriggerReaction(NPCMovement.LeaveReaction.Accepted);
                 
             }
             else
             {
-                AddViolation();
+                AddViolation(violation);
                 CurrentNPC.TriggerReaction(NPCMovement.LeaveReaction.Accepted);
             }
         }
         else
         {
-            if(Truth == false)
+            if(!IsNPCValid)
             {
                 CurrentNPC.TriggerReaction(NPCMovement.LeaveReaction.RejectedCorrectly);
             }
             else
             {
-                AddViolation();
+                if(CurrentNPC.IsHospitalized)
+                {
+                    AddViolation(ViolationType.RejectHospitalized);
+                }
+                else
+                {
+                    AddViolation(ViolationType.WronglyRejectedValidNPC);
+                }
+
                 CurrentNPC.TriggerReaction(NPCMovement.LeaveReaction.RejectIncorrectly);
             }
         }
@@ -94,12 +103,13 @@ public class ViolationManager : MonoBehaviour
         
     }
 
-    public void AddViolation()
+    public void AddViolation(ViolationType ReasonForViolation)
     {
         TotalViolations++;
-        if(MailManager.Instance != null)
+        if (MailManager.Instance != null && ViolationDatabase != null)
         {
-            MailManager.Instance.ReceiveViolationMail($"Violation Detected ({TotalViolations}/3)", $"You got violation");
+            var TextData = ViolationDatabase.GetViolationEntry(ReasonForViolation);
+            MailManager.Instance.ReceiveViolationMail($"Violation Detected ({TotalViolations}/3): {TextData.SubjectLine}", TextData.Description);
         }
         Debug.Log("Violations: " + TotalViolations + "/" + MaxViolations);
         if(TotalViolations >= MaxViolations)

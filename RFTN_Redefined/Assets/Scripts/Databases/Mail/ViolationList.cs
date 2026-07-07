@@ -9,6 +9,7 @@ public enum ViolationType
     InvalidDocument, //accepting documents that are not valid (not issued by the government)
     IncompleteDocument, //accepting documents that are incomplete (missing information)
     ApplicationMissingID, //accepting an application that circled yes but no ID
+    DatabaseMissing, //accepting an NPC that is not in the database
     RejectHospitalized, //rejecting a hospitalized NPC
     WronglyRejectedValidNPC, //rejecting a valid NPC
 
