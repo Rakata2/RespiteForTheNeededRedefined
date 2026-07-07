@@ -7,9 +7,6 @@ using UnityEngine;
 public class DatabaseUI : MonoBehaviour
 {
 
-    //public static DatabaseUI Instance; //tentative
-    //public List<IdentityProfile> AllProfiles;
-
     public ProfileUISlot LeftSlot;
     public ProfileUISlot RightSlot;
     public TMP_Text PageText;
@@ -17,8 +14,6 @@ public class DatabaseUI : MonoBehaviour
     public Button RightArrowButton;
 
     private int CurrentPage = 0;
-    //private int TotalPage = 4; //changed from 3 to 4
-    //private List<IdentityProfile> ShuffledProfiles = new List<IdentityProfile>();
 
 
 
@@ -36,6 +31,8 @@ public class DatabaseUI : MonoBehaviour
             CurrentPage++;
             UpdatePageDisplay();
         }
+
+        
     }
 
     public void PageBackward()
@@ -86,6 +83,24 @@ public class DatabaseUI : MonoBehaviour
         {
             LeftArrowButton.interactable = (CurrentPage > 0);
         }
+
+        if(CurrentPage == 0)
+        {
+            LeftArrowButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            LeftArrowButton.gameObject.SetActive(true);
+        }
+
+        if (CurrentPage == DatabaseManager.Instance.TotalPage - 1)
+        {
+            RightArrowButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            RightArrowButton.gameObject.SetActive(true);
+        }
     }
 
     private void FillSlotData(IdentityProfile Profile, ProfileUISlot UISlot)
@@ -98,6 +113,12 @@ public class DatabaseUI : MonoBehaviour
         if(UISlot.NameText != null) UISlot.NameText.text = $"{Profile.Name}";
         if(UISlot.DOBText != null) UISlot.DOBText.text = $"{Profile.DateOfBirth}";
         if(UISlot.GenderText != null) UISlot.GenderText.text = $"{Profile.Gender}";
+    }
+
+    public void ResetToFirstPage()
+    {
+        CurrentPage = 0;
+        UpdatePageDisplay();
     }
 
 

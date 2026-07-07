@@ -52,8 +52,9 @@ public class GameUIManager : MonoBehaviour
     public DeskCardInteractable DeskCard;
     public DeskLetterInteractable DeskLetter;
     public DeskApplicationInteractable DeskApplication;
-    
 
+    public DatabaseUI DatabaseUIScript;
+    public PoliciesUIManager PoliciesUIScript;
 
 
     private void Awake()
@@ -83,6 +84,7 @@ public class GameUIManager : MonoBehaviour
         MainMenuPanel.SetActive(true);
 
         DatabasePanel.SetActive(false);
+        PoliciesPanel.SetActive(false);
         
     }
 
@@ -105,6 +107,16 @@ public class GameUIManager : MonoBehaviour
     public void CloseComputer()
     {
         HidePanel(ComputerPanel);
+
+        if(DatabaseUIScript != null)
+        {
+            DatabaseUIScript.ResetToFirstPage();
+        }
+
+        if(PoliciesUIScript != null)
+        {
+            PoliciesUIScript.PreviousPage();
+        }
     }
 
     public void OpenIDCard()
@@ -308,6 +320,8 @@ public class GameUIManager : MonoBehaviour
     {
         return CurrentlyMinimizedWindow != WindowType.None;
     }
+
+    
 
     public void CloseDialogue(CanvasGroup PrefabPanel)
     {

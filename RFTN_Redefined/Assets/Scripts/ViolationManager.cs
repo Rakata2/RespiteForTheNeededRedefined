@@ -29,40 +29,30 @@ public class ViolationManager : MonoBehaviour
             return false;
         }
 
+        if (NPC.IsFaceMissmatch) return false;
+        
+
         bool InDatabase = DatabaseManager.Instance.IsNPCIsVisibleInDatabse(NPC.ChosenID);
 
-        if(NPC.IsHospitalized || (!InDatabase && NPC.DatabaseExcuseChoice == 1))
+        bool IsHospitalized = NPC.IsHospitalized || (!InDatabase && NPC.DatabaseExcuseChoice == 1);
+
+        if(!InDatabase)
         {
-            if(!NPC.IsFaceMissmatch)
-            {
-                return true;
-            }
-            else
+            if (!IsHospitalized && NPC.DatabaseExcuseChoice != 2)
             {
                 return false;
             }
         }
 
-        if(NPC.DatabaseExcuseChoice == 2)
-        {
-            if (!NPC.IsFaceMissmatch)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        if (NPC.IsFaceMissmatch) return false;
-        if (!InDatabase && NPC.DatabaseExcuseChoice == 0) return false;
+        if (IsHospitalized) return true;
 
         if (NPC.HasID && !NPC.PhysicalIDIsGovIssued) return false;
-        if (NPC.HasLetter && !NPC.PhysicalLetterIsGovIssued && !NPC.HasID) return false;
+        if (NPC.HasLetter && !NPC.PhysicalLetterIsGovIssued) return false;
         if (NPC.HasApplication && !NPC.PhysicalApplicationIsGovIssued) return false;
-
         if (NPC.HasApplication && NPC.AppCircle == true && !NPC.HasID) return false;
+
+        
+
         if (NPC.HasID && NPC.HasLetter) return true;
         if (NPC.HasID && NPC.HasApplication) return true;
         if (NPC.HasApplication && NPC.AppCircle == false && !NPC.HasID) return true;
@@ -100,6 +90,8 @@ public class ViolationManager : MonoBehaviour
                 CurrentNPC.TriggerReaction(NPCMovement.LeaveReaction.RejectIncorrectly);
             }
         }
+
+        
     }
 
     public void AddViolation()
