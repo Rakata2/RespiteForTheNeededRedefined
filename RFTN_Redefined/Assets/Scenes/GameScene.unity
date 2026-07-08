@@ -5631,6 +5631,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 089e35ef10788ef409a54380ecff48bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ApplicationSpriteRenderer: {fileID: 553224754}
+  NormalApplicationSprite: {fileID: 21300000, guid: 68dddee3c4a78de4a9c1f48ba36a6799, type: 3}
+  HoveredApplicationSprite: {fileID: 21300000, guid: 19d5ef8218733df48914d25d6295be50, type: 3}
 --- !u!61 &553224753
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -20543,6 +20546,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e765f2b2da83f47aedb943383629cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LetterSpriteRenderer: {fileID: 1946164193}
+  NormalLetterSprite: {fileID: 21300000, guid: 18abd9b1744391c4c8e9aa491c14b338, type: 3}
+  HoveredLetterSprite: {fileID: 21300000, guid: a94434e7dde8bbb42b99d85144f345b6, type: 3}
 --- !u!61 &1946164192
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -21211,6 +21217,7 @@ MonoBehaviour:
   TotalViolations: 0
   MaxViolations: 3
   NPCAtCounter: {fileID: 0}
+  ViolationDatabase: {fileID: 11400000, guid: e84b31242d8fb3f40b165f522e9202ce, type: 2}
 --- !u!4 &2002191953
 Transform:
   m_ObjectHideFlags: 0

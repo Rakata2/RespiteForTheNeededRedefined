@@ -15,29 +15,20 @@ MonoBehaviour:
   Violations:
   - Type: 1
     SubjectLine: Document inconsistency
-    Description: Applicants whose documents does not match with the database is not
-      allowed (ID face missmatch)
+    Description: Applicants are not allowed to provide documents containing false
+      information (Face potrait on ID).
   - Type: 2
+    SubjectLine: Invalid document
+    Description: Applicant must provide documents that are government issued.
+  - Type: 3
+    SubjectLine: 'Incomplete document '
+    Description: Applicant must provide complete documents.
+  - Type: 5
     SubjectLine: Database absence
-    Description: 
-  - Type: 2
-    SubjectLine: Database absence
-    Description: 
-  - Type: 2
-    SubjectLine: Database absence
-    Description: 
-  - Type: 2
-    SubjectLine: Database absence
-    Description: 
-  - Type: 2
-    SubjectLine: Database absence
-    Description: 
-  - Type: 2
-    SubjectLine: Database absence
-    Description: 
-  - Type: 2
-    SubjectLine: Database absence
-    Description: 
-  - Type: 2
-    SubjectLine: Database absence
-    Description: 
+    Description: Applicants must be registered on the database.
+  - Type: 6
+    SubjectLine: Rejecting a hospitalized applicant
+    Description: Applicants who just got discharged from the hospital must be accepted.
+  - Type: 7
+    SubjectLine: Rejecting a valid applicant
+    Description: If the applicants meet the entry conditions, they should be accpeted.

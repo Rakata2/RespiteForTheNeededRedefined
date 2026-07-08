@@ -8,6 +8,9 @@ public class DeskApplicationInteractable : MonoBehaviour
     private bool IsGovIssued;
     private bool Circle;
     private int ReasonIndex;
+    public SpriteRenderer ApplicationSpriteRenderer;
+    public Sprite NormalApplicationSprite;
+    public Sprite HoveredApplicationSprite;
     public void ReceiveApplicationData(IdentityProfile IncomingProfile, bool IncomingGovStatus, int IncomingReasonIndex, bool IncomingCircle)
     {
         NPCProfile = IncomingProfile;
@@ -26,4 +29,21 @@ public class DeskApplicationInteractable : MonoBehaviour
             ApplicationManager.instance.DisplayApplication(NPCProfile, IsGovIssued, ReasonIndex, Circle);
         }
     }
+
+    private void OnMouseEnter()
+    {
+        if(GameUIManager.instance.IsMouseBlocked())
+        {
+            ApplicationSpriteRenderer.sprite = NormalApplicationSprite;
+            return;
+        }
+
+        ApplicationSpriteRenderer.sprite = HoveredApplicationSprite;
+    }
+
+    private void OnMouseExit()
+    {
+        ApplicationSpriteRenderer.sprite = NormalApplicationSprite;
+    }
+
 }

@@ -7,6 +7,9 @@ public class DeskLetterInteractable : MonoBehaviour
 {
     private IdentityProfile NPCProfile;
     private bool IsGovIssued;
+    public SpriteRenderer LetterSpriteRenderer;
+    public Sprite NormalLetterSprite;
+    public Sprite HoveredLetterSprite;
     
     public void ReceiveLetterData(IdentityProfile IncomingProfile, bool IncomingGovStatus)
     {
@@ -23,6 +26,21 @@ public class DeskLetterInteractable : MonoBehaviour
             GameUIManager.instance.OpenLetter();
             LetterPanelManager.instance.DisplayLetter(NPCProfile, IsGovIssued);
         }
+    }
+
+    private void OnMouseEnter()
+    {
+        if(GameUIManager.instance.IsMouseBlocked())
+        {
+            LetterSpriteRenderer.sprite = NormalLetterSprite;
+            return;
+        }
+        LetterSpriteRenderer.sprite = HoveredLetterSprite;
+    }
+
+    private void OnMouseExit()
+    {
+        LetterSpriteRenderer.sprite = NormalLetterSprite;
     }
 
 }

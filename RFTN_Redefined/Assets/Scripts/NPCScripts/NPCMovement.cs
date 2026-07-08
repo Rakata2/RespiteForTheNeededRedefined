@@ -94,6 +94,10 @@ public class NPCMovement : MonoBehaviour
     public bool IsLeaving = false;
     public bool IsSuccessExit = false;
 
+    public bool IsTyping = false;
+    private Coroutine TypingCoroutine;
+    private string CurrentFullSentence;
+
     void Awake()
     {
         NPCSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -168,6 +172,11 @@ public class NPCMovement : MonoBehaviour
     }
     void Update()
     {
+        if(Input.GetMouseButtonDown(0) && IsTyping)
+        {
+            if(TypingCoroutine != null) StopCoroutine(TypingCoroutine);
+            CompleteTyping();
+        }
         switch(CurrentState)
         {
             case NPCState.MovingToCenter:
@@ -266,19 +275,25 @@ public class NPCMovement : MonoBehaviour
 
         List<string> SelectedList = GetListByType(NPCRequestType);
         string ChosenText = SelectedList[Random.Range(0, SelectedList.Count)];
-        DialogueText.text = "";
+        //DialogueText.text = "";
+
+        //if(NextButton != null) NextButton.gameObject.SetActive(false);
+
+        //foreach (char letter in ChosenText.ToCharArray())
+        //{
+        //    DialogueText.text += letter;
+        //    yield return new WaitForSeconds(TypingSpeed);
+        //}
+        //if(NextButton != null)
+        //{
+        //    NextButton.gameObject.SetActive(true);
+        //}
 
         if(NextButton != null) NextButton.gameObject.SetActive(false);
+        CurrentFullSentence = ChosenText;
 
-        foreach (char letter in ChosenText.ToCharArray())
-        {
-            DialogueText.text += letter;
-            yield return new WaitForSeconds(TypingSpeed);
-        }
-        if(NextButton != null)
-        {
-            NextButton.gameObject.SetActive(true);
-        }
+        TypingCoroutine = StartCoroutine(TypeTextRoutine(CurrentFullSentence));
+        yield return TypingCoroutine;
 
         CurrentState = NPCState.WaitingForDecision;
     }
@@ -291,15 +306,11 @@ public class NPCMovement : MonoBehaviour
         if (NextButton != null) NextButton.gameObject.SetActive(false);
         DialogueText.text = "";
 
-        foreach (char letter in ResponseText.ToCharArray())
-        {
-            DialogueText.text += letter;
-            yield return new WaitForSeconds(TypingSpeed);
-        }
-        if (NextButton != null)
-        {
-            NextButton.gameObject.SetActive(true);
-        }
+        if (NextButton != null) NextButton.gameObject.SetActive(false);
+        CurrentFullSentence = ResponseText;
+
+        TypingCoroutine = StartCoroutine(TypeTextRoutine(CurrentFullSentence));
+        yield return TypingCoroutine;
     }
 
     //[NEW] coroutine for NPC reactions
@@ -327,17 +338,30 @@ public class NPCMovement : MonoBehaviour
         GameUIManager.instance.SetDialogueActive(true);
         if (ChatBubble != null) ShowChatBubble();
         if (NextButton != null) NextButton.gameObject.SetActive(false);
-        DialogueText.text = "";
+        
+        CurrentFullSentence = ChosenText;
 
-        foreach (char letter in ChosenText.ToCharArray())
+        TypingCoroutine = StartCoroutine(TypeTextRoutine(CurrentFullSentence));
+        yield return TypingCoroutine;
+    }
+
+    private IEnumerator TypeTextRoutine(string TextToType)
+    {
+        IsTyping = true;
+        DialogueText.text = "";
+        foreach (char letter in TextToType.ToCharArray())
         {
             DialogueText.text += letter;
             yield return new WaitForSeconds(TypingSpeed);
         }
-        if (NextButton != null)
-        {
-            NextButton.gameObject.SetActive(true);
-        }
+        CompleteTyping();
+    }
+
+    private void CompleteTyping()
+    {
+        IsTyping = false;
+        DialogueText.text = CurrentFullSentence;
+        if(NextButton != null) NextButton.gameObject.SetActive(true);
     }
 
     List<string> GetListByType(RequestType type)
