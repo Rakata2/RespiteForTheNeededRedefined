@@ -24,7 +24,7 @@ public class NPCMovement : MonoBehaviour
 
     public GameObject ChatBubble;
     public TMP_Text DialogueText;
-    public float TypingSpeed = 0.05f;
+    public float TypingSpeed = 0.01f;
 
     [Header("Databases")]
 
@@ -57,7 +57,8 @@ public class NPCMovement : MonoBehaviour
     {
         Accepted,
         RejectedCorrectly,
-        RejectIncorrectly
+        RejectIncorrectly,
+        CaughtFakeID
     }
 
     public NPCState CurrentState = NPCState.MovingToCenter;
@@ -96,7 +97,7 @@ public class NPCMovement : MonoBehaviour
 
     public bool IsTyping = false;
     private Coroutine TypingCoroutine;
-    private string CurrentFullSentence;
+    //private string CurrentFullSentence;
 
     void Awake()
     {
@@ -118,65 +119,97 @@ public class NPCMovement : MonoBehaviour
             ActionPanel = GameUIManager.instance.ActionPanel.gameObject;
         }
 
-        if (IsApplicationNPC)
+        if(IsHospitalized)
         {
-            HasLetter = false;
-            HasApplication = true;
-            PhysicalApplicationIsGovIssued = (Random.Range(1, 101) <= 70);
+            HasID = true;
+            PhysicalIDIsGovIssued = true;
 
-            int AppBehavior = Random.Range(0, 3);
-            if (AppBehavior == 0)
+            if(IsApplicationNPC)
             {
-                AppCircle = false;
-                HasID = false;
-                PhysicalIDIsGovIssued = false;
-            }
-            else if(AppBehavior == 1)
-            {
+                HasLetter = false;
+                HasApplication = true;
+                PhysicalApplicationIsGovIssued = true;
                 AppCircle = true;
-                HasID = true;
-                PhysicalIDIsGovIssued = (Random.Range(1, 101) <= 70);
             }
             else
             {
-                AppCircle = true;
-                HasID = false;
-                PhysicalIDIsGovIssued = false;
+                HasApplication = false;
+                HasLetter = true;
+                PhysicalLetterIsGovIssued = true;
             }
-        }
-        else
-        {
-            HasApplication = false;
-            HasLetter = true;
-            PhysicalLetterIsGovIssued = (Random.Range(1, 101) <= 70);
 
-            HasID = (Random.Range(1, 101) <= 70);
-            PhysicalIDIsGovIssued = HasID ? (Random.Range(1, 101) <= 70) : false;
-        }
-
-        
-
-        if(HasID && PhysicalIDIsGovIssued)
-        {
-            if(Random.Range(1, 101) <= 15)
+            if(Random.Range(1, 101) <= 40)
             {
                 IsFaceMissmatch = true;
                 FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
-
                 while(FaceOnIDCard == ChosenID.Photo)
                 {
                     FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
                 }
             }
         }
+        else
+        {
+            if (IsApplicationNPC)
+            {
+                HasLetter = false;
+                HasApplication = true;
+                PhysicalApplicationIsGovIssued = true;
+
+                int AppBehavior = Random.Range(0, 3);
+                if (AppBehavior == 0)
+                {
+                    AppCircle = false;
+                    HasID = false;
+                    PhysicalIDIsGovIssued = false;
+                }
+                else if (AppBehavior == 1)
+                {
+                    AppCircle = true;
+                    HasID = true;
+                    PhysicalIDIsGovIssued = (Random.Range(1, 101) <= 70);
+                }
+                else
+                {
+                    AppCircle = true;
+                    HasID = false;
+                    PhysicalIDIsGovIssued = false;
+                }
+            }
+            else
+            {
+                HasApplication = false;
+                HasLetter = true;
+                PhysicalLetterIsGovIssued = (Random.Range(1, 101) <= 70);
+
+                HasID = (Random.Range(1, 101) <= 70);
+                PhysicalIDIsGovIssued = HasID ? (Random.Range(1, 101) <= 70) : false;
+            }
+
+
+
+            if (HasID && PhysicalIDIsGovIssued)
+            {
+                if (Random.Range(1, 101) <= 15)
+                {
+                    IsFaceMissmatch = true;
+                    FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
+
+                    while (FaceOnIDCard == ChosenID.Photo)
+                    {
+                        FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
+                    }
+                }
+            }
+        }     
     }
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && IsTyping)
-        {
-            if(TypingCoroutine != null) StopCoroutine(TypingCoroutine);
-            CompleteTyping();
-        }
+        //if(Input.GetMouseButtonDown(0) && IsTyping)
+        //{
+        //    if(TypingCoroutine != null) StopCoroutine(TypingCoroutine);
+        //    CompleteTyping();
+        //}
         switch(CurrentState)
         {
             case NPCState.MovingToCenter:
@@ -247,7 +280,7 @@ public class NPCMovement : MonoBehaviour
         {
             if(HasID)
             {
-                GameUIManager.instance.DeskCard.gameObject.SetActive(true);
+                GameUIManager.instance.DeskCard.GetComponent<DocumentAnimator>().ShowDocument();
                 GameUIManager.instance.DeskCard.ReceiveID(ChosenID, PhysicalIDIsGovIssued, FaceOnIDCard);
             }
             else
@@ -258,16 +291,28 @@ public class NPCMovement : MonoBehaviour
 
         if (IsShelterType() && GameUIManager.instance.DeskLetter != null && ChosenID != null)
         {
-            GameUIManager.instance.DeskLetter.gameObject.SetActive(HasLetter);
-            if (HasLetter) GameUIManager.instance.DeskLetter.ReceiveLetterData(ChosenID, PhysicalLetterIsGovIssued);
+            if(HasLetter)
+            {
+                GameUIManager.instance.DeskLetter.GetComponent<DocumentAnimator>().ShowDocument();
+                GameUIManager.instance.DeskLetter.ReceiveLetterData(ChosenID, PhysicalLetterIsGovIssued);
+            }
+            else
+            {
+                GameUIManager.instance.DeskLetter.gameObject.SetActive(false);
+            }
+            
         }
 
         if (IsShelterType() && GameUIManager.instance.DeskApplication != null && ChosenID != null)
         {
-            GameUIManager.instance.DeskApplication.gameObject.SetActive(HasApplication);
             if(HasApplication)
             {
+                GameUIManager.instance.DeskApplication.GetComponent<DocumentAnimator>().ShowDocument();
                 GameUIManager.instance.DeskApplication.ReceiveApplicationData(ChosenID, PhysicalApplicationIsGovIssued, CheckReasonIndex, AppCircle);
+            }
+            else
+            {
+                GameUIManager.instance.DeskApplication.gameObject.SetActive(false);
             }
         }
 
@@ -275,25 +320,21 @@ public class NPCMovement : MonoBehaviour
 
         List<string> SelectedList = GetListByType(NPCRequestType);
         string ChosenText = SelectedList[Random.Range(0, SelectedList.Count)];
-        //DialogueText.text = "";
+        DialogueText.text = "";
 
-        //if(NextButton != null) NextButton.gameObject.SetActive(false);
+        if (NextButton != null) NextButton.gameObject.SetActive(false);
 
-        //foreach (char letter in ChosenText.ToCharArray())
-        //{
-        //    DialogueText.text += letter;
-        //    yield return new WaitForSeconds(TypingSpeed);
-        //}
-        //if(NextButton != null)
-        //{
-        //    NextButton.gameObject.SetActive(true);
-        //}
+        foreach (char letter in ChosenText.ToCharArray())
+        {
+            DialogueText.text += letter;
+            yield return new WaitForSeconds(TypingSpeed);
+        }
+        if (NextButton != null)
+        {
+            NextButton.gameObject.SetActive(true);
+        }
 
-        if(NextButton != null) NextButton.gameObject.SetActive(false);
-        CurrentFullSentence = ChosenText;
 
-        TypingCoroutine = StartCoroutine(TypeTextRoutine(CurrentFullSentence));
-        yield return TypingCoroutine;
 
         CurrentState = NPCState.WaitingForDecision;
     }
@@ -307,10 +348,16 @@ public class NPCMovement : MonoBehaviour
         DialogueText.text = "";
 
         if (NextButton != null) NextButton.gameObject.SetActive(false);
-        CurrentFullSentence = ResponseText;
 
-        TypingCoroutine = StartCoroutine(TypeTextRoutine(CurrentFullSentence));
-        yield return TypingCoroutine;
+        foreach (char letter in ResponseText.ToCharArray())
+        {
+            DialogueText.text += letter;
+            yield return new WaitForSeconds(TypingSpeed);
+        }
+        if (NextButton != null)
+        {
+            NextButton.gameObject.SetActive(true);
+        }
     }
 
     //[NEW] coroutine for NPC reactions
@@ -325,8 +372,19 @@ public class NPCMovement : MonoBehaviour
                 ChosenText = PickRandomResponse(NPCResponseDB.Accept);
                 IsSuccessExit = true;
                 break;
+            case LeaveReaction.CaughtFakeID:
+                ChosenText = PickRandomResponse(NPCResponseDB.QuestionFakeID);
+                IsSuccessExit = false;
+                break;
             case LeaveReaction.RejectedCorrectly:
-                ChosenText = PickRandomResponse(NPCResponseDB.RejectApplicationConfirmed);
+                if(IsFaceMissmatch)
+                {
+                    ChosenText = PickRandomResponse(NPCResponseDB.ThankYouResponseFake);
+                }
+                else
+                {
+                    ChosenText = PickRandomResponse(NPCResponseDB.RejectApplicationConfirmed);
+                }
                 IsSuccessExit = false;
                 break;
             case LeaveReaction.RejectIncorrectly:
@@ -337,32 +395,39 @@ public class NPCMovement : MonoBehaviour
         if (ActionPanel != null) ActionPanel.SetActive(false);
         GameUIManager.instance.SetDialogueActive(true);
         if (ChatBubble != null) ShowChatBubble();
-        if (NextButton != null) NextButton.gameObject.SetActive(false);
-        
-        CurrentFullSentence = ChosenText;
-
-        TypingCoroutine = StartCoroutine(TypeTextRoutine(CurrentFullSentence));
-        yield return TypingCoroutine;
-    }
-
-    private IEnumerator TypeTextRoutine(string TextToType)
-    {
-        IsTyping = true;
         DialogueText.text = "";
-        foreach (char letter in TextToType.ToCharArray())
+
+        if (NextButton != null) NextButton.gameObject.SetActive(false);
+
+        foreach (char letter in ChosenText.ToCharArray())
         {
             DialogueText.text += letter;
             yield return new WaitForSeconds(TypingSpeed);
         }
-        CompleteTyping();
+        if (NextButton != null)
+        {
+            NextButton.gameObject.SetActive(true);
+        }
     }
 
-    private void CompleteTyping()
-    {
-        IsTyping = false;
-        DialogueText.text = CurrentFullSentence;
-        if(NextButton != null) NextButton.gameObject.SetActive(true);
-    }
+    //private IEnumerator TypeTextRoutine(string TextToType)
+    //{
+    //    IsTyping = true;
+    //    DialogueText.text = "";
+    //    foreach (char letter in TextToType.ToCharArray())
+    //    {
+    //        DialogueText.text += letter;
+    //        yield return new WaitForSeconds(TypingSpeed);
+    //    }
+    //    CompleteTyping();
+    //}
+
+    //private void CompleteTyping()
+    //{
+    //    IsTyping = false;
+    //    DialogueText.text = CurrentFullSentence;
+    //    if(NextButton != null) NextButton.gameObject.SetActive(true);
+    //}
 
     List<string> GetListByType(RequestType type)
     {
@@ -418,7 +483,8 @@ public class NPCMovement : MonoBehaviour
 
             if(IsFaceMissmatch == true)
             {
-                ChosenText = PickRandomResponse(NPCResponseDB.QuestionFakeID);
+                TriggerReaction(LeaveReaction.CaughtFakeID);
+                return;
             }
 
         }

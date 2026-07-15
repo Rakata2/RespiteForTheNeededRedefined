@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: ShelterDialogueDatabase
   m_EditorClassIdentifier: Assembly-CSharp::DialogueDatabase
   ShelterDialogues:
-  - Good day. Are there any beds available?
+  - Good day.
   - Can I stay here for the night?
-  - Is there any spot that has not been taken yet?
+  - Hello, may i stay here?
   ShelterMedicalNeeds:
   - Does this shelter provide any medical needs?
   - Do you guys provide any medical treatment?

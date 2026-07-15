@@ -41,5 +41,8 @@ public class NPCResponse : ScriptableObject
 
     [Header("Multiple Mistakes")]
     public List <string> MultipleMistakes; //2 mistakes and you get a violation
+
+    [Header("Fake id npc response")]
+    public List<string> ThankYouResponseFake;
     
 }

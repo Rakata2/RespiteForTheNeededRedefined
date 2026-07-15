@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,18 +13,39 @@ public class ClickableObject : MonoBehaviour
     public SpriteRenderer ComputerSpriteRenderer;
     public Sprite NormalComputerSprite;
     public Sprite HoveredSprite;
-    public Sprite AlertedComputerSprite;
-    public Sprite AlertedHoverComputerSprite;
+    public GameObject AlertedSprite;
 
     private bool IsAlerted = false;
+
+    public static ClickableObject instance;
+
+    private void Awake()
+    {
+        if(ObjectType == InteractionType.Computer)
+        {
+            instance = this;
+        }
+        
+    }
+
+    private void Start()
+    {
+        AlertedSprite.SetActive(false);
+    }
 
     public void TriggerComputerAlert()
     {
         if(ObjectType == InteractionType.Computer && ComputerSpriteRenderer != null)
         {
             IsAlerted = true;
-            ComputerSpriteRenderer.sprite = AlertedComputerSprite;
+            AlertedSprite.SetActive(true);
         }
+    }
+
+    public void ClearComputerAlert()
+    {
+        IsAlerted = false;
+        if(AlertedSprite != null) AlertedSprite.SetActive(false);
     }
 
     private void OnMouseDown()
@@ -40,13 +62,8 @@ public class ClickableObject : MonoBehaviour
         if (ObjectType == InteractionType.Computer)
         {
             GameUIManager.instance.OpenComputer();
-
-            if(IsAlerted && ComputerSpriteRenderer != null)
-            {
-                IsAlerted = false;
-                ComputerSpriteRenderer.sprite = NormalComputerSprite;
-            }
         }
+        ClearComputerAlert();
         
     }
 
@@ -54,31 +71,41 @@ public class ClickableObject : MonoBehaviour
     {
         if(GameUIManager.instance.IsMouseBlocked() || (ObjectType == InteractionType.Computer && GameUIManager.instance.IsComputerMinimized()))
         {
-            ComputerSpriteRenderer.sprite = IsAlerted ? AlertedComputerSprite : NormalComputerSprite;
+            if (IsAlerted)
+            {
+                AlertedSprite.SetActive(true);
+            }
+            else if(AlertedSprite != null)
+            {
+                AlertedSprite.SetActive(false);
+            }
+                ComputerSpriteRenderer.sprite = NormalComputerSprite;
             return;
         }
-        else
+        
+        ComputerSpriteRenderer.sprite = HoveredSprite; 
+
+        if(IsAlerted)
         {
-            if(IsAlerted == true)
-            {
-                ComputerSpriteRenderer.sprite = AlertedHoverComputerSprite;
-            }
-            else
-            {
-                ComputerSpriteRenderer.sprite = HoveredSprite;
-            }
+            AlertedSprite.SetActive(true);
+        }
+        else if(AlertedSprite != null)
+        {
+            AlertedSprite.SetActive(false);
         }
     }
 
     private void OnMouseExit()
     {
-        if(IsAlerted == true)
+        ComputerSpriteRenderer.sprite = NormalComputerSprite;
+        if(IsAlerted)
         {
-            ComputerSpriteRenderer.sprite = AlertedComputerSprite;
+            AlertedSprite.SetActive(true);
+            
         }
-        else
+        else if(AlertedSprite != null)
         {
-            ComputerSpriteRenderer.sprite= NormalComputerSprite;
+            AlertedSprite.SetActive(false);
         }
     }
 }

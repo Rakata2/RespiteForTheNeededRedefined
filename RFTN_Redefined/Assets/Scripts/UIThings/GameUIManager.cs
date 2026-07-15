@@ -97,8 +97,18 @@ public class GameUIManager : MonoBehaviour
     public void ReturnToComputerMainMenu()
     {
         MainMenuPanel.SetActive(true);
+
         DatabasePanel.SetActive(false);
+        if (DatabaseUIScript != null)
+        {
+            DatabaseUIScript.ResetToFirstPage();
+        }
+
         PoliciesPanel.SetActive(false);
+        if(PoliciesUIScript != null)
+        {
+            PoliciesUIScript.PreviousPage();
+        }
 
     }
 
@@ -340,9 +350,9 @@ public class GameUIManager : MonoBehaviour
             if(NPCMovement.CurrentClient.IsLeaving == true)
             {
                 NPCMovement.CurrentClient.StartLeaving(NPCMovement.CurrentClient.IsSuccessExit);
-                DeskCard.gameObject.SetActive(false);
-                DeskLetter.gameObject.SetActive(false);
-                DeskApplication.gameObject.SetActive(false);
+                if(DeskCard != null) DeskCard.GetComponent<DocumentAnimator>().HideDocument();
+                if(DeskLetter != null) DeskLetter.GetComponent<DocumentAnimator>().HideDocument();
+                if(DeskApplication != null) DeskApplication.GetComponent<DocumentAnimator>().HideDocument();
             }
             else
             {

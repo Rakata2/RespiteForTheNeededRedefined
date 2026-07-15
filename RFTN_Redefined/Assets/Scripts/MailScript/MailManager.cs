@@ -62,6 +62,11 @@ public class MailManager : MonoBehaviour
             HasUnreadMail = false;
             MailIconButton.sprite = IsMouseHovering ? HoveredMailSprite : NormalMailSprite;
         }
+
+        if(ComputerObject != null)
+        {
+            ComputerObject.ClearComputerAlert();
+        }
     }
 
     public void OnHoverEnter()
@@ -78,6 +83,11 @@ public class MailManager : MonoBehaviour
 
     public void CloseMailWindow()
     {
+        MailItem[] ALlMailItems = ContentBox.GetComponentsInChildren<MailItem>();
+        foreach(MailItem mail in ALlMailItems)
+        {
+            mail.ForceClose();
+        }
         MailWindow.SetActive(false);
     }
 }

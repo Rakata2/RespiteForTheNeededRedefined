@@ -25,4 +25,18 @@ public class MailItem : MonoBehaviour
         BodyContainer.SetActive(IsExpanded);
         UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(transform.parent.GetComponent<RectTransform>());
     }
+
+    public void ForceClose()
+    {
+        if(IsExpanded)
+        {
+            IsExpanded = false;
+            BodyContainer.SetActive(false);
+
+            if(transform.parent != null)
+            {
+                UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(transform.parent.GetComponent<RectTransform>());
+            }
+        }
+    }
 }

@@ -32,3 +32,6 @@ MonoBehaviour:
   - Type: 7
     SubjectLine: Rejecting a valid applicant
     Description: If the applicants meet the entry conditions, they should be accpeted.
+  - Type: 4
+    SubjectLine: Invalid application
+    Description: 'Applicants must fill in the application with no inaccuracy '

@@ -14,34 +14,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Accept:
   - Thank you so much
-  - Thank you for giving me a place to stay
+  - Thanks alot
   QuestionIDPass:
-  - I have my ID government issued. Please check again
+  - My ID is already government issued.
   QuestionIDFailed:
   - Did i not have my ID government issued? My bad
   QuestionIDNotThere:
   - I don't have an ID
   QuestionIDNotThereApplicationPassed:
-  - I already circled "No ID" on my application
+  - I already filled the application accordingly.
   QuestionIDNotThereApplicationFailed:
-  - Oh. I lost my ID. oops
+  - Oh i think i misswrote it. My bad.
   QuestionIDNotThereLetter:
-  - I don't know how to get an ID in the first place. How do i get in?
+  - I don't have an ID
   QuestionFakeID:
   - Oh.. You caught my disguise
   - Yikes. You caught my disguise. You got me.
   QuestionLetterPassed:
-  - I already have my letter government issued. Please check again.
+  - I already have my letter Government issued
   QuestionLetterFailed:
-  - Oh.. I think i forgot to make my letter government issued. Sorry about that.
+  - Oh. Yeah i don't have it government issued.
   QuestionApplicationPassed:
-  - My Application is Government issued. Please check again
+  - My Application is Government issued
   QuestionApplicationFailed:
-  - Oh its not government issued? My bad
+  - Oh. Yeah i don't have it government issued.
   QuestionApplicationIDFailed:
-  - Oh right. I didn't read the small text below
+  - Right. I accidentally circled the wrong choice. My bad
   QuestionDataPassed:
-  - I already registered for the shelter today. Please check again.
+  - I already registered
   QuestionDataFailedHospitalReasoning:
   - I did not register because i just got discharged from the hospital.
   QuestionDataFailedViolentSituationReasoning:
@@ -49,8 +49,8 @@ MonoBehaviour:
   QuestionDataFailed:
   - wait. I didn't even know you need to register in the first place
   RejectApplicationConfirmed:
-  - Thanks for the application. I will fill it in and return it once i am done.
-  - Thank you for this application. I will return it once i have filled this in.
+  - Thanks for the application. I will fill it in ASAP
+  - Thank you for this application. I will return here once im done.
   RejectApplicationFirstUnwanted:
   - I don't think I need to fill in this application. My letter is already government
     issued.
@@ -73,3 +73,4 @@ MonoBehaviour:
   MultipleMistakes:
   - I am not cooperating with you anymore. I'm leaving
   - You really can't do your job properly huh? Fine, i'll just find another shelter.
+  ThankYouResponseFake: []
