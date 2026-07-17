@@ -24,6 +24,7 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private CanvasGroup LetterPanel;
     [SerializeField] private CanvasGroup ApplicationPanel;
     [SerializeField] public CanvasGroup ActionPanel;
+    [SerializeField] public CanvasGroup StickyNotePanel;
     [SerializeField] private GameObject Action;
     [SerializeField] private GameObject Question;
     [SerializeField] private GameObject ClarificationAccept;
@@ -163,6 +164,16 @@ public class GameUIManager : MonoBehaviour
     public void OpenActionMenu()
     {
         ShowPanel(ActionPanel);
+    }
+
+    public void OpenStickyNote()
+    {
+        ShowPanel(StickyNotePanel);
+    }
+
+    public void CloseStickyNote()
+    {
+        HidePanel(StickyNotePanel);
     }
 
     public void CloseActionMenu()
@@ -348,18 +359,11 @@ public class GameUIManager : MonoBehaviour
 
         if (NPCMovement.CurrentClient != null)
         {
-            if(NPCMovement.CurrentClient.IsLeaving == true)
-            {
-                NPCMovement.CurrentClient.StartLeaving(NPCMovement.CurrentClient.IsSuccessExit);
-                if (EmptyApplication != null) EmptyApplication.GetComponent<RejectionApplication>().TakeApplication();
-            }
-            else
+            if(NPCMovement.CurrentClient.IsLeaving == false)
             {
                 NPCMovement.CurrentClient.CurrentState = NPCMovement.NPCState.WaitingForDecision;
             }
         }
-
-        //Debug.Log("Closed dialogue panel, other interactions are unlocked"); 
     }
 
     public void HideAllDocuments()
@@ -371,6 +375,11 @@ public class GameUIManager : MonoBehaviour
 
     public void ShowEmptyApplication()
     {
-        if (EmptyApplication != null && EmptyApplication.gameObject.activeInHierarchy) EmptyApplication.GetComponent<RejectionApplication>().GiveApplication();
+        if (EmptyApplication != null) EmptyApplication.GetComponent<RejectionApplication>().GiveApplication();
+    }
+
+    public void HideEmptyApplication()
+    {
+        if (EmptyApplication != null) EmptyApplication.GetComponent<RejectionApplication>().TakeApplication();
     }
 }

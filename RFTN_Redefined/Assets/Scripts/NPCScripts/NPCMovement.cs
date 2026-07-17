@@ -138,7 +138,7 @@ public class NPCMovement : MonoBehaviour
                 PhysicalLetterIsGovIssued = true;
             }
 
-            if(Random.Range(1, 101) <= 40)
+            if(Random.Range(1, 101) <= 20)
             {
                 IsFaceMissmatch = true;
                 FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
@@ -150,54 +150,102 @@ public class NPCMovement : MonoBehaviour
         }
         else
         {
-            if (IsApplicationNPC)
+            int ValidNPCS = 70;
+            bool IsValidNPC = (Random.Range(1, 101) <= ValidNPCS);
+            if(IsValidNPC)
             {
-                HasLetter = false;
-                HasApplication = true;
-                PhysicalApplicationIsGovIssued = true;
-
-                int AppBehavior = Random.Range(0, 3);
-                if (AppBehavior == 0)
+                if(IsApplicationNPC)
                 {
-                    AppCircle = false;
-                    HasID = false;
-                    PhysicalIDIsGovIssued = false;
-                }
-                else if (AppBehavior == 1)
-                {
-                    AppCircle = true;
-                    HasID = true;
-                    PhysicalIDIsGovIssued = (Random.Range(1, 101) <= 70);
+                    HasLetter = false;
+                    HasApplication = true;
+                    PhysicalApplicationIsGovIssued = true;
+                    if(Random.value > 0.5f)
+                    {
+                        AppCircle = true;
+                        HasID = true;
+                        PhysicalIDIsGovIssued = true;
+                    }
+                    else
+                    {
+                        AppCircle = false;
+                        HasID = false;
+                        PhysicalIDIsGovIssued = false;
+                    }
                 }
                 else
                 {
-                    AppCircle = true;
-                    HasID = false;
-                    PhysicalIDIsGovIssued = false;
+                    HasApplication = false;
+                    HasLetter = true;
+                    PhysicalLetterIsGovIssued = true;
+                    HasID = true;
+                    PhysicalIDIsGovIssued = true;
                 }
+                IsFaceMissmatch = false;
             }
             else
             {
-                HasApplication = false;
-                HasLetter = true;
-                PhysicalLetterIsGovIssued = (Random.Range(1, 101) <= 70);
+                int ViolationType = Random.Range(0, 3);
 
-                HasID = (Random.Range(1, 101) <= 70);
-                PhysicalIDIsGovIssued = HasID ? (Random.Range(1, 101) <= 70) : false;
-            }
-
-
-
-            if (HasID && PhysicalIDIsGovIssued)
-            {
-                if (Random.Range(1, 101) <= 15)
+                if(IsApplicationNPC)
                 {
-                    IsFaceMissmatch = true;
-                    FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
+                    HasLetter = false;
+                    HasApplication = true;
+                    PhysicalApplicationIsGovIssued = true;
 
-                    while (FaceOnIDCard == ChosenID.Photo)
+                    if(ViolationType == 0)
                     {
+                        AppCircle = true;
+                        HasID = false;
+                        PhysicalIDIsGovIssued = false;
+                    }
+                    else if(ViolationType == 1)
+                    {
+                        AppCircle = true;
+                        HasID = true;
+                        PhysicalIDIsGovIssued= false;
+                    }
+                    else
+                    {
+                        AppCircle = true;
+                        HasID = true;
+                        PhysicalIDIsGovIssued = true;
+
+                        IsFaceMissmatch = true;
                         FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
+                        while(FaceOnIDCard == ChosenID.Photo)
+                        {
+                            FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
+                        }
+                    }
+                }
+                else
+                {
+                    HasApplication = false;
+                    HasLetter = true;
+
+                    if(ViolationType == 0)
+                    {
+                        PhysicalLetterIsGovIssued = false;
+                        HasID = true;
+                        PhysicalIDIsGovIssued = true;
+                    }
+                    else if(ViolationType == 1)
+                    {
+                        PhysicalLetterIsGovIssued = true;
+                        HasID = (Random.value > 0.5f);
+                        PhysicalIDIsGovIssued = false;
+                    }
+                    else
+                    {
+                        PhysicalLetterIsGovIssued = true;
+                        HasID = true;
+                        PhysicalIDIsGovIssued = true;
+                        IsFaceMissmatch = true;
+                        FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
+                        while(FaceOnIDCard == ChosenID.Photo)
+                        {
+                            FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
+                        }
                     }
                 }
             }
@@ -209,7 +257,7 @@ public class NPCMovement : MonoBehaviour
         //{
         //    if(TypingCoroutine != null) StopCoroutine(TypingCoroutine);
         //    CompleteTyping();
-        //}
+        //} FOR SKIPPING WITH CLICKING
         switch(CurrentState)
         {
             case NPCState.MovingToCenter:
@@ -384,10 +432,12 @@ public class NPCMovement : MonoBehaviour
                 if(IsFaceMissmatch)
                 {
                     ChosenText = PickRandomResponse(NPCResponseDB.ThankYouResponseFake);
+                    if (GameUIManager.instance != null) GameUIManager.instance.ShowEmptyApplication();
                 }
                 else
                 {
                     ChosenText = PickRandomResponse(NPCResponseDB.RejectApplicationConfirmed);
+                    if (GameUIManager.instance != null) GameUIManager.instance.ShowEmptyApplication();
                 }
                 IsSuccessExit = false;
                 break;
@@ -412,6 +462,19 @@ public class NPCMovement : MonoBehaviour
         {
             NextButton.gameObject.SetActive(true);
         }
+
+        yield return new WaitUntil(() => NextButton == null || !NextButton.gameObject.activeInHierarchy);
+
+        if(Reaction == LeaveReaction.RejectedCorrectly)
+        {
+            if(GameUIManager.instance != null)
+            {
+                GameUIManager.instance.HideEmptyApplication();
+            }
+
+            yield return new WaitForSecondsRealtime(0.4f);
+        }
+        StartLeaving(IsSuccessExit);
     }
 
     //private IEnumerator TypeTextRoutine(string TextToType)
