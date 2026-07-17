@@ -52,6 +52,7 @@ public class GameUIManager : MonoBehaviour
     public DeskCardInteractable DeskCard;
     public DeskLetterInteractable DeskLetter;
     public DeskApplicationInteractable DeskApplication;
+    public GameObject EmptyApplication;
 
     public DatabaseUI DatabaseUIScript;
     public PoliciesUIManager PoliciesUIScript;
@@ -350,9 +351,7 @@ public class GameUIManager : MonoBehaviour
             if(NPCMovement.CurrentClient.IsLeaving == true)
             {
                 NPCMovement.CurrentClient.StartLeaving(NPCMovement.CurrentClient.IsSuccessExit);
-                if(DeskCard != null) DeskCard.GetComponent<DocumentAnimator>().HideDocument();
-                if(DeskLetter != null) DeskLetter.GetComponent<DocumentAnimator>().HideDocument();
-                if(DeskApplication != null) DeskApplication.GetComponent<DocumentAnimator>().HideDocument();
+                if (EmptyApplication != null) EmptyApplication.GetComponent<RejectionApplication>().TakeApplication();
             }
             else
             {
@@ -361,5 +360,17 @@ public class GameUIManager : MonoBehaviour
         }
 
         //Debug.Log("Closed dialogue panel, other interactions are unlocked"); 
+    }
+
+    public void HideAllDocuments()
+    {
+        if(DeskCard != null && DeskCard.gameObject.activeInHierarchy) DeskCard.GetComponent<DocumentAnimator>().HideDocument();
+        if(DeskLetter != null && DeskLetter.gameObject.activeInHierarchy) DeskLetter.GetComponent<DocumentAnimator>().HideDocument();
+        if(DeskApplication != null && DeskApplication.gameObject.activeInHierarchy) DeskApplication.GetComponent<DocumentAnimator>().HideDocument();
+    }
+
+    public void ShowEmptyApplication()
+    {
+        if (EmptyApplication != null && EmptyApplication.gameObject.activeInHierarchy) EmptyApplication.GetComponent<RejectionApplication>().GiveApplication();
     }
 }

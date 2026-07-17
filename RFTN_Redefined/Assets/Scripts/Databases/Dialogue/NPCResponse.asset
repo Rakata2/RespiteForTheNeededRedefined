@@ -73,4 +73,5 @@ MonoBehaviour:
   MultipleMistakes:
   - I am not cooperating with you anymore. I'm leaving
   - You really can't do your job properly huh? Fine, i'll just find another shelter.
-  ThankYouResponseFake: []
+  ThankYouResponseFake:
+  - Oh... right. Thanks

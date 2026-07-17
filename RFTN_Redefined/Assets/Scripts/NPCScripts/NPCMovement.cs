@@ -363,6 +363,10 @@ public class NPCMovement : MonoBehaviour
     //[NEW] coroutine for NPC reactions
     IEnumerator LeaveRoutine(LeaveReaction Reaction)
     {
+        if(GameUIManager.instance != null)
+        {
+            GameUIManager.instance.HideAllDocuments();
+        }
         string ChosenText = "...";
         IsLeaving = true;
 

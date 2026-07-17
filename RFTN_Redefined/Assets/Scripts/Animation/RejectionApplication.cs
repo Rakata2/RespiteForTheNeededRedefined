@@ -2,21 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DocumentAnimator : MonoBehaviour
+public class RejectionApplication : MonoBehaviour
 {
     public float AnimationDuration = 0.25f;
+    public float AnimationDelay = 0.1f;
     public Transform StartPoint;
+    public Transform MidPoint;
     public Transform EndPoint;
     private SpriteRenderer SpriteRenderer;
     private Coroutine CurrentAnimation;
 
     private bool IsInitialized = false;
-
     private void InitializeIfNeeded()
     {
         if (IsInitialized) return;
         SpriteRenderer = GetComponent<SpriteRenderer>();
-        if(StartPoint!= null)
+        if (StartPoint != null)
         {
             transform.position = StartPoint.position;
         }
@@ -24,24 +25,29 @@ public class DocumentAnimator : MonoBehaviour
         IsInitialized = true;
     }
 
-    public void ShowDocument()
+    public void GiveApplication()
     {
         InitializeIfNeeded();
         gameObject.SetActive(true);
-        if(CurrentAnimation != null) StopCoroutine(CurrentAnimation);
-        CurrentAnimation = StartCoroutine(AnimateRoutine(StartPoint.position, EndPoint.position, 0f, 1f, false));
+        if (CurrentAnimation != null) StopCoroutine(CurrentAnimation);
+        CurrentAnimation = StartCoroutine(AnimateRoutine(StartPoint.position, MidPoint.position, 0f, 1f, false, AnimationDelay));
     }
 
-    public void HideDocument()
+    public void TakeApplication()
     {
         if (!gameObject.activeInHierarchy) return;
-        if(CurrentAnimation != null) StopCoroutine(CurrentAnimation);
+        if (CurrentAnimation != null) StopCoroutine(CurrentAnimation);
 
-        CurrentAnimation = StartCoroutine(AnimateRoutine(EndPoint.position, StartPoint.position, SpriteRenderer.color.a, 0f, true));
+        CurrentAnimation = StartCoroutine(AnimateRoutine(MidPoint.position, EndPoint.position, SpriteRenderer.color.a, 0f, true, 0f));
     }
 
-    private IEnumerator AnimateRoutine(Vector3 fromPos, Vector3 toPos, float fromAlpha, float toAlpha, bool deactivateAfter)
+    private IEnumerator AnimateRoutine(Vector3 fromPos, Vector3 toPos, float fromAlpha, float toAlpha, bool deactivateAfter, float delay)
     {
+        if(delay > 0f)
+        {
+            yield return new WaitForSeconds(delay);
+        }
+
         float time = 0f;
         while (time < AnimationDuration)
         {
@@ -58,7 +64,6 @@ public class DocumentAnimator : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-
     private void SetSpriteAlpha(float alpha)
     {
         if (SpriteRenderer != null)
@@ -68,5 +73,4 @@ public class DocumentAnimator : MonoBehaviour
             SpriteRenderer.color = color;
         }
     }
-
 }
