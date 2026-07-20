@@ -6,7 +6,10 @@ public class StickyNoteInteract : MonoBehaviour
 {
     public SpriteRenderer StickyNote;
     public Color NormalColor = Color.white;
+
+    [ColorUsage(true, true)]
     public Color HoverColor = new Color(0.8f, 0.8f, 0.8f);
+
     public Color ClickedColor = new Color(0.5f, 0.5f, 0.5f);
     public GameObject StickyNoteAlert;
     // Start is called before the first frame update

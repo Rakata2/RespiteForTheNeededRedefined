@@ -98,6 +98,7 @@ public class NPCMovement : MonoBehaviour
     public bool IsTyping = false;
     private Coroutine TypingCoroutine;
     //private string CurrentFullSentence;
+    private bool AcceptedByPlayer = false;
 
     void Awake()
     {
@@ -281,6 +282,10 @@ public class NPCMovement : MonoBehaviour
                 MoveTo(ChosenExit);
                 if (IsAtPosition(ChosenExit))
                 {
+                    if(ObjectiveManager.instance != null)
+                    {
+                        ObjectiveManager.instance.OnNPCDestroyed(AcceptedByPlayer);
+                    }
                     Destroy(gameObject);
                 }
                 break;
@@ -414,9 +419,10 @@ public class NPCMovement : MonoBehaviour
         if(GameUIManager.instance != null)
         {
             GameUIManager.instance.HideAllDocuments();
-        }
+        }   
         string ChosenText = "...";
         IsLeaving = true;
+        AcceptedByPlayer = (Reaction == LeaveReaction.Accepted);
 
         switch (Reaction)
         {
@@ -465,6 +471,17 @@ public class NPCMovement : MonoBehaviour
 
         yield return new WaitUntil(() => NextButton == null || !NextButton.gameObject.activeInHierarchy);
 
+        if(ObjectiveManager.instance != null & AcceptedByPlayer)
+        {
+            if(ObjectiveManager.instance.CurrentAccepted + 1 >= ObjectiveManager.instance.TargetAccepted)
+            {
+                if(GameUIManager.instance != null)
+                {
+                    GameUIManager.instance.LockGame();
+                }
+            }
+        }
+
         if(Reaction == LeaveReaction.RejectedCorrectly)
         {
             if(GameUIManager.instance != null)
@@ -475,6 +492,8 @@ public class NPCMovement : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.4f);
         }
         StartLeaving(IsSuccessExit);
+
+
     }
 
     //private IEnumerator TypeTextRoutine(string TextToType)

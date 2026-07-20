@@ -59,8 +59,6 @@ public class ViolationManager : MonoBehaviour
         
         return ViolationType.IncompleteDocument;
     }
-
-    //[NEW]
     public void ProcessPlayerDecision(bool PlayerAccepted, NPCMovement CurrentNPC)
     {
         if(CurrentNPC == null) return;
@@ -114,13 +112,15 @@ public class ViolationManager : MonoBehaviour
         Debug.Log("Violations: " + TotalViolations + "/" + MaxViolations);
         if(TotalViolations >= MaxViolations)
         {
-            TriggerGameOver();
-        }
-    }
+            if(GameUIManager.instance != null)
+            {
+                GameUIManager.instance.LockGame();
+            }
 
-    private void TriggerGameOver()
-    {
-        //gameover screen here
-        Debug.Log("violations exceeded, game over");
+            if(ObjectiveManager.instance != null)
+            {
+                ObjectiveManager.instance.TriggerGameOver();
+            }
+        }
     }
 }

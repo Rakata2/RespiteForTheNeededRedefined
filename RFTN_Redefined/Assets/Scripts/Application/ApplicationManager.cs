@@ -14,7 +14,7 @@ public class ApplicationManager : MonoBehaviour
     public Image[] ReasoningChecks;
     public Image CircleYes;
     public Image CircleNo;
-    public TMP_Text GovernmentStampCheck;
+    public Image GovernmentStampCheck;
 
     private void Awake()
     {
@@ -36,12 +36,11 @@ public class ApplicationManager : MonoBehaviour
 
         if (IsValidGovID == true)
         {
-            GovernmentStampCheck.text = "(Issued by government)";
-            //there will be a logo here later to be placed at the asset
+            GovernmentStampCheck.enabled = true;
         }
         else
         {
-            GovernmentStampCheck.text = "";
+            GovernmentStampCheck.enabled = false;
         }
 
         ApplicationPanelContainer.SetActive(true);

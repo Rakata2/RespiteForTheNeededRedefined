@@ -27,6 +27,11 @@ public class NPCSpawner : MonoBehaviour
         {
             yield return new WaitUntil(() => CurrentNPC == null);
 
+            if (ObjectiveManager.instance != null && ObjectiveManager.instance.IsShiftOver)
+            {
+                yield break;
+            }
+
             yield return new WaitForSeconds(spawnInterval);
 
 

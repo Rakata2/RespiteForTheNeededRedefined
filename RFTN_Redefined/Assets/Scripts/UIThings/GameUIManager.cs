@@ -58,6 +58,8 @@ public class GameUIManager : MonoBehaviour
     public DatabaseUI DatabaseUIScript;
     public PoliciesUIManager PoliciesUIScript;
 
+    public bool IsGameLocked = false;
+
 
     private void Awake()
     {
@@ -71,6 +73,7 @@ public class GameUIManager : MonoBehaviour
 
     public bool IsMouseBlocked()
     {
+        if (IsGameLocked) return true;
         return UIBlocker.activeInHierarchy || isDialogueActive;
     }
 
@@ -382,4 +385,13 @@ public class GameUIManager : MonoBehaviour
     {
         if (EmptyApplication != null) EmptyApplication.GetComponent<RejectionApplication>().TakeApplication();
     }
+
+    public void LockGame()
+    {
+        IsGameLocked = true;
+        ComputerPanel.gameObject.SetActive(false);
+        MinimizedTray.gameObject.SetActive(false);
+    }
+
+    
 }

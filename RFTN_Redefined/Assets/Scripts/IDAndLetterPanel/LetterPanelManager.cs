@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LetterPanelManager : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class LetterPanelManager : MonoBehaviour
     public GameObject LetterPanelContainer;
     public TMP_Text Reasontext;
     public TMP_Text NickName;
-    public TMP_Text GovernmentStampCheck;
+    public Image GovernmentStampCheck;
 
     public List<ReasoningList> ReasoningDatabase;
 
@@ -34,13 +35,14 @@ public class LetterPanelManager : MonoBehaviour
             }
         }
         NickName.text = profile.NickName;
-        if(IsValidGovID == true)
+        if (IsValidGovID == true)
         {
-            GovernmentStampCheck.text = "(Issued by government)";
+            // Fixed: Image does not have a 'text' property. You likely want to show/hide the stamp or change its sprite.
+            GovernmentStampCheck.gameObject.SetActive(true);
         }
         else
         {
-            GovernmentStampCheck.text = "";
+            GovernmentStampCheck.gameObject.SetActive(false);
         }
 
         LetterPanelContainer.SetActive(true);
