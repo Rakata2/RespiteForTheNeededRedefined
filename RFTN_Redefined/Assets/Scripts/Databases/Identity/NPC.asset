@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8a5b14d2448b4a45a175cf0e1ef5ee2, type: 3}
   m_Name: NPC
   m_EditorClassIdentifier: 
-  Name: Alexander thompson
-  NickName: Alexander
+  Name: Alex brown
+  NickName: Alex
   DateOfBirth: 09/05/1988
   Gender: M
   DateIssued: 20/04/2020

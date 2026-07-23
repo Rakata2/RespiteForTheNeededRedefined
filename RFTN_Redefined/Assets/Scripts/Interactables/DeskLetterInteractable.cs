@@ -10,7 +10,8 @@ public class DeskLetterInteractable : MonoBehaviour
     public SpriteRenderer LetterSpriteRenderer;
     public Sprite NormalLetterSprite;
     public Sprite HoveredLetterSprite;
-    
+    public AudioSource OpenPaper;
+
     public void ReceiveLetterData(IdentityProfile IncomingProfile, bool IncomingGovStatus)
     {
         NPCProfile = IncomingProfile;
@@ -20,6 +21,8 @@ public class DeskLetterInteractable : MonoBehaviour
     private void OnMouseDown()
     {
         if (GameUIManager.instance.IsMouseBlocked()) return;
+
+        if(OpenPaper != null) AudioSource.PlayClipAtPoint(OpenPaper.clip, Camera.main.transform.position);
 
         if (NPCProfile != null)
         {

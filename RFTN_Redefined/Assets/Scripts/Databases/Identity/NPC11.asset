@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8a5b14d2448b4a45a175cf0e1ef5ee2, type: 3}
   m_Name: NPC11
   m_EditorClassIdentifier: 
-  Name: Isabella Martinez
+  Name: Isabella kim
   NickName: Isabella
   DateOfBirth: 05/04/1976
   Gender: F

@@ -18,6 +18,7 @@ public class ClickableObject : MonoBehaviour
     private bool IsAlerted = false;
 
     public static ClickableObject instance;
+    public AudioSource ClickingSound;
 
     private void Awake()
     {
@@ -54,6 +55,8 @@ public class ClickableObject : MonoBehaviour
         {
             return; 
         }
+
+        if (ClickingSound != null) ClickingSound.Play();
 
         if(ObjectType == InteractionType.Computer && GameUIManager.instance.IsComputerMinimized())
         {

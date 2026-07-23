@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DeskCardInteractable : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class DeskCardInteractable : MonoBehaviour
 
     public Color ClickedColor;
 
+    public AudioSource OpenCard;
+
     public void ReceiveID(IdentityProfile IncomingProfile, bool IncomingGovStatus, Sprite IncomingFace)
     {
         NPCProfile = IncomingProfile;
@@ -25,6 +28,8 @@ public class DeskCardInteractable : MonoBehaviour
     private void OnMouseDown()
     {
         if (GameUIManager.instance.IsMouseBlocked()) return;
+
+        if (OpenCard != null) AudioSource.PlayClipAtPoint(OpenCard.clip, Camera.main.transform.position);
 
         if(NPCProfile != null)
         {

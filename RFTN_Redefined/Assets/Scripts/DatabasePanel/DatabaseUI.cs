@@ -49,7 +49,7 @@ public class DatabaseUI : MonoBehaviour
         List<IdentityProfile> Profiles = DatabaseManager.Instance.ShuffledProfiles; 
         if (PageText != null)
         {
-            PageText.text = $"Page {CurrentPage + 1} / {DatabaseManager.Instance.TotalPage}";
+            PageText.text = $"Page {CurrentPage + 1}/{DatabaseManager.Instance.TotalPage}";
         }
 
         int LeftIndex = CurrentPage * 2;

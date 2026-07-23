@@ -11,6 +11,7 @@ public class DeskApplicationInteractable : MonoBehaviour
     public SpriteRenderer ApplicationSpriteRenderer;
     public Sprite NormalApplicationSprite;
     public Sprite HoveredApplicationSprite;
+    public AudioSource OpenPaper;
     public void ReceiveApplicationData(IdentityProfile IncomingProfile, bool IncomingGovStatus, int IncomingReasonIndex, bool IncomingCircle)
     {
         NPCProfile = IncomingProfile;
@@ -22,6 +23,9 @@ public class DeskApplicationInteractable : MonoBehaviour
     private void OnMouseDown()
     {
         if (GameUIManager.instance.IsMouseBlocked()) return;
+
+
+        if(OpenPaper != null) AudioSource.PlayClipAtPoint(OpenPaper.clip, Camera.main.transform.position);
 
         if (NPCProfile != null)
         {

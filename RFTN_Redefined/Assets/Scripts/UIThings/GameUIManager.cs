@@ -60,6 +60,10 @@ public class GameUIManager : MonoBehaviour
 
     public bool IsGameLocked = false;
 
+    public AudioSource ClosePaper;
+    public AudioSource CloseCard;
+    public AudioSource ClickingSound;
+
 
     private void Awake()
     {
@@ -112,7 +116,7 @@ public class GameUIManager : MonoBehaviour
         PoliciesPanel.SetActive(false);
         if(PoliciesUIScript != null)
         {
-            PoliciesUIScript.PreviousPage();
+            PoliciesUIScript.PageOne();
         }
 
     }
@@ -130,7 +134,7 @@ public class GameUIManager : MonoBehaviour
 
         if(PoliciesUIScript != null)
         {
-            PoliciesUIScript.PreviousPage();
+            PoliciesUIScript.PageOne();
         }
     }
 
@@ -142,6 +146,7 @@ public class GameUIManager : MonoBehaviour
     public void CloseIDCard()
     {
         HidePanel(IDCardPanel);
+        if (CloseCard != null) AudioSource.PlayClipAtPoint(CloseCard.clip, Camera.main.transform.position);
     }
 
     public void OpenLetter()
@@ -152,6 +157,7 @@ public class GameUIManager : MonoBehaviour
     public void CloseLetter()
     {
         HidePanel(LetterPanel);
+        if (ClosePaper != null) AudioSource.PlayClipAtPoint(ClosePaper.clip, Camera.main.transform.position);
     }
 
     public void OpenApplication()
@@ -162,6 +168,7 @@ public class GameUIManager : MonoBehaviour
     public void CloseApplication()
     {
         HidePanel(ApplicationPanel);
+        if (ClosePaper != null) AudioSource.PlayClipAtPoint(ClosePaper.clip, Camera.main.transform.position);
     }
 
     public void OpenActionMenu()
@@ -177,6 +184,7 @@ public class GameUIManager : MonoBehaviour
     public void CloseStickyNote()
     {
         HidePanel(StickyNotePanel);
+        if (ClosePaper != null) AudioSource.PlayClipAtPoint(ClosePaper.clip, Camera.main.transform.position);
     }
 
     public void CloseActionMenu()
@@ -391,6 +399,11 @@ public class GameUIManager : MonoBehaviour
         IsGameLocked = true;
         ComputerPanel.gameObject.SetActive(false);
         MinimizedTray.gameObject.SetActive(false);
+    }
+
+    public void PlaySoundEffect()
+    {
+        if (ClickingSound != null) AudioSource.PlayClipAtPoint(ClickingSound.clip, Camera.main.transform.position);
     }
 
     
