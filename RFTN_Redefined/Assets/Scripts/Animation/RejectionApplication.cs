@@ -13,6 +13,9 @@ public class RejectionApplication : MonoBehaviour
     private Coroutine CurrentAnimation;
 
     private bool IsInitialized = false;
+
+    public AudioSource PaperSlideSound;
+    public float TakePaperSound = 0.7f;
     private void InitializeIfNeeded()
     {
         if (IsInitialized) return;
@@ -37,7 +40,8 @@ public class RejectionApplication : MonoBehaviour
     {
         if (!gameObject.activeInHierarchy) return;
         if (CurrentAnimation != null) StopCoroutine(CurrentAnimation);
-
+        PaperSlideSound.pitch = TakePaperSound;
+        PaperSlideSound.PlayOneShot(PaperSlideSound.clip);
         CurrentAnimation = StartCoroutine(AnimateRoutine(MidPoint.position, EndPoint.position, SpriteRenderer.color.a, 0f, true, 0f));
     }
 

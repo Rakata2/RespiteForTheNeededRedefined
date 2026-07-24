@@ -61,8 +61,19 @@ public class GameUIManager : MonoBehaviour
     public bool IsGameLocked = false;
 
     public AudioSource ClosePaper;
+    public float TargetClosePaperPitch = 0.7f;
+
     public AudioSource CloseCard;
+    public float TargetCloseCardPitch = 0.7f;
+
     public AudioSource ClickingSound;
+    public float MinPitchClick = 0.8f;
+    public float MaxPitchClick = 1.5f;
+
+    public AudioSource PaperSlideEnter;
+    
+    
+    
 
 
     private void Awake()
@@ -157,7 +168,6 @@ public class GameUIManager : MonoBehaviour
     public void CloseLetter()
     {
         HidePanel(LetterPanel);
-        if (ClosePaper != null) AudioSource.PlayClipAtPoint(ClosePaper.clip, Camera.main.transform.position);
     }
 
     public void OpenApplication()
@@ -168,7 +178,6 @@ public class GameUIManager : MonoBehaviour
     public void CloseApplication()
     {
         HidePanel(ApplicationPanel);
-        if (ClosePaper != null) AudioSource.PlayClipAtPoint(ClosePaper.clip, Camera.main.transform.position);
     }
 
     public void OpenActionMenu()
@@ -184,7 +193,6 @@ public class GameUIManager : MonoBehaviour
     public void CloseStickyNote()
     {
         HidePanel(StickyNotePanel);
-        if (ClosePaper != null) AudioSource.PlayClipAtPoint(ClosePaper.clip, Camera.main.transform.position);
     }
 
     public void CloseActionMenu()
@@ -401,10 +409,33 @@ public class GameUIManager : MonoBehaviour
         MinimizedTray.gameObject.SetActive(false);
     }
 
-    public void PlaySoundEffect()
+    public void PlayClickSoundEffect()
     {
-        if (ClickingSound != null) AudioSource.PlayClipAtPoint(ClickingSound.clip, Camera.main.transform.position);
+        if (ClickingSound != null)
+        {
+            ClickingSound.pitch = Random.Range(MinPitchClick, MaxPitchClick);
+            //AudioSource.PlayClipAtPoint(ClickingSound.clip, Camera.main.transform.position);
+            ClickingSound.PlayOneShot(ClickingSound.clip);
+        }
     }
 
-    
+    public void PlayClosePaperSoundEffect()
+    {
+        if(ClosePaper != null)
+        {
+            ClosePaper.pitch = TargetClosePaperPitch;
+            ClosePaper.PlayOneShot(ClosePaper.clip);
+        }
+    }
+
+    public void PlayCloseCardSoundEffect()
+    {
+        if (CloseCard != null)
+        {
+            CloseCard.pitch = TargetCloseCardPitch;
+            CloseCard.PlayOneShot(CloseCard.clip);
+        }
+    }
+
+
 }

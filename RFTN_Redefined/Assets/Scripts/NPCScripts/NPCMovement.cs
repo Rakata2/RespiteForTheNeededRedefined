@@ -100,6 +100,14 @@ public class NPCMovement : MonoBehaviour
     //private string CurrentFullSentence;
     private bool AcceptedByPlayer = false;
 
+    public AudioSource WalkingSoundEffect;
+    public float StepInterval = 0.4f;
+    private bool IsWalking = false;
+    private Coroutine FootStepCoroutine;
+    
+    
+    
+
     void Awake()
     {
         NPCSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -250,7 +258,8 @@ public class NPCMovement : MonoBehaviour
                     }
                 }
             }
-        }     
+        }
+        StartFootstep();
     }
     void Update()
     {
@@ -265,6 +274,7 @@ public class NPCMovement : MonoBehaviour
                 MoveTo(CenterPoint);
                 if (IsAtPosition(CenterPoint))
                 {
+                    StopFootstep();
                     CurrentState = NPCState.Interact;
 
                     if(ChatBubble != null) ChatBubble.SetActive(true);
@@ -282,6 +292,7 @@ public class NPCMovement : MonoBehaviour
                 MoveTo(ChosenExit);
                 if (IsAtPosition(ChosenExit))
                 {
+                    StopFootstep();
                     if(ObjectiveManager.instance != null)
                     {
                         ObjectiveManager.instance.OnNPCDestroyed(AcceptedByPlayer);
@@ -317,7 +328,7 @@ public class NPCMovement : MonoBehaviour
     {
         CurrentClient = this;
 
-        //CurrentState = NPCState.Interact;
+
         if (BellBridge.instance != null)
         {
             BellBridge.instance.SetTrigger("RingBell");
@@ -496,25 +507,7 @@ public class NPCMovement : MonoBehaviour
 
     }
 
-    //private IEnumerator TypeTextRoutine(string TextToType)
-    //{
-    //    IsTyping = true;
-    //    DialogueText.text = "";
-    //    foreach (char letter in TextToType.ToCharArray())
-    //    {
-    //        DialogueText.text += letter;
-    //        yield return new WaitForSeconds(TypingSpeed);
-    //    }
-    //    CompleteTyping();
-    //}
-
-    //private void CompleteTyping()
-    //{
-    //    IsTyping = false;
-    //    DialogueText.text = CurrentFullSentence;
-    //    if(NextButton != null) NextButton.gameObject.SetActive(true);
-    //}
-
+    
     List<string> GetListByType(RequestType type)
     {
         switch (type)
@@ -693,6 +686,38 @@ public class NPCMovement : MonoBehaviour
         if(NextButton != null) NextButton.gameObject.SetActive(false);
     }
 
+    public void StartFootstep()
+    {
+        if(!IsWalking)
+        {
+            IsWalking = true;
+            if (FootStepCoroutine != null) StopCoroutine(FootStepCoroutine);
+            FootStepCoroutine = StartCoroutine(FootStepRoutine()); ;
+        }
+    }
+
+    public void StopFootstep()
+    {
+        IsWalking=false;
+        if(FootStepCoroutine != null)
+        {
+            StopCoroutine(FootStepCoroutine);
+            FootStepCoroutine = null;
+        }
+    }
+
+    private IEnumerator FootStepRoutine()
+    {
+        while(IsWalking)
+        {
+            if(WalkingSoundEffect != null && WalkingSoundEffect.clip != null)
+            {
+                WalkingSoundEffect.PlayOneShot(WalkingSoundEffect.clip);
+            }
+            yield return new WaitForSeconds(StepInterval);
+        }
+    }
+
     private void OnMouseDown()
     {
         if (GameUIManager.instance.IsMouseBlocked()) return;
@@ -728,5 +753,8 @@ public class NPCMovement : MonoBehaviour
             ChosenExit = IsSuccess ? ExitPointShelter : ExitPointShelterFailed;
         }
         CurrentState = NPCState.MovingToExit;
+        StartFootstep();
     }
+
+    
 }

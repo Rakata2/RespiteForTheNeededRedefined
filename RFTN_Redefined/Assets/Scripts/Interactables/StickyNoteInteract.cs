@@ -13,6 +13,8 @@ public class StickyNoteInteract : MonoBehaviour
     public Color ClickedColor = new Color(0.5f, 0.5f, 0.5f);
     public GameObject StickyNoteAlert;
     public AudioSource OpenPaper;
+    public float NormalPitch = 1.0f;
+    public float LowPitch = 0.7f;
     // Start is called before the first frame update
     void Start()
     {
