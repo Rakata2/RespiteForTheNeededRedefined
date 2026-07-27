@@ -104,10 +104,12 @@ public class NPCMovement : MonoBehaviour
     public float StepInterval = 0.4f;
     private bool IsWalking = false;
     private Coroutine FootStepCoroutine;
-    
-    
-    
 
+    public bool IsTrulyValid;
+
+    private List<string> AskedTopics = new List<string>();
+
+    private bool PenaltyRepeated = false;
     void Awake()
     {
         NPCSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -132,6 +134,7 @@ public class NPCMovement : MonoBehaviour
         {
             HasID = true;
             PhysicalIDIsGovIssued = true;
+            IsTrulyValid = true;
 
             if(IsApplicationNPC)
             {
@@ -150,6 +153,7 @@ public class NPCMovement : MonoBehaviour
             if(Random.Range(1, 101) <= 20)
             {
                 IsFaceMissmatch = true;
+                IsTrulyValid = false;
                 FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
                 while(FaceOnIDCard == ChosenID.Photo)
                 {
@@ -161,6 +165,7 @@ public class NPCMovement : MonoBehaviour
         {
             int ValidNPCS = 70;
             bool IsValidNPC = (Random.Range(1, 101) <= ValidNPCS);
+            IsTrulyValid = IsValidNPC;
             if(IsValidNPC)
             {
                 if(IsApplicationNPC)
@@ -295,7 +300,7 @@ public class NPCMovement : MonoBehaviour
                     StopFootstep();
                     if(ObjectiveManager.instance != null)
                     {
-                        ObjectiveManager.instance.OnNPCDestroyed(AcceptedByPlayer);
+                        ObjectiveManager.instance.EvaluatePlayerDecision(AcceptedByPlayer, IsTrulyValid);
                     }
                     Destroy(gameObject);
                 }
@@ -527,6 +532,18 @@ public class NPCMovement : MonoBehaviour
 
     public void EvaluateQuestion(string Topic)
     {
+        if(AskedTopics.Contains(Topic))
+        {
+            if(!PenaltyRepeated)
+            {
+                PenaltyRepeated = true;
+                if (ObjectiveManager.instance != null) ObjectiveManager.instance.DeductAccuracy();
+            }
+            string RepeatedText = PickRandomResponse(NPCResponseDB.AskedQuestionsTwice);
+            TriggerInterrogation(RepeatedText);
+            return;
+        }
+        AskedTopics.Add(Topic);
         string ChosenText = "...";
         if (Topic == "ID")
         {
@@ -621,6 +638,7 @@ public class NPCMovement : MonoBehaviour
                     if(DatabaseExcuseChoice == 0)
                     {
                         ChosenText = PickRandomResponse(NPCResponseDB.QuestionDataFailed);
+                        IsTrulyValid = false;
                     }
                     else
                     {

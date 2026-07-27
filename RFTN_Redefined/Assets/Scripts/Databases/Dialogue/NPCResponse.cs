@@ -39,8 +39,8 @@ public class NPCResponse : ScriptableObject
     public List<string> RejectFirstIncomplete; //reject but npc does not have letter gov issued. Reusable with no letter, or injured NPC with incomplete document(s)
     public List<string> RejectSecondIncomplete; //They get sad and leave
 
-    [Header("Multiple Mistakes")]
-    public List <string> MultipleMistakes; //2 mistakes and you get a violation
+    [Header("asked the same questions twice")]
+    public List<string> AskedQuestionsTwice;
 
     [Header("Fake id npc response")]
     public List<string> ThankYouResponseFake;
