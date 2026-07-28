@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,11 +20,13 @@ public class ObjectiveManager : MonoBehaviour
     public int CurrentViolations = 0;
     public int MaxViolations = 3;
     public float CurrentAccuracy = 100f;
+    public int TotalAdmitted = 0;
+    public int TargetObjective = 10;
 
     [Header("Daily pay")]
     public float BaseWage;
     public float MaxEfficiencyBonus;
-    public float PenaltyPerViolation;
+    public float PenaltyPerViolation = 0;
 
     [Header("Result Screen UI Elements")]
     public TMP_Text ShiftStatus; //to be changed into an image later on
@@ -34,7 +37,7 @@ public class ObjectiveManager : MonoBehaviour
     public TMP_Text ViolationPenalties;
     public TMP_Text TotalPayCheck;
 
-
+    public ResultScreenAnimator ResultAnimator;
 
     private void Awake()
     {
@@ -57,12 +60,13 @@ public class ObjectiveManager : MonoBehaviour
     public void ViolationAddedToPayCheck()
     {
         CurrentViolations++;
+        PenaltyPerViolation += 10;
     }
 
     public void CalculateAndShowResultScreen()
     {
         float FinalEfficiencyBonus = (CurrentAccuracy / 100f) * MaxEfficiencyBonus;
-        float TotalViolationPenalty = CurrentViolations * PenaltyPerViolation;
+        float TotalViolationPenalty = PenaltyPerViolation; 
         float FinalTotalPay = BaseWage + FinalEfficiencyBonus - TotalViolationPenalty;
 
         if(CurrentAccepted >= TargetAccepted && CurrentViolations < MaxViolations)
@@ -112,7 +116,11 @@ public class ObjectiveManager : MonoBehaviour
     {
         IsShiftOver = true;
 
-        if(ResultsWindow != null) ResultsWindow.SetActive(true);
+        ResultsWindow.SetActive(true);
+        if(ResultAnimator != null)
+        {
+            ResultAnimator.PlayResultAnimation();
+        }
         CalculateAndShowResultScreen();
 
         Debug.Log("Shift Ended");

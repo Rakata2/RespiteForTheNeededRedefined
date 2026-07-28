@@ -489,7 +489,8 @@ public class NPCMovement : MonoBehaviour
 
         if(ObjectiveManager.instance != null & AcceptedByPlayer)
         {
-            if(ObjectiveManager.instance.CurrentAccepted + 1 >= ObjectiveManager.instance.TargetAccepted)
+            ObjectiveManager.instance.TotalAdmitted++;
+            if(ObjectiveManager.instance.TotalAdmitted >= ObjectiveManager.instance.TargetObjective)
             {
                 if(GameUIManager.instance != null)
                 {
