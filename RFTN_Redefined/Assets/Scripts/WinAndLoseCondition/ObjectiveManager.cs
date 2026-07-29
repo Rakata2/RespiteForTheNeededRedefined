@@ -20,8 +20,8 @@ public class ObjectiveManager : MonoBehaviour
     public int CurrentViolations = 0;
     public int MaxViolations = 3;
     public float CurrentAccuracy = 100f;
-    public int TotalAdmitted = 0;
-    public int TargetObjective = 10;
+    public int TotalAdmitted;
+    public int TargetObjective;
 
     [Header("Daily pay")]
     public float BaseWage;
@@ -106,7 +106,7 @@ public class ObjectiveManager : MonoBehaviour
 
         }
 
-        if(CurrentAccepted >= TargetAccepted || CurrentViolations >= MaxViolations)
+        if(CurrentAccepted >= TargetAccepted || CurrentViolations >= MaxViolations || TotalAdmitted >= TargetObjective)
         {
             EndShift();
         }
