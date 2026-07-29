@@ -282,7 +282,7 @@ public class NPCMovement : MonoBehaviour
                     StopFootstep();
                     CurrentState = NPCState.Interact;
 
-                    if(ChatBubble != null) ChatBubble.SetActive(true);
+                    //if(ChatBubble != null) ChatBubble.SetActive(true);
                     StartCoroutine(StartInteraction());
                 }
                 break;
@@ -332,22 +332,9 @@ public class NPCMovement : MonoBehaviour
     IEnumerator StartInteraction()
     {
         CurrentClient = this;
-
-
-        if (BellBridge.instance != null)
+        if (IsShelterType() && GameUIManager.instance.DeskCard != null && ChosenID != null)
         {
-            BellBridge.instance.SetTrigger("RingBell");
-        }
-        else
-        {
-            Debug.LogError("Bellbridge missing from scene");
-        }
-        GetComponent<AudioSource>().Play();
-        GameUIManager.instance.SetDialogueActive(true);
-        
-        if(IsShelterType()&& GameUIManager.instance.DeskCard != null && ChosenID != null)
-        {
-            if(HasID)
+            if (HasID)
             {
                 GameUIManager.instance.DeskCard.GetComponent<DocumentAnimator>().ShowDocument();
                 GameUIManager.instance.DeskCard.ReceiveID(ChosenID, PhysicalIDIsGovIssued, FaceOnIDCard);
@@ -360,7 +347,7 @@ public class NPCMovement : MonoBehaviour
 
         if (IsShelterType() && GameUIManager.instance.DeskLetter != null && ChosenID != null)
         {
-            if(HasLetter)
+            if (HasLetter)
             {
                 GameUIManager.instance.DeskLetter.GetComponent<DocumentAnimator>().ShowDocument();
                 GameUIManager.instance.DeskLetter.ReceiveLetterData(ChosenID, PhysicalLetterIsGovIssued);
@@ -369,12 +356,12 @@ public class NPCMovement : MonoBehaviour
             {
                 GameUIManager.instance.DeskLetter.gameObject.SetActive(false);
             }
-            
+
         }
 
         if (IsShelterType() && GameUIManager.instance.DeskApplication != null && ChosenID != null)
         {
-            if(HasApplication)
+            if (HasApplication)
             {
                 GameUIManager.instance.DeskApplication.GetComponent<DocumentAnimator>().ShowDocument();
                 GameUIManager.instance.DeskApplication.ReceiveApplicationData(ChosenID, PhysicalApplicationIsGovIssued, CheckReasonIndex, AppCircle);
@@ -385,6 +372,21 @@ public class NPCMovement : MonoBehaviour
             }
         }
 
+        yield return new WaitForSeconds(0.3f);
+
+        if (ChatBubble != null) ChatBubble.SetActive(true);
+
+
+        if (BellBridge.instance != null)
+        {
+            BellBridge.instance.SetTrigger("RingBell");
+        }
+        else
+        {
+            Debug.LogError("Bellbridge missing from scene");
+        }
+        GetComponent<AudioSource>().Play();
+        GameUIManager.instance.SetDialogueActive(true);
         Debug.Log("Interaction type: " + NPCRequestType);
 
         List<string> SelectedList = GetListByType(NPCRequestType);
@@ -402,9 +404,6 @@ public class NPCMovement : MonoBehaviour
         {
             NextButton.gameObject.SetActive(true);
         }
-
-
-
         CurrentState = NPCState.WaitingForDecision;
     }
 
@@ -432,10 +431,7 @@ public class NPCMovement : MonoBehaviour
     //[NEW] coroutine for NPC reactions
     IEnumerator LeaveRoutine(LeaveReaction Reaction)
     {
-        if(GameUIManager.instance != null)
-        {
-            GameUIManager.instance.HideAllDocuments();
-        }   
+           
         string ChosenText = "...";
         IsLeaving = true;
         AcceptedByPlayer = (Reaction == LeaveReaction.Accepted);
@@ -487,7 +483,14 @@ public class NPCMovement : MonoBehaviour
 
         yield return new WaitUntil(() => NextButton == null || !NextButton.gameObject.activeInHierarchy);
 
-        if(ObjectiveManager.instance != null & AcceptedByPlayer)
+        if (GameUIManager.instance != null)
+        {
+            GameUIManager.instance.HideAllDocuments();
+        }
+
+        yield return new WaitForSeconds(0.3f);
+
+        if (ObjectiveManager.instance != null & AcceptedByPlayer)
         {
             ObjectiveManager.instance.TotalAdmitted++;
             if(ObjectiveManager.instance.TotalAdmitted >= ObjectiveManager.instance.TargetObjective)
@@ -509,8 +512,6 @@ public class NPCMovement : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.4f);
         }
         StartLeaving(IsSuccessExit);
-
-
     }
 
     
