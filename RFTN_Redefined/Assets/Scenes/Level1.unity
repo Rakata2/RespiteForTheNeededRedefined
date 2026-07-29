@@ -6359,7 +6359,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Accept 10 applicants for today
+  m_text: Accept 5 applicants for today
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a8f8853cda615e4584ce32fd8dd477d, type: 2}
   m_sharedMaterial: {fileID: -3912765174558878753, guid: 0a8f8853cda615e4584ce32fd8dd477d, type: 2}
@@ -23461,7 +23461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f3e92af9b26ffe4ba5b99eeba846ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetAccepted: 2
+  TargetAccepted: 5
   CurrentAccepted: 0
   IsShiftOver: 0
   ResultsWindow: {fileID: 960284295}
@@ -23470,7 +23470,7 @@ MonoBehaviour:
   MaxViolations: 3
   CurrentAccuracy: 100
   TotalAdmitted: 0
-  TargetObjective: 10
+  TargetObjective: 5
   BaseWage: 75
   MaxEfficiencyBonus: 50
   PenaltyPerViolation: 0
@@ -26288,7 +26288,7 @@ MonoBehaviour:
   HoveredMailSprite: {fileID: 21300000, guid: 86a2f61399127bb41aa67c2410e2ba01, type: 3}
   AlertMailSprite: {fileID: 21300000, guid: 396e29de01c97174db1d36ca7a8c43c9, type: 3}
   HoveredAlertMailSprite: {fileID: 21300000, guid: 1c885d014396fc34cb18bd3ddd6f2095, type: 3}
-  MailPrefab: {fileID: 2011735399890146521, guid: 3321a7997ef9977419b2b2557c2544a0, type: 3}
+  MailPrefab: {fileID: 4327244401981673519, guid: d264f9f1b9871284eada284c225f2feb, type: 3}
   ComputerObject: {fileID: 40664174}
 --- !u!1 &2013151195
 GameObject:
