@@ -6359,7 +6359,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Accept 5 applicants for today
+  m_text: Accept 10 applicants for today
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a8f8853cda615e4584ce32fd8dd477d, type: 2}
   m_sharedMaterial: {fileID: -3912765174558878753, guid: 0a8f8853cda615e4584ce32fd8dd477d, type: 2}
@@ -23461,7 +23461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f3e92af9b26ffe4ba5b99eeba846ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetAccepted: 5
+  TargetAccepted: 10
   CurrentAccepted: 0
   IsShiftOver: 0
   ResultsWindow: {fileID: 960284295}
@@ -23470,7 +23470,7 @@ MonoBehaviour:
   MaxViolations: 3
   CurrentAccuracy: 100
   TotalAdmitted: 0
-  TargetObjective: 5
+  TargetObjective: 10
   BaseWage: 75
   MaxEfficiencyBonus: 50
   PenaltyPerViolation: 0
