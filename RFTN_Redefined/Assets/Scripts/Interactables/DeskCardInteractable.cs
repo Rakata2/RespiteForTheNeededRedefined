@@ -1,6 +1,10 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 public class DeskCardInteractable : MonoBehaviour
@@ -11,6 +15,7 @@ public class DeskCardInteractable : MonoBehaviour
     public SpriteRenderer IDCardSpriteRenderer;
     public Color NormalColor = Color.white;
 
+
     [ColorUsage(true, true)]
     public Color HoveredColor;
 
@@ -18,11 +23,23 @@ public class DeskCardInteractable : MonoBehaviour
 
     public AudioSource OpenCard;
 
-    public void ReceiveID(IdentityProfile IncomingProfile, bool IncomingGovStatus, Sprite IncomingFace)
+    public TMP_Text NameTextID;
+    public TMP_Text DOBTextID;
+    public UnityEngine.UI.Image FaceRenderer;
+
+    public string DisplayedNameID;
+    public string DisplayedDOBID;
+
+    public void ReceiveID(IdentityProfile IncomingProfile, bool IncomingGovStatus, Sprite IncomingFace, string PrintedName, string PrintedDOB)
     {
         NPCProfile = IncomingProfile;
         IsGovIssued = IncomingGovStatus;
         CardFaceSprite = IncomingFace;
+        DisplayedNameID = PrintedName;
+        DisplayedDOBID = PrintedDOB;
+        if (NameTextID != null) NameTextID.text = DisplayedNameID;
+        if(DOBTextID != null) DOBTextID.text = DisplayedDOBID;
+        if (FaceRenderer != null) FaceRenderer.sprite = CardFaceSprite;
     }
 
     private void OnMouseDown()
@@ -34,7 +51,7 @@ public class DeskCardInteractable : MonoBehaviour
         if(NPCProfile != null)
         {
             GameUIManager.instance.OpenIDCard();
-            IDPanelManager.instance.DisplayID(NPCProfile, IsGovIssued, CardFaceSprite);
+            IDPanelManager.instance.DisplayID(NPCProfile, IsGovIssued, CardFaceSprite, DisplayedNameID, DisplayedDOBID);
         }
 
         SetColor(ClickedColor);

@@ -18,16 +18,18 @@ public class IDPanelManager : MonoBehaviour
     public TMP_Text ExpiryDate;
     public Image GovernmentStampCheck;
     public Image PhotoImage;
+    
+
 
     void Awake()
     {
         if (instance == null) instance = this;
     }
 
-    public void DisplayID(IdentityProfile profile, bool IsValidGovID, Sprite FaceSprite)
+    public void DisplayID(IdentityProfile profile, bool IsValidGovID, Sprite FaceSprite, string PrintedName, string PrintedDOB)
     {
-        Name.text = profile.Name;
-        DateOfBirth.text = profile.DateOfBirth;
+        if(Name != null) Name.text = PrintedName;
+        if(DateOfBirth != null) DateOfBirth.text = PrintedDOB;
         Gender.text = profile.Gender;
         DateIssued.text = profile.DateIssued;
         ExpiryDate.text = profile.ExpiryDate;
@@ -48,7 +50,7 @@ public class IDPanelManager : MonoBehaviour
 
         if (PhotoImage != null && FaceSprite != null)
         {
-            PhotoImage.sprite = FaceSprite;
+            PhotoImage.sprite = FaceSprite; //do something about this later
         }
 
         IDPanelContainer.SetActive(true);

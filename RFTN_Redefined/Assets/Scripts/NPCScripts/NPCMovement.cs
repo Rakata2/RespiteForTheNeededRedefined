@@ -110,6 +110,13 @@ public class NPCMovement : MonoBehaviour
     private List<string> AskedTopics = new List<string>();
 
     private bool PenaltyRepeated = false;
+
+    public List<IdentityProfile> AllNPCProfiles;
+    public bool IsNameMissmatch;
+    public bool IsDOBMissmatch;
+    public string DisplayedName;
+    public string DisplayedNickName;
+    public string DisplayedDOB;
     void Awake()
     {
         NPCSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -264,6 +271,7 @@ public class NPCMovement : MonoBehaviour
                 }
             }
         }
+        ApplyDocumentFakes();
         StartFootstep();
     }
     void Update()
@@ -329,6 +337,57 @@ public class NPCMovement : MonoBehaviour
         StartCoroutine(LeaveRoutine(Reaction));
     }
 
+    private void ApplyDocumentFakes()
+    {
+        DisplayedName = ChosenID.Name;
+        DisplayedDOB = ChosenID.DateOfBirth;
+        DisplayedNickName = ChosenID.NickName;
+
+        if(IsFaceMissmatch == true)
+        {
+            IsFaceMissmatch = false;
+            FaceOnIDCard = ChosenID.Photo;
+            int FakeType = Random.Range(0, 3);
+
+            if(FakeType == 0)
+            {
+                IsFaceMissmatch = true;
+                FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
+                while(FaceOnIDCard == ChosenID.Photo)
+                {
+                    FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
+                }
+            }
+            else if(FakeType == 1)
+            {
+                IsNameMissmatch = true;
+                if(AllNPCProfiles != null && AllNPCProfiles.Count > 1)
+                {
+                    IdentityProfile FakeProfile = AllNPCProfiles[Random.Range(0, AllNPCProfiles.Count)];
+                    while (FakeProfile == ChosenID)
+                    {
+                        FakeProfile = AllNPCProfiles[Random.Range(0, AllNPCProfiles.Count)];
+                    }
+                    DisplayedName = FakeProfile.Name;
+                    DisplayedNickName = FakeProfile.NickName;
+                }
+            }
+            else if (FakeType == 2)
+            {
+                IsDOBMissmatch = true;
+                if (AllNPCProfiles != null && AllNPCProfiles.Count > 1)
+                {
+                    IdentityProfile FakeProfile = AllNPCProfiles[Random.Range(0, AllNPCProfiles.Count)];
+                    while (FakeProfile == ChosenID)
+                    {
+                        FakeProfile = AllNPCProfiles[Random.Range(0, AllNPCProfiles.Count)];
+                    }
+                    DisplayedDOB = FakeProfile.DateOfBirth;
+                }
+            }
+        }
+    }
+
     IEnumerator StartInteraction()
     {
         CurrentClient = this;
@@ -337,7 +396,7 @@ public class NPCMovement : MonoBehaviour
             if (HasID)
             {
                 GameUIManager.instance.DeskCard.GetComponent<DocumentAnimator>().ShowDocument();
-                GameUIManager.instance.DeskCard.ReceiveID(ChosenID, PhysicalIDIsGovIssued, FaceOnIDCard);
+                GameUIManager.instance.DeskCard.ReceiveID(ChosenID, PhysicalIDIsGovIssued, FaceOnIDCard, DisplayedName, DisplayedDOB);
             }
             else
             {
@@ -350,7 +409,7 @@ public class NPCMovement : MonoBehaviour
             if (HasLetter)
             {
                 GameUIManager.instance.DeskLetter.GetComponent<DocumentAnimator>().ShowDocument();
-                GameUIManager.instance.DeskLetter.ReceiveLetterData(ChosenID, PhysicalLetterIsGovIssued);
+                GameUIManager.instance.DeskLetter.ReceiveLetterData(ChosenID, PhysicalLetterIsGovIssued, DisplayedNickName);
             }
             else
             {
@@ -364,7 +423,7 @@ public class NPCMovement : MonoBehaviour
             if (HasApplication)
             {
                 GameUIManager.instance.DeskApplication.GetComponent<DocumentAnimator>().ShowDocument();
-                GameUIManager.instance.DeskApplication.ReceiveApplicationData(ChosenID, PhysicalApplicationIsGovIssued, CheckReasonIndex, AppCircle);
+                GameUIManager.instance.DeskApplication.ReceiveApplicationData(ChosenID, PhysicalApplicationIsGovIssued, CheckReasonIndex, AppCircle, DisplayedName, DisplayedDOB);
             }
             else
             {

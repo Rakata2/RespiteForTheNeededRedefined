@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DeskApplicationInteractable : MonoBehaviour
@@ -12,13 +13,26 @@ public class DeskApplicationInteractable : MonoBehaviour
     public Sprite NormalApplicationSprite;
     public Sprite HoveredApplicationSprite;
     public AudioSource OpenPaper;
-    public void ReceiveApplicationData(IdentityProfile IncomingProfile, bool IncomingGovStatus, int IncomingReasonIndex, bool IncomingCircle)
+
+    public TMP_Text NameTextApplication;
+    public TMP_Text DOBTextApplication;
+    public string DisplayedNameApplication;
+    public string DisplayedDOBApplication;
+    public void ReceiveApplicationData(IdentityProfile IncomingProfile, bool IncomingGovStatus, int IncomingReasonIndex, bool IncomingCircle, string PrintedName, string PrintedDOB)
     {
         NPCProfile = IncomingProfile;
         IsGovIssued = IncomingGovStatus;
         ReasonIndex = IncomingReasonIndex;
         Circle = IncomingCircle;
+
+        DisplayedNameApplication = PrintedName;
+        DisplayedDOBApplication = PrintedDOB;
+
+        if(NameTextApplication != null) NameTextApplication.text = DisplayedNameApplication;
+        if(DOBTextApplication != null) DOBTextApplication.text = DisplayedDOBApplication;
     }
+
+    
 
     private void OnMouseDown()
     {
@@ -30,7 +44,7 @@ public class DeskApplicationInteractable : MonoBehaviour
         if (NPCProfile != null)
         {
             GameUIManager.instance.OpenApplication();
-            ApplicationManager.instance.DisplayApplication(NPCProfile, IsGovIssued, ReasonIndex, Circle);
+            ApplicationManager.instance.DisplayApplication(NPCProfile, IsGovIssued, ReasonIndex, Circle, DisplayedNameApplication, DisplayedDOBApplication);
         }
     }
 

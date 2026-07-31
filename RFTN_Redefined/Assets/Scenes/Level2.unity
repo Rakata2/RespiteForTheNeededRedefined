@@ -7270,6 +7270,10 @@ MonoBehaviour:
   NormalApplicationSprite: {fileID: 21300000, guid: 68dddee3c4a78de4a9c1f48ba36a6799, type: 3}
   HoveredApplicationSprite: {fileID: 21300000, guid: 19d5ef8218733df48914d25d6295be50, type: 3}
   OpenPaper: {fileID: 1386898306}
+  NameTextApplication: {fileID: 0}
+  DOBTextApplication: {fileID: 0}
+  DisplayedNameApplication: 
+  DisplayedDOBApplication: 
 --- !u!61 &553224753
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -17316,6 +17320,11 @@ MonoBehaviour:
   HoveredColor: {r: 29058.414, g: 29058.414, b: 29058.414, a: 1}
   ClickedColor: {r: 0.690566, g: 0.690566, b: 0.690566, a: 1}
   OpenCard: {fileID: 960194599}
+  NameTextID: {fileID: 0}
+  DOBTextID: {fileID: 0}
+  FaceRenderer: {fileID: 0}
+  DisplayedNameID: 
+  DisplayedDOBID: 
 --- !u!114 &1280246315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25090,6 +25099,8 @@ MonoBehaviour:
   NormalLetterSprite: {fileID: 21300000, guid: 18abd9b1744391c4c8e9aa491c14b338, type: 3}
   HoveredLetterSprite: {fileID: 21300000, guid: a94434e7dde8bbb42b99d85144f345b6, type: 3}
   OpenPaper: {fileID: 1386898306}
+  NickNameText: {fileID: 0}
+  DisplayedNickName: 
 --- !u!61 &1946164192
 BoxCollider2D:
   m_ObjectHideFlags: 0

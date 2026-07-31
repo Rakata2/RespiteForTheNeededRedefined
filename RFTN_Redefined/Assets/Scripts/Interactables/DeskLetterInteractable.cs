@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,10 +13,17 @@ public class DeskLetterInteractable : MonoBehaviour
     public Sprite HoveredLetterSprite;
     public AudioSource OpenPaper;
 
-    public void ReceiveLetterData(IdentityProfile IncomingProfile, bool IncomingGovStatus)
+    public TMP_Text NickNameText;
+    public string DisplayedNickName;
+
+
+
+    public void ReceiveLetterData(IdentityProfile IncomingProfile, bool IncomingGovStatus, string PrintedNickName)
     {
         NPCProfile = IncomingProfile;
         IsGovIssued = IncomingGovStatus;
+        DisplayedNickName = PrintedNickName;
+        if(NickNameText != null) NickNameText.text = DisplayedNickName;
     }
 
     private void OnMouseDown()
@@ -27,7 +35,7 @@ public class DeskLetterInteractable : MonoBehaviour
         if (NPCProfile != null)
         {
             GameUIManager.instance.OpenLetter();
-            LetterPanelManager.instance.DisplayLetter(NPCProfile, IsGovIssued);
+            LetterPanelManager.instance.DisplayLetter(NPCProfile, IsGovIssued, DisplayedNickName);
         }
     }
 

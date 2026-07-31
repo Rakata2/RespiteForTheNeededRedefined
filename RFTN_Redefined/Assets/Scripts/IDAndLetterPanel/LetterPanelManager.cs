@@ -21,7 +21,7 @@ public class LetterPanelManager : MonoBehaviour
         instance = this;
     }
 
-    public void DisplayLetter(IdentityProfile profile, bool IsValidGovID)
+    public void DisplayLetter(IdentityProfile profile, bool IsValidGovID, string PrintedNickName)
     {
         if (ReasoningDatabase != null && ReasoningDatabase.Count > 0)
         {
@@ -34,7 +34,7 @@ public class LetterPanelManager : MonoBehaviour
                 Reasontext.text = ChosenAsset.Reasoningtext[randomTextIndex];
             }
         }
-        NickName.text = profile.NickName;
+        if(NickName != null) NickName.text = PrintedNickName;
         if (IsValidGovID == true)
         {
             // Fixed: Image does not have a 'text' property. You likely want to show/hide the stamp or change its sprite.

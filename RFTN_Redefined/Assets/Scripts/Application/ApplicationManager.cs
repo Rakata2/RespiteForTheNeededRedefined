@@ -21,9 +21,10 @@ public class ApplicationManager : MonoBehaviour
         instance = this;
     }
 
-    public void DisplayApplication(IdentityProfile profile, bool IsValidGovID, int ReasonIndex, bool Circle)
+    public void DisplayApplication(IdentityProfile profile, bool IsValidGovID, int ReasonIndex, bool Circle, string PrintedName, string PrintedDOB)
     {
-        Name.text = profile.Name;
+        if (Name != null) Name.text = PrintedName;
+        if(DOB != null) DOB.text = PrintedDOB;
         DOB.text = profile.DateOfBirth;
 
         CircleYes.enabled = Circle;
