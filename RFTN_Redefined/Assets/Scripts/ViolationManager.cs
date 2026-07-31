@@ -31,7 +31,9 @@ public class ViolationManager : MonoBehaviour
             return ViolationType.IncompleteDocument;
         }
 
-        if (NPC.IsFaceMissmatch) return ViolationType.FakeID;
+        if (NPC.IsFaceMissmatch) return ViolationType.FakeDocumentFaceMissmatch;
+        if (NPC.IsNameMissmatch) return ViolationType.FakeDocumentNameMissmatch;
+        if (NPC.IsDOBMissmatch) return ViolationType.FakeDocumentDOBMissmatch;
         
 
         bool InDatabase = DatabaseManager.Instance.IsNPCIsVisibleInDatabse(NPC.ChosenID);

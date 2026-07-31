@@ -5,7 +5,9 @@ using UnityEngine;
 public enum ViolationType
 {
     None,
-    FakeID, //accepting a fake id
+    FakeDocumentFaceMissmatch, 
+    FakeDocumentNameMissmatch, 
+    FakeDocumentDOBMissmatch,
     InvalidDocument, //accepting documents that are not valid (not issued by the government)
     IncompleteDocument, //accepting documents that are incomplete (missing information)
     ApplicationMissingID, //accepting an application that circled yes but no ID

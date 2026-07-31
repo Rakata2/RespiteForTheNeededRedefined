@@ -58,7 +58,7 @@ public class NPCMovement : MonoBehaviour
         Accepted,
         RejectedCorrectly,
         RejectIncorrectly,
-        CaughtFakeID
+        CaughtFakeDocument
     }
 
     public NPCState CurrentState = NPCState.MovingToCenter;
@@ -501,12 +501,13 @@ public class NPCMovement : MonoBehaviour
                 ChosenText = PickRandomResponse(NPCResponseDB.Accept);
                 IsSuccessExit = true;
                 break;
-            case LeaveReaction.CaughtFakeID:
+            case LeaveReaction.CaughtFakeDocument:
                 ChosenText = PickRandomResponse(NPCResponseDB.QuestionFakeID);
                 IsSuccessExit = false;
                 break;
             case LeaveReaction.RejectedCorrectly:
-                if(IsFaceMissmatch)
+                if(GameUIManager.instance != null) GameUIManager.instance.HideAllDocuments();
+                if(IsFaceMissmatch == true || IsNameMissmatch == true || IsDOBMissmatch == true)
                 {
                     ChosenText = PickRandomResponse(NPCResponseDB.ThankYouResponseFake);
                     if (GameUIManager.instance != null) GameUIManager.instance.ShowEmptyApplication();
@@ -539,6 +540,8 @@ public class NPCMovement : MonoBehaviour
         {
             NextButton.gameObject.SetActive(true);
         }
+
+
 
         yield return new WaitUntil(() => NextButton == null || !NextButton.gameObject.activeInHierarchy);
 
@@ -638,9 +641,9 @@ public class NPCMovement : MonoBehaviour
                 ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThere);
             }
 
-            if(IsFaceMissmatch == true)
+            if(IsFaceMissmatch == true || IsNameMissmatch == true || IsDOBMissmatch == true)
             {
-                TriggerReaction(LeaveReaction.CaughtFakeID);
+                TriggerReaction(LeaveReaction.CaughtFakeDocument);
                 return;
             }
 
