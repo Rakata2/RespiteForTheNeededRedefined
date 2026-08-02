@@ -117,6 +117,8 @@ public class NPCMovement : MonoBehaviour
     public string DisplayedName;
     public string DisplayedNickName;
     public string DisplayedDOB;
+
+
     void Awake()
     {
         NPCSpriteRenderer = GetComponent<SpriteRenderer>();

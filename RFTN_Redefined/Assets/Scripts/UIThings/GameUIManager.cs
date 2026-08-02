@@ -25,6 +25,7 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private CanvasGroup ApplicationPanel;
     [SerializeField] public CanvasGroup ActionPanel;
     [SerializeField] public CanvasGroup StickyNotePanel;
+    [SerializeField] public CanvasGroup TrayPanel;
     [SerializeField] private GameObject Action;
     [SerializeField] private GameObject Question;
     [SerializeField] private GameObject ClarificationAccept;
@@ -32,11 +33,11 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private GameObject UIBlocker;
 
     [SerializeField] public GameObject MinimizedTray;
-    [SerializeField] private TMP_Text TrayText;
+    [SerializeField] private TMP_Text TrayText;    
 
     private bool PendingDecision;
 
-    
+    public GameObject[] PhysicalDeskItems; 
 
     public enum WindowType
     {
@@ -193,6 +194,16 @@ public class GameUIManager : MonoBehaviour
     public void CloseStickyNote()
     {
         HidePanel(StickyNotePanel);
+    }
+
+    public void OpenTray()
+    {
+        ShowPanel(TrayPanel);
+    }
+
+    public void CloseTray()
+    {
+        HidePanel(TrayPanel);
     }
 
     public void CloseActionMenu()
@@ -435,6 +446,16 @@ public class GameUIManager : MonoBehaviour
             CloseCard.pitch = TargetCloseCardPitch;
             CloseCard.PlayOneShot(CloseCard.clip);
         }
+    }
+
+    public void RetryLevel()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
+
+    public void ReturnToMainMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenuScene");
     }
 
 

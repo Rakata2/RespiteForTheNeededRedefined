@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 376646037e3a0c843a69732ba2c12220, type: 3}
+  m_Name: NewViolationList
+  m_EditorClassIdentifier: 
+  Violations:
+  - Type: 1
+    SubjectLine: Document inconsistency
+    Description: Applicants are not allowed to provide documents containing false
+      information (Face potrait on ID).
+  - Type: 2
+    SubjectLine: Document inconsistency
+    Description: Applicants are not allowed to provide documents containing false
+      information (name missmatch).
+  - Type: 3
+    SubjectLine: Document inconsistency
+    Description: Applicants are not allowed to provide documents containing false
+      information (date of birth missmatch).
+  - Type: 4
+    SubjectLine: Uneligible documents
+    Description: All documents provided must be government issued
+  - Type: 5
+    SubjectLine: Incomplete documents
+    Description: All documents provided must be complete
+  - Type: 6
+    SubjectLine: Application inaccuracy
+    Description: Be sure the applicant has already filled the application accurately
+      (declared with having an id but didn't provide it on the desk)
+  - Type: 7
+    SubjectLine: Database Absense
+    Description: Applicants must be present in the database, unless if they have
+      valid reasoning
+  - Type: 8
+    SubjectLine: Rejecting a hospitalized person
+    Description: Applicants who just got discharged from the hospital bypasses the
+      requirement to be present at the database
+  - Type: 9
+    SubjectLine: invalid rejection
+    Description: Applicants who has valid documents and / or is present at the database
+      should be accepted
