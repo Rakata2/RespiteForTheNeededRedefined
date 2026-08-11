@@ -407,6 +407,20 @@ public class GameUIManager : MonoBehaviour
         if(DeskApplication != null && DeskApplication.gameObject.activeInHierarchy) DeskApplication.GetComponent<DocumentAnimator>().HideDocument();
     }
 
+    public void HideAllItems()
+    {
+        if(DeskItemAnimators != null)
+        {
+            for (int i = 0; i < DeskItemAnimators.Length; i++)
+            {
+                if (DeskItemAnimators[i] != null & DeskItemAnimators[i].gameObject.activeInHierarchy)
+                {
+                    DeskItemAnimators[i].HideItem();
+                }
+            }
+        }
+    }
+
     public void ShowEmptyApplication()
     {
         if (EmptyApplication != null) EmptyApplication.GetComponent<RejectionApplication>().GiveApplication();

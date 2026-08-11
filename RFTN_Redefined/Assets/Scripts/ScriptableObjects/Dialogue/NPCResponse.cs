@@ -44,5 +44,8 @@ public class NPCResponse : ScriptableObject
 
     [Header("Fake id npc response")]
     public List<string> ThankYouResponseFake;
-    
+
+    [Header("Level 3 response")]
+    public List<string> Level3ThankYouResponse;
+
 }

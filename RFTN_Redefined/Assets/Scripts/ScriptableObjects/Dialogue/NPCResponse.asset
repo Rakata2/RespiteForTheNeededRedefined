@@ -70,8 +70,9 @@ MonoBehaviour:
   RejectSecondIncomplete:
   - You're not even trying your best to give people shelter..
   - ...Fine, i'll just find another shelter
-  MultipleMistakes:
-  - I am not cooperating with you anymore. I'm leaving
-  - You really can't do your job properly huh? Fine, i'll just find another shelter.
+  AskedQuestionsTwice:
+  - I already answered your question
   ThankYouResponseFake:
   - Oh... right. Thanks
+  Level3ThankYouResponse:
+  - Thanks. What are items that i can bring inside?

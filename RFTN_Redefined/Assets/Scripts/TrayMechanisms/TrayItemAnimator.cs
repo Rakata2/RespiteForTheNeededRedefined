@@ -34,10 +34,18 @@ public class TrayItemAnimator : MonoBehaviour
         InitializeIfNeeded();
         gameObject.SetActive(true);
         if(CurrentAnimation != null) StopCoroutine(CurrentAnimation);
-        CurrentAnimation = StartCoroutine(AnimateRoutine(StartPoint.position, EndPoint.position, 0f, 1f));
+        CurrentAnimation = StartCoroutine(AnimateRoutine(StartPoint.position, EndPoint.position, 0f, 1f, false));
     }
 
-    private IEnumerator AnimateRoutine(Vector3 fromPos, Vector3 toPos, float fromAlpha, float toAlpha)
+    public void HideItem()
+    {
+        if (!gameObject.activeInHierarchy) return;
+        if (CurrentAnimation != null) StopCoroutine(CurrentAnimation);
+        CurrentAnimation = StartCoroutine(AnimateRoutine(EndPoint.position, StartPoint.position, SpriteRenderer.color.a, 0f, true));
+    }
+
+
+    private IEnumerator AnimateRoutine(Vector3 fromPos, Vector3 toPos, float fromAlpha, float toAlpha, bool DeactivateAfter)
     {
         float time = 0f;
         while (time < AnimationDuration)
@@ -47,6 +55,11 @@ public class TrayItemAnimator : MonoBehaviour
             transform.position = Vector3.Lerp(fromPos, toPos, t);
             SetSpriteAlpha(Mathf.Lerp(fromAlpha, toAlpha, t));
             yield return null;
+        }
+
+        if(DeactivateAfter == true)
+        {
+            gameObject.SetActive(false);
         }
     }
     public void SetSpriteAlpha(float alpha)

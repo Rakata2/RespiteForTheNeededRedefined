@@ -125,10 +125,6 @@ public class NPCMovement : MonoBehaviour
     public ItemList MasterItemList;
     public List<ItemList.ItemEntry> CurrentNPCItems = new List<ItemList.ItemEntry>();
 
-    
-    
-
-
     void Awake()
     {
         NPCSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -503,7 +499,6 @@ public class NPCMovement : MonoBehaviour
     //[NEW] coroutine for NPC reactions
     IEnumerator LeaveRoutine(LeaveReaction Reaction)
     {
-           
         string ChosenText = "...";
         IsLeaving = true;
         AcceptedByPlayer = (Reaction == LeaveReaction.Accepted);
@@ -513,6 +508,7 @@ public class NPCMovement : MonoBehaviour
             case LeaveReaction.Accepted:
                 ChosenText = PickRandomResponse(NPCResponseDB.Accept);
                 IsSuccessExit = true;
+                if(HasTrayMechanic) ChosenText = PickRandomResponse(NPCResponseDB.Level3ThankYouResponse);
                 break;
             case LeaveReaction.CaughtFakeDocument:
                 ChosenText = PickRandomResponse(NPCResponseDB.QuestionFakeID);
@@ -558,6 +554,18 @@ public class NPCMovement : MonoBehaviour
 
 
         yield return new WaitUntil(() => NextButton == null || !NextButton.gameObject.activeInHierarchy);
+        if (Reaction == LeaveReaction.Accepted && HasTrayMechanic)
+        {
+            GameUIManager.instance.SetDialogueActive(false);
+            if(ChatBubble != null) ChatBubble.SetActive(false);
+            if(GameUIManager.instance.TrayPanelManagerScript != null)
+            {
+                GameUIManager.instance.TrayPanelManagerScript.PrepareTrayItem(CurrentNPCItems);
+                GameUIManager.instance.TrayPanelManagerScript.gameObject.SetActive(true);
+            }
+            yield break;
+        }
+
 
         if (GameUIManager.instance != null)
         {
@@ -762,6 +770,27 @@ public class NPCMovement : MonoBehaviour
             return "...";
         }
         return ResponseList[Random.Range(0, ResponseList.Count)];
+    }
+
+    public void FinishTrayInteractionAndLeave()
+    {
+        if(ObjectiveManager.instance != null)
+        {
+            ObjectiveManager.instance.TotalAdmitted++;
+            if(ObjectiveManager.instance.TotalAdmitted >= ObjectiveManager.instance.TargetObjective)
+            {
+                if(GameUIManager.instance != null)
+                {
+                    GameUIManager.instance.LockGame();
+                }
+            }
+        }
+        if(GameUIManager.instance != null)
+        {
+            GameUIManager.instance.HideAllDocuments();
+            GameUIManager.instance.HideAllItems();
+        }
+        StartLeaving(true);
     }
 
 
