@@ -629,10 +629,10 @@ public class NPCMovement : MonoBehaviour
                 GameUIManager.instance.DeskItemAnimators[i].ShowItem();
             }
         }
-        if(GameUIManager.instance.TrayPanelManagerScript != null)
-        {
-            GameUIManager.instance.TrayPanelManagerScript.PrepareTrayItem(CurrentNPCItems);
-        }
+        //if(GameUIManager.instance.TrayPanelManagerScript != null)
+        //{
+        //    GameUIManager.instance.TrayPanelManagerScript.PrepareTrayItem(CurrentNPCItems);
+        //}
     }
 
     public void EvaluateQuestion(string Topic)

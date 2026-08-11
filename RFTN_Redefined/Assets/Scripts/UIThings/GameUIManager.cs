@@ -257,7 +257,7 @@ public class GameUIManager : MonoBehaviour
         PendingDecision = false;
         Question.SetActive(false);
         Action.SetActive(false);
-        ClarificationAccept.SetActive(true);
+        ClarificationReject.SetActive(true);
     }
 
     public void ClarifiedReject()
