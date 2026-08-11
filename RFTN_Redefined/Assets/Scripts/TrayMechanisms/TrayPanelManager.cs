@@ -9,6 +9,8 @@ public class TrayPanelManager : MonoBehaviour
 {
     public ItemInteract[] BigItemSlots;
 
+    
+
     [Header("Popup stuff")]
     public GameObject NoItemPoppup;
     public GameObject ItemPoppup;
