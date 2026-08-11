@@ -15,7 +15,6 @@ public class TrayItemAnimator : MonoBehaviour
     private void Awake()
     {
         if (instance == null) instance = this;
-        else Destroy(gameObject);
     }
 
     private void InitializeIfNeeded()

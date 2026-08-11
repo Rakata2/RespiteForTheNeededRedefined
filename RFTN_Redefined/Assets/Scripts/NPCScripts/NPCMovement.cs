@@ -119,6 +119,16 @@ public class NPCMovement : MonoBehaviour
     public string DisplayedDOB;
 
 
+    public bool HasTrayMechanic;
+
+    //NEW CODE HERE
+    public ItemList MasterItemList;
+    public List<ItemList.ItemEntry> CurrentNPCItems = new List<ItemList.ItemEntry>();
+
+    
+    
+
+
     void Awake()
     {
         NPCSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -278,11 +288,6 @@ public class NPCMovement : MonoBehaviour
     }
     void Update()
     {
-        //if(Input.GetMouseButtonDown(0) && IsTyping)
-        //{
-        //    if(TypingCoroutine != null) StopCoroutine(TypingCoroutine);
-        //    CompleteTyping();
-        //} FOR SKIPPING WITH CLICKING
         switch(CurrentState)
         {
             case NPCState.MovingToCenter:
@@ -433,7 +438,13 @@ public class NPCMovement : MonoBehaviour
             }
         }
 
+        if(HasTrayMechanic)
+        {
+            yield return new WaitForSeconds(0.3f);
+            SpawnTrayItems();
+        }
         yield return new WaitForSeconds(0.3f);
+
 
         if (ChatBubble != null) ChatBubble.SetActive(true);
 
@@ -526,6 +537,7 @@ public class NPCMovement : MonoBehaviour
                 IsSuccessExit = false;
                 break;
         }
+        
         if (ActionPanel != null) ActionPanel.SetActive(false);
         GameUIManager.instance.SetDialogueActive(true);
         if (ChatBubble != null) ShowChatBubble();
@@ -593,6 +605,33 @@ public class NPCMovement : MonoBehaviour
                 return ShelterDialogueDB.ShelterBehavioralNeeds;
             default:
                 return ShelterDialogueDB.ShelterDialogues; //MIND THIS PLEASE MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW 
+        }
+    }
+
+    private void SpawnTrayItems()
+    {
+        CurrentNPCItems.Clear();
+        List<ItemList.ItemEntry> AvailableItems = new List<ItemList.ItemEntry>(MasterItemList.Items);
+        for(int i = 0; i < 3; i++)
+        {
+            if (AvailableItems.Count == 0) break;
+            if (AvailableItems.Count == 0) break;
+            int RandomIndex = Random.Range(0, AvailableItems.Count);
+            ItemList.ItemEntry ChosenItem = AvailableItems[RandomIndex];
+            CurrentNPCItems.Add(ChosenItem);
+            AvailableItems.RemoveAt(RandomIndex);
+            if (GameUIManager.instance.DeskItemRenderers[i] != null)
+            {
+                GameUIManager.instance.DeskItemRenderers[i].sprite = ChosenItem.SmallSprite;
+            }
+            if (GameUIManager.instance.DeskItemAnimators[i] != null)
+            {
+                GameUIManager.instance.DeskItemAnimators[i].ShowItem();
+            }
+        }
+        if(GameUIManager.instance.TrayPanelManagerScript != null)
+        {
+            GameUIManager.instance.TrayPanelManagerScript.PrepareTrayItem(CurrentNPCItems);
         }
     }
 

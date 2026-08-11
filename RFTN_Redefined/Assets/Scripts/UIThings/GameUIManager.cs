@@ -37,7 +37,9 @@ public class GameUIManager : MonoBehaviour
 
     private bool PendingDecision;
 
-    public GameObject[] PhysicalDeskItems; 
+    public GameObject[] PhysicalDeskItems;
+
+    public TrayPanelManager TrayPanelManagerScript;
 
     public enum WindowType
     {
@@ -72,7 +74,9 @@ public class GameUIManager : MonoBehaviour
     public float MaxPitchClick = 1.5f;
 
     public AudioSource PaperSlideEnter;
-    
+
+    public SpriteRenderer[] DeskItemRenderers;
+    public TrayItemAnimator[] DeskItemAnimators;
     
     
 

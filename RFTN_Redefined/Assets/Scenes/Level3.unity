@@ -865,9 +865,9 @@ Transform:
   m_GameObject: {fileID: 56803530}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.0327287, y: -2.8363862, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -2.007, y: -2.8363862, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1314292558}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -926,7 +926,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 6
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1588,7 +1588,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &82571684
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5631,6 +5631,7 @@ MonoBehaviour:
   MinimizedTray: {fileID: 1840455454}
   TrayText: {fileID: 485415048}
   PhysicalDeskItems: []
+  TrayPanelManagerScript: {fileID: 1880628288}
   DeskCard: {fileID: 1280246314}
   DeskLetter: {fileID: 1946164191}
   DeskApplication: {fileID: 553224752}
@@ -5646,6 +5647,14 @@ MonoBehaviour:
   MinPitchClick: 0.7
   MaxPitchClick: 1.9
   PaperSlideEnter: {fileID: 0}
+  DeskItemRenderers:
+  - {fileID: 56803533}
+  - {fileID: 477461716}
+  - {fileID: 1934060645}
+  DeskItemAnimators:
+  - {fileID: 56803532}
+  - {fileID: 477461715}
+  - {fileID: 1934060644}
 --- !u!4 &421387639
 Transform:
   m_ObjectHideFlags: 0
@@ -6688,9 +6697,9 @@ Transform:
   m_GameObject: {fileID: 477461713}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.4707286, y: -2.7913861, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -1.435, y: -2.7913861, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1314292558}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6749,7 +6758,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 6
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -18092,7 +18101,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1299616213
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25293,7 +25302,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1880628283}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -25347,7 +25356,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336958b2749158b4e9869a21c34f9d36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllBigViewItems: []
+  BigItemSlots:
+  - {fileID: 1936730497}
+  - {fileID: 82571685}
+  - {fileID: 1299616214}
 --- !u!1 &1899424917
 GameObject:
   m_ObjectHideFlags: 0
@@ -25834,8 +25846,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.75672877, y: -2.8093863, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1314292558}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -25894,7 +25906,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 6
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -26059,7 +26071,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1936730496
 RectTransform:
   m_ObjectHideFlags: 0

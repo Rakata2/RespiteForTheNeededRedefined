@@ -771,6 +771,9 @@ MonoBehaviour:
   DisplayedName: 
   DisplayedNickName: 
   DisplayedDOB: 
+  HasTrayMechanic: 1
+  MasterItemList: {fileID: 11400000, guid: dcd96c1a6e689664a92e6b5f0b90053c, type: 2}
+  CurrentNPCItems: []
 --- !u!82 &42306082313287276
 AudioSource:
   m_ObjectHideFlags: 0

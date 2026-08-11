@@ -1,22 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TrayPanelManager : MonoBehaviour
 {
-    public List<GameObject> AllBigViewItems;
+    public Image[] BigItemSlots;
 
-    public void PrepareTrayItems(List<GameObject> NPCItems)
-    { 
-        foreach(GameObject Item in AllBigViewItems)
+    public void PrepareTrayItem(List<ItemList.ItemEntry> NPCItems)
+    {
+        for(int i = 0; i<3; i++)
         {
-            Item.SetActive(false);
-        }
-
-        foreach (GameObject ItemToTurnOn in NPCItems)
-        {
-            ItemToTurnOn.SetActive(true);
+            if(i < NPCItems.Count)
+            {
+                if(i < NPCItems.Count)
+                {
+                    BigItemSlots[i].sprite = NPCItems[i].BigSprite;
+                    BigItemSlots[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    BigItemSlots[i].gameObject.SetActive(false);
+                }
+            }
         }
     }
+
+    
 
 }
