@@ -94,7 +94,7 @@ public class TrayPanelManager : MonoBehaviour
     public void FinalConfirm()
     {
         ItemPoppup.SetActive(false);
-        gameObject.SetActive(false);
+        GameUIManager.instance.CloseTray();
         if(NPCMovement.CurrentClient != null)
         {
             NPCMovement.CurrentClient.FinishTrayInteractionAndLeave();

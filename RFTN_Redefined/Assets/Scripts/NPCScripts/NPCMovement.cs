@@ -506,9 +506,15 @@ public class NPCMovement : MonoBehaviour
         switch (Reaction)
         {
             case LeaveReaction.Accepted:
-                ChosenText = PickRandomResponse(NPCResponseDB.Accept);
                 IsSuccessExit = true;
-                if(HasTrayMechanic) ChosenText = PickRandomResponse(NPCResponseDB.Level3ThankYouResponse);
+                if (HasTrayMechanic)
+                {
+                    ChosenText = PickRandomResponse(NPCResponseDB.Level3ThankYouResponse);
+                }
+                else
+                {
+                    ChosenText = PickRandomResponse(NPCResponseDB.Accept);
+                }
                 break;
             case LeaveReaction.CaughtFakeDocument:
                 ChosenText = PickRandomResponse(NPCResponseDB.QuestionFakeID);
@@ -550,22 +556,20 @@ public class NPCMovement : MonoBehaviour
         {
             NextButton.gameObject.SetActive(true);
         }
-
-
-
         yield return new WaitUntil(() => NextButton == null || !NextButton.gameObject.activeInHierarchy);
         if (Reaction == LeaveReaction.Accepted && HasTrayMechanic)
         {
             GameUIManager.instance.SetDialogueActive(false);
             if(ChatBubble != null) ChatBubble.SetActive(false);
-            if(GameUIManager.instance.TrayPanelManagerScript != null)
+            if(GameUIManager.instance != null && GameUIManager.instance.TrayPanelManagerScript != null)
             {
                 GameUIManager.instance.TrayPanelManagerScript.PrepareTrayItem(CurrentNPCItems);
-                GameUIManager.instance.TrayPanelManagerScript.gameObject.SetActive(true);
+                GameUIManager.instance.OpenTray();
             }
             yield break;
         }
 
+        yield return new WaitForSeconds(0.3f);
 
         if (GameUIManager.instance != null)
         {
@@ -774,23 +778,53 @@ public class NPCMovement : MonoBehaviour
 
     public void FinishTrayInteractionAndLeave()
     {
-        if(ObjectiveManager.instance != null)
+        StartCoroutine(FinalExitRoutine());
+    }
+
+    private IEnumerator FinalExitRoutine()
+    {
+        string ChosenText = PickRandomResponse(NPCResponseDB.Accept);
+
+        if (ActionPanel != null) ActionPanel.SetActive(false);
+        GameUIManager.instance.SetDialogueActive(true);
+        if (ChatBubble != null) ShowChatBubble();
+        DialogueText.text = "";
+        if(NextButton != null) NextButton.gameObject.SetActive(false);
+        
+        foreach(char letter in ChosenText.ToCharArray())
         {
-            ObjectiveManager.instance.TotalAdmitted++;
-            if(ObjectiveManager.instance.TotalAdmitted >= ObjectiveManager.instance.TargetObjective)
-            {
-                if(GameUIManager.instance != null)
-                {
-                    GameUIManager.instance.LockGame();
-                }
-            }
+            DialogueText.text += letter;
+            yield return new WaitForSeconds(TypingSpeed);
         }
+        if (NextButton != null)
+        {
+            NextButton.gameObject.SetActive(true);
+        }
+        yield return new WaitUntil(() => NextButton == null || !NextButton.gameObject.activeInHierarchy);
+
+        GameUIManager.instance.SetDialogueActive(false);
+        if(ChatBubble != null) ChatBubble.SetActive(false);
+
         if(GameUIManager.instance != null)
         {
             GameUIManager.instance.HideAllDocuments();
             GameUIManager.instance.HideAllItems();
         }
+
+        yield return new WaitForSeconds(0.3f);
+        if (ObjectiveManager.instance != null)
+        {
+            ObjectiveManager.instance.TotalAdmitted++;
+            if (ObjectiveManager.instance.TotalAdmitted >= ObjectiveManager.instance.TargetObjective)
+            {
+                if (GameUIManager.instance != null)
+                {
+                    GameUIManager.instance.LockGame();
+                }
+            }
+        }
         StartLeaving(true);
+
     }
 
 

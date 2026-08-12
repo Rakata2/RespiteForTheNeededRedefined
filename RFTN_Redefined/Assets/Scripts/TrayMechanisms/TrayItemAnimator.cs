@@ -39,9 +39,7 @@ public class TrayItemAnimator : MonoBehaviour
 
     public void HideItem()
     {
-        if (!gameObject.activeInHierarchy) return;
-        if (CurrentAnimation != null) StopCoroutine(CurrentAnimation);
-        CurrentAnimation = StartCoroutine(AnimateRoutine(EndPoint.position, StartPoint.position, SpriteRenderer.color.a, 0f, true));
+        gameObject.SetActive(false);
     }
 
 
