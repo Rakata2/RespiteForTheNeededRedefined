@@ -234,14 +234,21 @@ public class GameUIManager : MonoBehaviour
         Action.SetActive(true);
         CloseActionMenu();
 
-        //[NEW]
         if(NPCMovement.CurrentClient != null)
         {
-            ViolationManager.instance.ProcessPlayerDecision(PendingDecision, NPCMovement.CurrentClient);
+            NPCMovement CurrentNPC = NPCMovement.CurrentClient;
+            if(PendingDecision == true && CurrentNPC.HasTrayMechanic)
+            {
+                CurrentNPC.TriggerReaction(NPCMovement.LeaveReaction.Accepted);
+            }
+            else
+            {
+                ViolationManager.instance.ProcessPlayerDecision(PendingDecision, CurrentNPC);
+            }
         }
         else
         {
-            Debug.LogWarning("No npc at counter");
+            Debug.Log("NO npc");
         }
     }
 

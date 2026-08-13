@@ -47,3 +47,11 @@ MonoBehaviour:
     SubjectLine: invalid rejection
     Description: Applicants who has valid documents and / or is present at the database
       should be accepted
+  - Type: 10
+    SubjectLine: Unauthorized item
+    Description: Applicants with items that are considered "red flags" should not
+      be allowed (see policies)
+  - Type: 11
+    SubjectLine: Invalid item rejection
+    Description: Applicants with items that are considered "safe" should be allowed
+      (see policies)

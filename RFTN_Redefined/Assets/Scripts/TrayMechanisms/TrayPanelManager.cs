@@ -16,6 +16,7 @@ public class TrayPanelManager : MonoBehaviour
     public GameObject ItemPoppup;
     public TMPro.TextMeshProUGUI ItemsAcceptedText;
     private bool HasItemsLoaded = false;
+    
 
     public void PrepareTrayItem(List<ItemList.ItemEntry> NPCItems)
     {
@@ -93,12 +94,38 @@ public class TrayPanelManager : MonoBehaviour
 
     public void FinalConfirm()
     {
-        ItemPoppup.SetActive(false);
-        GameUIManager.instance.CloseTray();
-        if(NPCMovement.CurrentClient != null)
+        if (NPCMovement.CurrentClient != null)
+        {
+            NPCMovement.CurrentClient.AllowedItems.Clear();
+            NPCMovement.CurrentClient.RejectedItems.Clear();
+
+            for (int i = 0; i < BigItemSlots.Length; i++)
+            {
+                if (BigItemSlots[i] != null && BigItemSlots[i].gameObject.activeInHierarchy)
+                {
+                    ItemList.ItemEntry ItemInSlot = BigItemSlots[i].AssignedItem;
+                    if (BigItemSlots[i].IsSelected)
+                    {
+                        NPCMovement.CurrentClient.AllowedItems.Add(ItemInSlot);
+                    }
+                    else
+                    {
+                        NPCMovement.CurrentClient.RejectedItems.Add(ItemInSlot);
+                    }
+                }
+            }
+            
+        }
+        if(ViolationManager.instance != null)
+        {
+            ViolationManager.instance.ProcessTrayDecision(NPCMovement.CurrentClient);
+        }
+        else
         {
             NPCMovement.CurrentClient.FinishTrayInteractionAndLeave();
         }
+        ItemPoppup.SetActive(false);
+        GameUIManager.instance.CloseTray();
         ClearTray();
     }
 

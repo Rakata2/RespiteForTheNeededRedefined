@@ -14,7 +14,8 @@ public enum ViolationType
     DatabaseMissing, //accepting an NPC that is not in the database
     RejectHospitalized, //rejecting a hospitalized NPC
     WronglyRejectedValidNPC, //rejecting a valid NPC
-
+    UnauthorizedItem, //NEW, allowing an unauthorized item
+    InvalidItemRejection //NEW, not allowing an allowed item to the shelter
 }
 [CreateAssetMenu(fileName = "NewViolationList", menuName = "Violation List")]
 public class ViolationList : ScriptableObject

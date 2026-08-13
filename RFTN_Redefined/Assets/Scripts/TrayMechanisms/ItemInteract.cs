@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ItemInteract : MonoBehaviour
 {
     public Image SlotImage;
-    private ItemList.ItemEntry AssignedItem;
+    public ItemList.ItemEntry AssignedItem;
 
     public bool IsSelected = false;
 

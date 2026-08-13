@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEditor;
 using UnityEngine;
 
 public class ViolationManager : MonoBehaviour
@@ -48,18 +50,43 @@ public class ViolationManager : MonoBehaviour
             }
         }
 
-        if (IsHospitalized) return ViolationType.None;
+        
 
         if (NPC.HasID && !NPC.PhysicalIDIsGovIssued) return ViolationType.InvalidDocument;
         if (NPC.HasLetter && !NPC.PhysicalLetterIsGovIssued) return ViolationType.InvalidDocument;
         if (NPC.HasApplication && !NPC.PhysicalApplicationIsGovIssued) return ViolationType.InvalidDocument;
         if (NPC.HasApplication && NPC.AppCircle == true && !NPC.HasID) return ViolationType.ApplicationMissingID;
 
+        if (NPC.AllowedItems != null && NPC.AllowedItems.Count > 0)
+        {
+            foreach (var item in NPC.AllowedItems)
+            {
+                if(item.Safety == ItemSafety.Dangerous)
+                {
+                    return ViolationType.UnauthorizedItem;
+                }
+            }
+        }
+
+        if (NPC.RejectedItems != null && NPC.RejectedItems.Count > 0)
+        {
+            foreach(var item in NPC.RejectedItems)
+            {
+                if(item.Safety == ItemSafety.Safe)
+                {
+                    return ViolationType.InvalidItemRejection;
+                }
+            }
+        }
+
         if (NPC.HasID && NPC.HasLetter) return ViolationType.None;
         if (NPC.HasID && NPC.HasApplication) return ViolationType.None;
         if (NPC.HasApplication && NPC.AppCircle == false && !NPC.HasID) return ViolationType.None;
-        
+
+        if (IsHospitalized) return ViolationType.None;
+
         return ViolationType.IncompleteDocument;
+        
     }
     public void ProcessPlayerDecision(bool PlayerAccepted, NPCMovement CurrentNPC)
     {
@@ -124,5 +151,18 @@ public class ViolationManager : MonoBehaviour
                 ObjectiveManager.instance.TriggerGameOver();
             }
         }
+    }
+
+    public void ProcessTrayDecision(NPCMovement CurrentNPC)
+    {
+        if (CurrentNPC == null) return;
+        ViolationType Violation = GetViolationReason(CurrentNPC);
+        bool IsNPCValid = (Violation == ViolationType.None);
+        if(!IsNPCValid)
+        {
+            AddViolation(Violation);
+        }
+
+        CurrentNPC.FinishTrayInteractionAndLeave();
     }
 }

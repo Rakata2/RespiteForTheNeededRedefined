@@ -121,6 +121,9 @@ public class NPCMovement : MonoBehaviour
 
     public bool HasTrayMechanic;
 
+    public List<ItemList.ItemEntry> AllowedItems = new List<ItemList.ItemEntry>();
+    public List<ItemList.ItemEntry> RejectedItems = new List<ItemList.ItemEntry>();
+
     //NEW CODE HERE
     public ItemList MasterItemList;
     public List<ItemList.ItemEntry> CurrentNPCItems = new List<ItemList.ItemEntry>();
@@ -518,10 +521,15 @@ public class NPCMovement : MonoBehaviour
                 break;
             case LeaveReaction.CaughtFakeDocument:
                 ChosenText = PickRandomResponse(NPCResponseDB.QuestionFakeID);
+                GameUIManager.instance.HideAllItems();
                 IsSuccessExit = false;
                 break;
             case LeaveReaction.RejectedCorrectly:
-                if(GameUIManager.instance != null) GameUIManager.instance.HideAllDocuments();
+                if (GameUIManager.instance != null)
+                {
+                    GameUIManager.instance.HideAllItems();
+                    GameUIManager.instance.HideAllDocuments();
+                }
                 if(IsFaceMissmatch == true || IsNameMissmatch == true || IsDOBMissmatch == true)
                 {
                     ChosenText = PickRandomResponse(NPCResponseDB.ThankYouResponseFake);
@@ -536,6 +544,7 @@ public class NPCMovement : MonoBehaviour
                 break;
             case LeaveReaction.RejectIncorrectly:
                 ChosenText = PickRandomResponse(NPCResponseDB.RejectSecondComplete);
+                GameUIManager.instance.HideAllItems();
                 IsSuccessExit = false;
                 break;
         }
