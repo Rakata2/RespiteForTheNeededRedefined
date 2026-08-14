@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NPC5
   m_EditorClassIdentifier: 
   Name: Helena kim
-  NickName: Elena
+  NickName: Helena
   DateOfBirth: 07/14/1971
   Gender: F
   DateIssued: 20/08/2020

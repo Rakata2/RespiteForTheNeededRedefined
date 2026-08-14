@@ -48,6 +48,11 @@ public class NPCSpawner : MonoBehaviour
                 MovementScript.ExitPointShelter = this.ExitPointShelter;
                 MovementScript.ExitPointShelterFailed = this.ExitPointShelterFailed;
 
+                if (LevelManager.instance != null)
+                {
+                    LevelManager.instance.ApplyLevelRules(MovementScript);
+                }
+
                 CurrentNPC = MovementScript;
             }
         }

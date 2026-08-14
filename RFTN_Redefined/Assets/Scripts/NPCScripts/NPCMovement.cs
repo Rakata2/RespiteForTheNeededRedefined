@@ -118,8 +118,9 @@ public class NPCMovement : MonoBehaviour
     public string DisplayedNickName;
     public string DisplayedDOB;
 
-
+    public bool AllowNameAndDOBMissmatch;
     public bool HasTrayMechanic;
+
 
     public List<ItemList.ItemEntry> AllowedItems = new List<ItemList.ItemEntry>();
     public List<ItemList.ItemEntry> RejectedItems = new List<ItemList.ItemEntry>();
@@ -353,7 +354,12 @@ public class NPCMovement : MonoBehaviour
         {
             IsFaceMissmatch = false;
             FaceOnIDCard = ChosenID.Photo;
-            int FakeType = Random.Range(0, 3);
+            int FakeType = 0;
+
+            if (AllowNameAndDOBMissmatch == true)
+            {
+                FakeType = Random.Range(0, 3);
+            }
 
             if(FakeType == 0)
             {
@@ -650,10 +656,6 @@ public class NPCMovement : MonoBehaviour
                 GameUIManager.instance.DeskItemAnimators[i].ShowItem();
             }
         }
-        //if(GameUIManager.instance.TrayPanelManagerScript != null)
-        //{
-        //    GameUIManager.instance.TrayPanelManagerScript.PrepareTrayItem(CurrentNPCItems);
-        //}
     }
 
     public void EvaluateQuestion(string Topic)
