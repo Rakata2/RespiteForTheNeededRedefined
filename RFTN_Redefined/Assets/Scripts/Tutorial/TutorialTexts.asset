@@ -19,14 +19,12 @@ MonoBehaviour:
     know as a new hire.
   - "Your objective is to process shelter intakes by verifying each applicant\u2019s
     documentation and database profile."
-  - "Your objective is to process shelter intakes by verifying each applicant\u2019s
-    documentation and database profile."
   - To approve admission, ensure their documents are government-issued and that their
     profile exist in the database.
-  - You can also question about any issues with their documents or other records,
-    and rejects to fail the requirements.
-  - You can also question about any issues with their documents or other records,
-    and rejects to fail the requirements.
+  - You can question applicants regarding their documents or database status, or
+    reject them if they do not meet the requirements.
   - Immediately reject applicants whose ID Photo, or document details does not match
     their database record or physical appearance, as they are document counterfeits.
-  - Here is the structure for your office.
+  - Here is the structure for your office and an overview of how your operations
+    will run.
+  - This is the computer, where you can check the database for applicants who registered

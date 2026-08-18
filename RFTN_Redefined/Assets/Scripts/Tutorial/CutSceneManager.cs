@@ -15,7 +15,13 @@ public class CutSceneManager : MonoBehaviour
     public CanvasGroup PersonImage;
     public CanvasGroup DocumentsApproveImage;
     public CanvasGroup DatabasePresentImage;
+    public CanvasGroup QuestionMark;
+    public CanvasGroup DocumentInconsistency;
+    public CanvasGroup Arrow;
+    public CanvasGroup Reject;
+    public CanvasGroup OfficeStructure;
     
+
     public GameObject TextPanel;
     public TMP_Text GuideText;
     public GameObject NextButton;
@@ -28,6 +34,8 @@ public class CutSceneManager : MonoBehaviour
     private int CurrentLineIndex = 0;
 
     private PersonMove PersonMoveScript;
+    public float PersonMoveDistance;
+    public float PersonMoveDuration;
 
     private void Start()
     {
@@ -36,6 +44,7 @@ public class CutSceneManager : MonoBehaviour
         PersonImage.alpha = 0f;
         DocumentsApproveImage.alpha = 0f;
         DatabasePresentImage.alpha = 0f;
+        OfficeStructure.alpha = 0f;
         BlackScreen.gameObject.SetActive(true);
         TextPanel.SetActive(false);
         NextButton.SetActive(false);
@@ -43,6 +52,8 @@ public class CutSceneManager : MonoBehaviour
         PersonImage.gameObject.SetActive(false);
         DocumentsApproveImage.gameObject.SetActive(false);
         DatabasePresentImage.gameObject.SetActive(false);
+        QuestionMark.gameObject.SetActive(false);
+        
         GuideText.text = "";
 
         StartCoroutine(Sequence1());
@@ -57,7 +68,7 @@ public class CutSceneManager : MonoBehaviour
         while (BlackScreen.alpha > 0)
         {
             BlackScreen.alpha -= Time.deltaTime * FadeSpeed;
-            yield return null; //nunggu frame berikutnya
+            yield return null; 
         }
         BlackScreen.gameObject.SetActive(false);
 
@@ -94,7 +105,25 @@ public class CutSceneManager : MonoBehaviour
         if (CurrentLineIndex == 2)
         {
             StartCoroutine(Sequence2());
-            CurrentLineIndex++;
+        }
+        else if (CurrentLineIndex == 3)
+        {
+            StartCoroutine(Sequence2Animation());
+            StartCoroutine(Typewriter());
+        }
+        else if (CurrentLineIndex == 4)
+        {
+            QuestionMark.gameObject.SetActive(true);
+            StartCoroutine(Typewriter());
+        }
+        else if (CurrentLineIndex == 5)
+        {
+            StartCoroutine(Typewriter());
+            StartCoroutine(Sequence3());
+        }
+        else if(CurrentLineIndex == 6)
+        {
+            StartCoroutine(Sequence4());
         }
         else if (CurrentLineIndex < ListOfTexts.TextList.Count)
         {
@@ -102,13 +131,7 @@ public class CutSceneManager : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(NextScene);
-        }
-
-        if (CurrentLineIndex == 3)
-        {
-            //start animation coroutine here
-            //add current index line ????
+            Debug.Log("Moves to level 1");
         }
     }
 
@@ -143,11 +166,86 @@ public class CutSceneManager : MonoBehaviour
 
     private IEnumerator Sequence2Animation()
     {
-        PersonMoveScript.MovePerson();
-        yield return new WaitForSeconds(0.1f);
+        RectTransform PersonRect = PersonImage.GetComponent<RectTransform>();
+        Vector2 StartPos = PersonRect.anchoredPosition;
 
+        Vector2 TargetPos = new Vector2(StartPos.x - PersonMoveDistance, StartPos.y);
 
-        while()
+        float ElapsedTime = 0f;
 
+        while (ElapsedTime < PersonMoveDuration)
+        {
+            ElapsedTime += Time.deltaTime;
+            PersonRect.anchoredPosition = Vector2.Lerp(StartPos, TargetPos, ElapsedTime / PersonMoveDuration);
+            yield return null;
+        }
+        PersonRect.anchoredPosition = TargetPos;
+
+        yield return new WaitForSeconds(0.2f);
+
+        DocumentsApproveImage.gameObject.SetActive(true);
+        while (DocumentsApproveImage.alpha < 1)
+        {
+            DocumentsApproveImage.alpha += Time.deltaTime * FadeSpeed;
+            yield return null;
+        }
+        DatabasePresentImage.gameObject.SetActive(true);
+        while (DatabasePresentImage.alpha < 1)
+        {
+            DatabasePresentImage.alpha += Time.deltaTime * FadeSpeed;
+            yield return null;
+        }
     }
+
+    private IEnumerator Sequence3()
+    {
+        QuestionMark.gameObject.SetActive(false);
+        DocumentsApproveImage.gameObject.SetActive(false);
+        DatabasePresentImage.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.3f);
+
+        DocumentInconsistency.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        Arrow.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        Reject.gameObject.SetActive(true);
+    }
+
+    private IEnumerator Sequence4()
+    {
+        TextPanel.SetActive(false);
+        NextButton.SetActive(false);
+        GuideText.gameObject.SetActive(false);
+        while (DocumentInconsistency.alpha > 0 || Arrow.alpha > 0 || Reject.alpha > 0 || PersonImage.alpha > 0)
+        {
+            float FadeAmount = Time.deltaTime * FadeSpeed;
+            DocumentInconsistency.alpha -= FadeAmount;
+            Arrow.alpha -= FadeAmount;
+            Reject.alpha -= FadeAmount;
+            PersonImage.alpha -= FadeAmount;
+            yield return null;
+        }
+
+        DocumentInconsistency.gameObject.SetActive(false);
+        Arrow.gameObject .SetActive(false);
+        Reject.gameObject.SetActive(false);
+        PersonImage.gameObject .SetActive(false);
+
+        yield return new WaitForSeconds(0.4f);
+
+        OfficeStructure.gameObject.SetActive(true);
+        while (OfficeStructure.alpha < 1)
+        {
+            OfficeStructure.alpha += Time.deltaTime * FadeSpeed;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        TextPanel.SetActive(true);
+        GuideText.gameObject.SetActive(true);
+        StartCoroutine(Typewriter());
+    }
+
+
 }
