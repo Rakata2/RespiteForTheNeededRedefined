@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering.Universal;
 
 
 public class CutSceneManager : MonoBehaviour
@@ -20,6 +21,11 @@ public class CutSceneManager : MonoBehaviour
     public CanvasGroup Arrow;
     public CanvasGroup Reject;
     public CanvasGroup OfficeStructure;
+    public CanvasGroup PairedDocument;
+    public CanvasGroup IDDocument;
+    public CanvasGroup LetterDocument;
+    public CanvasGroup ApplicationDocument;
+    public CanvasGroup ApplicationText;
     
 
     public GameObject TextPanel;
@@ -42,6 +48,8 @@ public class CutSceneManager : MonoBehaviour
     public Animator FlashingComputer;
     public Animator FlashingIDDocument;
     public Animator FlashingPaperDocument;
+    public Animator FlashingApplication;
+    public Animator FlashingPerson;
 
     private void Start()
     {
@@ -51,6 +59,11 @@ public class CutSceneManager : MonoBehaviour
         DocumentsApproveImage.alpha = 0f;
         DatabasePresentImage.alpha = 0f;
         OfficeStructure.alpha = 0f;
+        PairedDocument.alpha = 0f;
+        ApplicationDocument.alpha = 0f;
+        IDDocument.alpha = 1f;
+        LetterDocument.alpha = 1f;
+        ApplicationText.alpha = 0f;
         BlackScreen.gameObject.SetActive(true);
         TextPanel.SetActive(false);
         NextButton.SetActive(false);
@@ -148,6 +161,23 @@ public class CutSceneManager : MonoBehaviour
             FlashingIDDocument.SetBool("IsFlashing", true);
             FlashingPaperDocument.SetBool("IsFlashing", true);
             StartCoroutine(Typewriter());
+        }
+        else if(CurrentLineIndex == 13)
+        {
+            StartCoroutine(PairedDocumentAnimator());
+            StartCoroutine(Typewriter());
+        }
+        else if(CurrentLineIndex == 14)
+        {
+            StartCoroutine(IDLetterToApplicationAnimation());
+            StartCoroutine(Typewriter());
+        }
+        else if(CurrentLineIndex == 15)
+        {
+            FlashingPerson.SetBool("IsFlashing", true);
+            FlashingApplication.SetBool("IsFlashing", false);
+            StartCoroutine(ApplicationTextDisappear());
+            StartCoroutine (Typewriter());
         }
         else if (CurrentLineIndex < ListOfTexts.TextList.Count)
         {
@@ -271,5 +301,54 @@ public class CutSceneManager : MonoBehaviour
         StartCoroutine(Typewriter());
     }
 
+    private IEnumerator PairedDocumentAnimator()
+    {
+        PairedDocument.gameObject.SetActive(true);
+        while (PairedDocument.alpha < 1)
+        {
+            PairedDocument.alpha += Time.deltaTime * FadeSpeed;
+            yield return null;
+        }
+    }
+
+    private IEnumerator IDLetterToApplicationAnimation()
+    {
+        while (IDDocument.alpha > 0 || LetterDocument.alpha > 0 || PairedDocument.alpha > 0)
+        {
+            float FadeAmount = Time.deltaTime * FadeSpeed;
+            IDDocument.alpha -= FadeAmount;
+            LetterDocument.alpha -= FadeAmount;
+            PairedDocument.alpha -= FadeAmount;
+            yield return null;
+        }
+        FlashingIDDocument.SetBool("IsFlashing", false);
+        FlashingPaperDocument.SetBool("IsFlashing", false);
+        IDDocument.gameObject.SetActive(false);
+        LetterDocument.gameObject.SetActive(false);
+        PairedDocument.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(0.3f);
+
+        ApplicationDocument.gameObject.SetActive(true);
+        ApplicationText.gameObject.SetActive(true);
+        while (ApplicationDocument.alpha < 1 || ApplicationText.alpha < 1)
+        {
+            float FadeAmount = Time.deltaTime * FadeSpeed;
+            ApplicationDocument.alpha += FadeAmount;
+            ApplicationText.alpha += FadeAmount;
+            yield return null;
+        }
+        FlashingApplication.SetBool("IsFlashing", true);
+    }
+
+    private IEnumerator ApplicationTextDisappear()
+    {
+        while (ApplicationText.alpha > 0)
+        {
+            ApplicationText.alpha -= Time.deltaTime * FadeSpeed;
+            yield return null;
+        }
+        ApplicationText.gameObject.SetActive(false);
+    }
 
 }
