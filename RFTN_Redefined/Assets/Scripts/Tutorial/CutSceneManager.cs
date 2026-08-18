@@ -37,6 +37,12 @@ public class CutSceneManager : MonoBehaviour
     public float PersonMoveDistance;
     public float PersonMoveDuration;
 
+    [Header("Animation")]
+    public Animator FlashingObjectAnimator;
+    public Animator FlashingComputer;
+    public Animator FlashingIDDocument;
+    public Animator FlashingPaperDocument;
+
     private void Start()
     {
         BlackScreen.alpha = 1f;
@@ -124,6 +130,24 @@ public class CutSceneManager : MonoBehaviour
         else if(CurrentLineIndex == 6)
         {
             StartCoroutine(Sequence4());
+        }
+        else if(CurrentLineIndex == 7)
+        {
+            FlashingObjectAnimator.SetBool("IsFlashing", true);
+            StartCoroutine(Typewriter());
+        }
+        else if(CurrentLineIndex == 9)
+        {
+            FlashingObjectAnimator.SetBool("IsFlashing", false);
+            FlashingComputer.SetBool("IsFlashing", true);
+            StartCoroutine(Typewriter());
+        }
+        else if(CurrentLineIndex == 12)
+        {
+            FlashingComputer.SetBool("IsFlashing", false);
+            FlashingIDDocument.SetBool("IsFlashing", true);
+            FlashingPaperDocument.SetBool("IsFlashing", true);
+            StartCoroutine(Typewriter());
         }
         else if (CurrentLineIndex < ListOfTexts.TextList.Count)
         {

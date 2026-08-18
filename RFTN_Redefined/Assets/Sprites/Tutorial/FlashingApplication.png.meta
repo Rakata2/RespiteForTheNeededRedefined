@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bb1f6651580f1804388d44d000e0416a
+guid: c4afaa1ca1ac312498be50deb06fdd97
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FlashingStickyNote_0
+      name: FlashingApplication_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 36
-        height: 31
+        width: 152
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f566e3d042aabb64babd3cee87b87893
-      internalID: 1138095832
+      spriteID: 15635357c289567408f151dad4aa38d5
+      internalID: -731956204
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FlashingStickyNote_1
+      name: FlashingApplication_1
       rect:
         serializedVersion: 2
-        x: 36
+        x: 152
         y: 0
-        width: 36
-        height: 31
+        width: 152
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,8 +132,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3633455330a7a784d98327e32797daff
-      internalID: 1275167975
+      spriteID: fe60443db8b6ac64f87ee8c37f85059a
+      internalID: 114133932
       vertices: []
       indices: 
       edges: []
@@ -149,8 +149,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      FlashingStickyNote_0: 1138095832
-      FlashingStickyNote_1: 1275167975
+      FlashingApplication_0: -731956204
+      FlashingApplication_1: 114133932
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
