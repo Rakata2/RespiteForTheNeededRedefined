@@ -27695,6 +27695,7 @@ MonoBehaviour:
   ViolationPenalties: {fileID: 748400605}
   TotalPayCheck: {fileID: 786275547}
   ResultAnimator: {fileID: 960284299}
+  CurrentLevelNumber: 4
 --- !u!4 &1835576061
 Transform:
   m_ObjectHideFlags: 0

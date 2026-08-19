@@ -35,7 +35,7 @@ public class GameDataManager : MonoBehaviour
         }
         else
         {
-            return "Level 1";
+            return "Level1";
         }
     }
 }

@@ -39,6 +39,8 @@ public class ObjectiveManager : MonoBehaviour
 
     public ResultScreenAnimator ResultAnimator;
 
+    public int CurrentLevelNumber;
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -72,6 +74,7 @@ public class ObjectiveManager : MonoBehaviour
         if(CurrentAccepted >= TargetAccepted && CurrentViolations < MaxViolations)
         {
             ShiftStatus.text = "Completed";
+            UnlockNextLevel();
         }
         else
         {
@@ -124,5 +127,16 @@ public class ObjectiveManager : MonoBehaviour
         CalculateAndShowResultScreen();
 
         Debug.Log("Shift Ended");
+    }
+
+    private void UnlockNextLevel()
+    {
+        int highestLevel = PlayerPrefs.GetInt("HighestLevel", 1);
+        if (CurrentLevelNumber == highestLevel)
+        {
+            PlayerPrefs.SetInt("HighestLevel", highestLevel + 1);
+            PlayerPrefs.Save();
+            Debug.Log("Level "+ (highestLevel+1) + "Unlocked permanently");
+        }
     }
 }
