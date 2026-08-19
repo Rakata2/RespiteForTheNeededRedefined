@@ -221,7 +221,7 @@ public class GameUIManager : MonoBehaviour
 
     public void AcceptEntrance()
     {
-        PendingDecision = true; //[NEW]
+        PendingDecision = true; 
         Question.SetActive(false);
         Action.SetActive(false);
         ClarificationAccept.SetActive(true);
@@ -317,11 +317,6 @@ public class GameUIManager : MonoBehaviour
         Action.SetActive(true);
         CloseActionMenu();
     }
-
-    
-
-    
-
     public void BackButton()
     {
         Question.SetActive(false);

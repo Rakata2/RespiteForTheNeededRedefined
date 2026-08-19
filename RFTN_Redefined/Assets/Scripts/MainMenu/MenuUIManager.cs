@@ -11,6 +11,7 @@ public class MenuUIManager : MonoBehaviour
     public float FadeDuration = 0.5f;
 
     public CanvasGroup Fader;
+    public GameDataManager DataManager;
 
     private void Start()
     {
@@ -53,12 +54,13 @@ public class MenuUIManager : MonoBehaviour
 
     public void LevelOneButton()
     {
-        StartCoroutine(FadeToScene("Level1"));
+        string SceneToLoad = DataManager.GetSceneFromLevelOne();
+        StartCoroutine(FadeToScene(SceneToLoad));
     }
 
-    public void LevelTwoButton()
+    public void LoadOtherLevels(string LevelName)
     {
-        StartCoroutine(FadeToScene("Level2"));
+        StartCoroutine(FadeToScene(LevelName));
     }
 
     private IEnumerator FadeToScene(string sceneName)
