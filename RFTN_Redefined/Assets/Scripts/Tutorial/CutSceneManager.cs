@@ -6,6 +6,8 @@ using TMPro;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering.Universal;
+using JetBrains.Annotations;
+using UnityEditor;
 
 
 public class CutSceneManager : MonoBehaviour
@@ -26,19 +28,20 @@ public class CutSceneManager : MonoBehaviour
     public CanvasGroup LetterDocument;
     public CanvasGroup ApplicationDocument;
     public CanvasGroup ApplicationText;
-    
+    public CanvasGroup EmptyApplication;
+    public CanvasGroup EmptyApplicationText;
+    public CanvasGroup SkipButton;
 
+
+    public GameObject SkipButtonPopup;
     public GameObject TextPanel;
     public TMP_Text GuideText;
     public GameObject NextButton;
-
     public TutorialTextLists ListOfTexts;
-    public float FadeSpeed = 1.5f;
+    public float FadeSpeed = 0.4f;
     public float TypingSpeed = 0.05f;
     public string NextScene = "Level1";
-
     private int CurrentLineIndex = 0;
-
     private PersonMove PersonMoveScript;
     public float PersonMoveDistance;
     public float PersonMoveDuration;
@@ -50,6 +53,7 @@ public class CutSceneManager : MonoBehaviour
     public Animator FlashingPaperDocument;
     public Animator FlashingApplication;
     public Animator FlashingPerson;
+    public Animator FlashingEmptyApplication;
 
     private void Start()
     {
@@ -64,6 +68,9 @@ public class CutSceneManager : MonoBehaviour
         IDDocument.alpha = 1f;
         LetterDocument.alpha = 1f;
         ApplicationText.alpha = 0f;
+        EmptyApplication.alpha = 0f;
+        EmptyApplicationText.alpha = 0f;
+        SkipButton.alpha = 0f;
         BlackScreen.gameObject.SetActive(true);
         TextPanel.SetActive(false);
         NextButton.SetActive(false);
@@ -103,6 +110,13 @@ public class CutSceneManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         TextPanel.SetActive(true);
         StartCoroutine(Typewriter());
+
+        SkipButton.gameObject.SetActive(true);
+        while(SkipButton.alpha < 1)
+        {
+            SkipButton.alpha += Time.deltaTime * FadeSpeed;
+            yield return null;
+        }
     }
 
     private IEnumerator Typewriter()
@@ -179,13 +193,30 @@ public class CutSceneManager : MonoBehaviour
             StartCoroutine(ApplicationTextDisappear());
             StartCoroutine (Typewriter());
         }
+        else if(CurrentLineIndex == 17)
+        {
+            FlashingPerson.SetBool("IsFlashing", false);
+            StartCoroutine(EmptyApplicationGiven());
+            StartCoroutine(Typewriter());
+        }
+        else if(CurrentLineIndex == 18)
+        {
+            FlashingEmptyApplication.SetBool("IsFlashing", false);
+            StartCoroutine(Typewriter());
+        }
+        else if(CurrentLineIndex == 20)
+        {
+            StartCoroutine(Sequence5());
+        }
         else if (CurrentLineIndex < ListOfTexts.TextList.Count)
         {
             StartCoroutine(Typewriter());
         }
         else
         {
+            StartCoroutine(ClosingTransition());
             Debug.Log("Moves to level 1");
+            SceneManager.LoadScene(NextScene);
         }
     }
 
@@ -202,7 +233,7 @@ public class CutSceneManager : MonoBehaviour
         }
         CompanyLogo.gameObject.SetActive(false);
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
 
         PersonImage.gameObject.SetActive(true);
         while (PersonImage.alpha < 1)
@@ -222,11 +253,8 @@ public class CutSceneManager : MonoBehaviour
     {
         RectTransform PersonRect = PersonImage.GetComponent<RectTransform>();
         Vector2 StartPos = PersonRect.anchoredPosition;
-
         Vector2 TargetPos = new Vector2(StartPos.x - PersonMoveDistance, StartPos.y);
-
         float ElapsedTime = 0f;
-
         while (ElapsedTime < PersonMoveDuration)
         {
             ElapsedTime += Time.deltaTime;
@@ -234,9 +262,7 @@ public class CutSceneManager : MonoBehaviour
             yield return null;
         }
         PersonRect.anchoredPosition = TargetPos;
-
         yield return new WaitForSeconds(0.2f);
-
         DocumentsApproveImage.gameObject.SetActive(true);
         while (DocumentsApproveImage.alpha < 1)
         {
@@ -256,12 +282,12 @@ public class CutSceneManager : MonoBehaviour
         QuestionMark.gameObject.SetActive(false);
         DocumentsApproveImage.gameObject.SetActive(false);
         DatabasePresentImage.gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
 
         DocumentInconsistency.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         Arrow.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         Reject.gameObject.SetActive(true);
     }
 
@@ -285,7 +311,7 @@ public class CutSceneManager : MonoBehaviour
         Reject.gameObject.SetActive(false);
         PersonImage.gameObject .SetActive(false);
 
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.2f);
 
         OfficeStructure.gameObject.SetActive(true);
         while (OfficeStructure.alpha < 1)
@@ -327,7 +353,7 @@ public class CutSceneManager : MonoBehaviour
         LetterDocument.gameObject.SetActive(false);
         PairedDocument.gameObject.SetActive(false);
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
 
         ApplicationDocument.gameObject.SetActive(true);
         ApplicationText.gameObject.SetActive(true);
@@ -349,6 +375,90 @@ public class CutSceneManager : MonoBehaviour
             yield return null;
         }
         ApplicationText.gameObject.SetActive(false);
+    }
+
+    private IEnumerator EmptyApplicationGiven()
+    {
+        while(ApplicationDocument.alpha > 0)
+        {
+            ApplicationDocument.alpha -= Time.deltaTime * FadeSpeed;
+            yield return null;
+        }
+        ApplicationText.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(0.2f);
+
+        EmptyApplication.gameObject.SetActive(true);
+        while (EmptyApplication.alpha < 1)
+        {
+            EmptyApplication.alpha += Time.deltaTime * FadeSpeed;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        EmptyApplicationText.gameObject.SetActive(true);
+        while (EmptyApplicationText.alpha < 1)
+        {
+            EmptyApplicationText.alpha += Time.deltaTime * FadeSpeed;
+            yield return null;
+        }
+        FlashingEmptyApplication.SetBool("IsFlashing", true);
+    }
+    private IEnumerator Sequence5()
+    {
+        TextPanel.SetActive(false);
+        NextButton.SetActive(false);
+        GuideText.gameObject.SetActive(false);
+        while (OfficeStructure.alpha > 0)
+        {
+            OfficeStructure.alpha -= Time.deltaTime * FadeSpeed;
+            yield return null;
+        }
+        OfficeStructure.gameObject.SetActive(false);
+        while(EmptyApplicationText.alpha > 0)
+        {
+            EmptyApplicationText.alpha -= Time.deltaTime * FadeSpeed;
+            yield return null;
+        }
+        EmptyApplicationText.gameObject.SetActive(false);
+        
+        CompanyLogo.gameObject.SetActive(true);
+        while (CompanyLogo.alpha < 1)
+        {
+            CompanyLogo.alpha += Time.deltaTime * FadeSpeed;
+            yield return null;
+        }
+        TextPanel.SetActive(true);
+        GuideText.gameObject.SetActive(true);
+        StartCoroutine(Typewriter());
+    }
+    private IEnumerator ClosingTransition()
+    {
+        BlackScreen.gameObject.SetActive(true);
+        while (BlackScreen.alpha < 1)
+        {
+            BlackScreen.alpha += Time.deltaTime * FadeSpeed;
+            yield return null;
+        }
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene(NextScene);
+    }
+    public void SkipButtonClicked()
+    {
+        SkipButtonPopup.SetActive(true);
+        Time.timeScale = 0f;
+    }
+    public void SkipCancelled()
+    {
+        SkipButtonPopup.SetActive(false);
+        Time.timeScale = 1f;
+    }
+    public void SkipConfirmed()
+    {
+        SkipButtonPopup.SetActive(false);
+        Time.timeScale = 1f;
+        StartCoroutine(ClosingTransition());
     }
 
 }

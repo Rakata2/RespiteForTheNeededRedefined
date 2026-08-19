@@ -475,12 +475,12 @@ public class GameUIManager : MonoBehaviour
 
     public void RetryLevel()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        TransitionManager.Instance.StartCoroutine(TransitionManager.Instance.RetryTransition());
     }
 
     public void ReturnToMainMenu()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenuScene");
+        TransitionManager.Instance.StartCoroutine(TransitionManager.Instance.MainMenuTransition());
     }
 
 
