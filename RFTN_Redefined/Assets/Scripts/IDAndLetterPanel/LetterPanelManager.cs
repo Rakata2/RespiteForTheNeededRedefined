@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LetterPanelManager : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class LetterPanelManager : MonoBehaviour
     public GameObject LetterPanelContainer;
     public TMP_Text Reasontext;
     public TMP_Text NickName;
-    public TMP_Text GovernmentStampCheck;
+    public Image GovernmentStampCheck;
 
     public List<ReasoningList> ReasoningDatabase;
 
@@ -20,7 +21,7 @@ public class LetterPanelManager : MonoBehaviour
         instance = this;
     }
 
-    public void DisplayLetter(IdentityProfile profile, bool IsValidGovID)
+    public void DisplayLetter(IdentityProfile profile, bool IsValidGovID, string PrintedNickName)
     {
         if (ReasoningDatabase != null && ReasoningDatabase.Count > 0)
         {
@@ -33,14 +34,15 @@ public class LetterPanelManager : MonoBehaviour
                 Reasontext.text = ChosenAsset.Reasoningtext[randomTextIndex];
             }
         }
-        NickName.text = profile.NickName;
-        if(IsValidGovID == true)
+        if(NickName != null) NickName.text = PrintedNickName;
+        if (IsValidGovID == true)
         {
-            GovernmentStampCheck.text = "(Issued by government)";
+            // Fixed: Image does not have a 'text' property. You likely want to show/hide the stamp or change its sprite.
+            GovernmentStampCheck.gameObject.SetActive(true);
         }
         else
         {
-            GovernmentStampCheck.text = "";
+            GovernmentStampCheck.gameObject.SetActive(false);
         }
 
         LetterPanelContainer.SetActive(true);

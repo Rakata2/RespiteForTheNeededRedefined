@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90312fb1f6b407b41a45dc48f345fd23, type: 3}
+  m_Name: NPCResponse
+  m_EditorClassIdentifier: 
+  Accept:
+  - Thank you so much
+  - Thanks alot
+  QuestionIDPass:
+  - My ID is already government issued.
+  QuestionIDFailed:
+  - Did i not have my ID government issued? My bad
+  QuestionIDNotThere:
+  - I don't have an ID
+  QuestionIDNotThereApplicationPassed:
+  - I already filled the application accordingly.
+  QuestionIDNotThereApplicationFailed:
+  - Oh i think i misswrote it. My bad.
+  QuestionIDNotThereLetter:
+  - I don't have an ID
+  QuestionFakeID:
+  - Oh.. You caught my disguise
+  - Yikes. You caught my disguise. You got me.
+  QuestionLetterPassed:
+  - I already have my letter Government issued
+  QuestionLetterFailed:
+  - Oh. Yeah i don't have it government issued.
+  QuestionApplicationPassed:
+  - My Application is Government issued
+  QuestionApplicationFailed:
+  - Oh. Yeah i don't have it government issued.
+  QuestionApplicationIDFailed:
+  - Right. I accidentally circled the wrong choice. My bad
+  QuestionDataPassed:
+  - I already registered
+  QuestionDataFailedHospitalReasoning:
+  - I did not register because i just got discharged from the hospital.
+  QuestionDataFailedViolentSituationReasoning:
+  - There was a violent situation outside, so I don't have time to do so.
+  QuestionDataFailed:
+  - wait. I didn't even know you need to register in the first place
+  RejectApplicationConfirmed:
+  - Thanks for the application. I will fill it in ASAP
+  - Thank you for this application. I will return here once im done.
+  RejectApplicationFirstUnwanted:
+  - I don't think I need to fill in this application. My letter is already government
+    issued.
+  - I'm not filling in this form. I already have my letter government issued
+  RejectApplicationSecondUnwanted:
+  - This is ridiculous. You are trying to push me away
+  - Fine. I don't have the energy to argue with you today. I'm leaving
+  RejectFirstComplete:
+  - But i have everything set. Shouldn't you let me in?
+  - I already fullfilled everything. Please let me stay
+  RejectSecondComplete:
+  - ...Fine, i'll just find another shelter
+  - I can't believe i get rejected, after everything I did.
+  RejectFirstIncomplete:
+  - Even if my data is incomplete, can you at least do something about it?
+  - Please help me find any alternatives, i just need a place to stay.
+  RejectSecondIncomplete:
+  - You're not even trying your best to give people shelter..
+  - ...Fine, i'll just find another shelter
+  AskedQuestionsTwice:
+  - I already answered your question
+  ThankYouResponseFake:
+  - Oh... right. Thanks
+  Level3ThankYouResponse:
+  - Thanks. What are items that i can bring inside?

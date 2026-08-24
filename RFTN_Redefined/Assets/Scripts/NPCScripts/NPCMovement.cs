@@ -58,7 +58,7 @@ public class NPCMovement : MonoBehaviour
         Accepted,
         RejectedCorrectly,
         RejectIncorrectly,
-        CaughtFakeID
+        CaughtFakeDocument
     }
 
     public NPCState CurrentState = NPCState.MovingToCenter;
@@ -98,6 +98,36 @@ public class NPCMovement : MonoBehaviour
     public bool IsTyping = false;
     private Coroutine TypingCoroutine;
     //private string CurrentFullSentence;
+    private bool AcceptedByPlayer = false;
+
+    public AudioSource WalkingSoundEffect;
+    public float StepInterval = 0.4f;
+    private bool IsWalking = false;
+    private Coroutine FootStepCoroutine;
+
+    public bool IsTrulyValid;
+
+    private List<string> AskedTopics = new List<string>();
+
+    private bool PenaltyRepeated = false;
+
+    public List<IdentityProfile> AllNPCProfiles;
+    public bool IsNameMissmatch;
+    public bool IsDOBMissmatch;
+    public string DisplayedName;
+    public string DisplayedNickName;
+    public string DisplayedDOB;
+
+    public bool AllowNameAndDOBMissmatch;
+    public bool HasTrayMechanic;
+
+
+    public List<ItemList.ItemEntry> AllowedItems = new List<ItemList.ItemEntry>();
+    public List<ItemList.ItemEntry> RejectedItems = new List<ItemList.ItemEntry>();
+
+    //NEW CODE HERE
+    public ItemList MasterItemList;
+    public List<ItemList.ItemEntry> CurrentNPCItems = new List<ItemList.ItemEntry>();
 
     void Awake()
     {
@@ -123,6 +153,7 @@ public class NPCMovement : MonoBehaviour
         {
             HasID = true;
             PhysicalIDIsGovIssued = true;
+            IsTrulyValid = true;
 
             if(IsApplicationNPC)
             {
@@ -141,6 +172,7 @@ public class NPCMovement : MonoBehaviour
             if(Random.Range(1, 101) <= 20)
             {
                 IsFaceMissmatch = true;
+                IsTrulyValid = false;
                 FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
                 while(FaceOnIDCard == ChosenID.Photo)
                 {
@@ -152,6 +184,7 @@ public class NPCMovement : MonoBehaviour
         {
             int ValidNPCS = 70;
             bool IsValidNPC = (Random.Range(1, 101) <= ValidNPCS);
+            IsTrulyValid = IsValidNPC;
             if(IsValidNPC)
             {
                 if(IsApplicationNPC)
@@ -249,24 +282,22 @@ public class NPCMovement : MonoBehaviour
                     }
                 }
             }
-        }     
+        }
+        ApplyDocumentFakes();
+        StartFootstep();
     }
     void Update()
     {
-        //if(Input.GetMouseButtonDown(0) && IsTyping)
-        //{
-        //    if(TypingCoroutine != null) StopCoroutine(TypingCoroutine);
-        //    CompleteTyping();
-        //} FOR SKIPPING WITH CLICKING
         switch(CurrentState)
         {
             case NPCState.MovingToCenter:
                 MoveTo(CenterPoint);
                 if (IsAtPosition(CenterPoint))
                 {
+                    StopFootstep();
                     CurrentState = NPCState.Interact;
 
-                    if(ChatBubble != null) ChatBubble.SetActive(true);
+                    //if(ChatBubble != null) ChatBubble.SetActive(true);
                     StartCoroutine(StartInteraction());
                 }
                 break;
@@ -281,6 +312,11 @@ public class NPCMovement : MonoBehaviour
                 MoveTo(ChosenExit);
                 if (IsAtPosition(ChosenExit))
                 {
+                    StopFootstep();
+                    if(ObjectiveManager.instance != null)
+                    {
+                        ObjectiveManager.instance.EvaluatePlayerDecision(AcceptedByPlayer, IsTrulyValid);
+                    }
                     Destroy(gameObject);
                 }
                 break;
@@ -308,11 +344,116 @@ public class NPCMovement : MonoBehaviour
         StartCoroutine(LeaveRoutine(Reaction));
     }
 
+    private void ApplyDocumentFakes()
+    {
+        DisplayedName = ChosenID.Name;
+        DisplayedDOB = ChosenID.DateOfBirth;
+        DisplayedNickName = ChosenID.NickName;
+
+        if(IsFaceMissmatch == true)
+        {
+            IsFaceMissmatch = false;
+            FaceOnIDCard = ChosenID.Photo;
+            int FakeType = 0;
+
+            if (AllowNameAndDOBMissmatch == true)
+            {
+                FakeType = Random.Range(0, 3);
+            }
+
+            if(FakeType == 0)
+            {
+                IsFaceMissmatch = true;
+                FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
+                while(FaceOnIDCard == ChosenID.Photo)
+                {
+                    FaceOnIDCard = AllGameFaces[Random.Range(0, AllGameFaces.Length)];
+                }
+            }
+            else if(FakeType == 1)
+            {
+                IsNameMissmatch = true;
+                if(AllNPCProfiles != null && AllNPCProfiles.Count > 1)
+                {
+                    IdentityProfile FakeProfile = AllNPCProfiles[Random.Range(0, AllNPCProfiles.Count)];
+                    while (FakeProfile == ChosenID)
+                    {
+                        FakeProfile = AllNPCProfiles[Random.Range(0, AllNPCProfiles.Count)];
+                    }
+                    DisplayedName = FakeProfile.Name;
+                    DisplayedNickName = FakeProfile.NickName;
+                }
+            }
+            else if (FakeType == 2)
+            {
+                IsDOBMissmatch = true;
+                if (AllNPCProfiles != null && AllNPCProfiles.Count > 1)
+                {
+                    IdentityProfile FakeProfile = AllNPCProfiles[Random.Range(0, AllNPCProfiles.Count)];
+                    while (FakeProfile == ChosenID)
+                    {
+                        FakeProfile = AllNPCProfiles[Random.Range(0, AllNPCProfiles.Count)];
+                    }
+                    DisplayedDOB = FakeProfile.DateOfBirth;
+                }
+            }
+        }
+    }
+
     IEnumerator StartInteraction()
     {
         CurrentClient = this;
+        if (IsShelterType() && GameUIManager.instance.DeskCard != null && ChosenID != null)
+        {
+            if (HasID)
+            {
+                GameUIManager.instance.DeskCard.GetComponent<DocumentAnimator>().ShowDocument();
+                GameUIManager.instance.DeskCard.ReceiveID(ChosenID, PhysicalIDIsGovIssued, FaceOnIDCard, DisplayedName, DisplayedDOB);
+            }
+            else
+            {
+                GameUIManager.instance.DeskCard.gameObject.SetActive(false);
+            }
+        }
 
-        //CurrentState = NPCState.Interact;
+        if (IsShelterType() && GameUIManager.instance.DeskLetter != null && ChosenID != null)
+        {
+            if (HasLetter)
+            {
+                GameUIManager.instance.DeskLetter.GetComponent<DocumentAnimator>().ShowDocument();
+                GameUIManager.instance.DeskLetter.ReceiveLetterData(ChosenID, PhysicalLetterIsGovIssued, DisplayedNickName);
+            }
+            else
+            {
+                GameUIManager.instance.DeskLetter.gameObject.SetActive(false);
+            }
+
+        }
+
+        if (IsShelterType() && GameUIManager.instance.DeskApplication != null && ChosenID != null)
+        {
+            if (HasApplication)
+            {
+                GameUIManager.instance.DeskApplication.GetComponent<DocumentAnimator>().ShowDocument();
+                GameUIManager.instance.DeskApplication.ReceiveApplicationData(ChosenID, PhysicalApplicationIsGovIssued, CheckReasonIndex, AppCircle, DisplayedName, DisplayedDOB);
+            }
+            else
+            {
+                GameUIManager.instance.DeskApplication.gameObject.SetActive(false);
+            }
+        }
+
+        if(HasTrayMechanic)
+        {
+            yield return new WaitForSeconds(0.3f);
+            SpawnTrayItems();
+        }
+        yield return new WaitForSeconds(0.3f);
+
+
+        if (ChatBubble != null) ChatBubble.SetActive(true);
+
+
         if (BellBridge.instance != null)
         {
             BellBridge.instance.SetTrigger("RingBell");
@@ -323,47 +464,6 @@ public class NPCMovement : MonoBehaviour
         }
         GetComponent<AudioSource>().Play();
         GameUIManager.instance.SetDialogueActive(true);
-        
-        if(IsShelterType()&& GameUIManager.instance.DeskCard != null && ChosenID != null)
-        {
-            if(HasID)
-            {
-                GameUIManager.instance.DeskCard.GetComponent<DocumentAnimator>().ShowDocument();
-                GameUIManager.instance.DeskCard.ReceiveID(ChosenID, PhysicalIDIsGovIssued, FaceOnIDCard);
-            }
-            else
-            {
-                GameUIManager.instance.DeskCard.gameObject.SetActive(false);
-            }
-        }
-
-        if (IsShelterType() && GameUIManager.instance.DeskLetter != null && ChosenID != null)
-        {
-            if(HasLetter)
-            {
-                GameUIManager.instance.DeskLetter.GetComponent<DocumentAnimator>().ShowDocument();
-                GameUIManager.instance.DeskLetter.ReceiveLetterData(ChosenID, PhysicalLetterIsGovIssued);
-            }
-            else
-            {
-                GameUIManager.instance.DeskLetter.gameObject.SetActive(false);
-            }
-            
-        }
-
-        if (IsShelterType() && GameUIManager.instance.DeskApplication != null && ChosenID != null)
-        {
-            if(HasApplication)
-            {
-                GameUIManager.instance.DeskApplication.GetComponent<DocumentAnimator>().ShowDocument();
-                GameUIManager.instance.DeskApplication.ReceiveApplicationData(ChosenID, PhysicalApplicationIsGovIssued, CheckReasonIndex, AppCircle);
-            }
-            else
-            {
-                GameUIManager.instance.DeskApplication.gameObject.SetActive(false);
-            }
-        }
-
         Debug.Log("Interaction type: " + NPCRequestType);
 
         List<string> SelectedList = GetListByType(NPCRequestType);
@@ -381,9 +481,6 @@ public class NPCMovement : MonoBehaviour
         {
             NextButton.gameObject.SetActive(true);
         }
-
-
-
         CurrentState = NPCState.WaitingForDecision;
     }
 
@@ -411,25 +508,35 @@ public class NPCMovement : MonoBehaviour
     //[NEW] coroutine for NPC reactions
     IEnumerator LeaveRoutine(LeaveReaction Reaction)
     {
-        if(GameUIManager.instance != null)
-        {
-            GameUIManager.instance.HideAllDocuments();
-        }
         string ChosenText = "...";
         IsLeaving = true;
+        AcceptedByPlayer = (Reaction == LeaveReaction.Accepted);
 
         switch (Reaction)
         {
             case LeaveReaction.Accepted:
-                ChosenText = PickRandomResponse(NPCResponseDB.Accept);
                 IsSuccessExit = true;
+                if (HasTrayMechanic)
+                {
+                    ChosenText = PickRandomResponse(NPCResponseDB.Level3ThankYouResponse);
+                }
+                else
+                {
+                    ChosenText = PickRandomResponse(NPCResponseDB.Accept);
+                }
                 break;
-            case LeaveReaction.CaughtFakeID:
+            case LeaveReaction.CaughtFakeDocument:
                 ChosenText = PickRandomResponse(NPCResponseDB.QuestionFakeID);
+                GameUIManager.instance.HideAllItems();
                 IsSuccessExit = false;
                 break;
             case LeaveReaction.RejectedCorrectly:
-                if(IsFaceMissmatch)
+                if (GameUIManager.instance != null)
+                {
+                    GameUIManager.instance.HideAllItems();
+                    GameUIManager.instance.HideAllDocuments();
+                }
+                if(IsFaceMissmatch == true || IsNameMissmatch == true || IsDOBMissmatch == true)
                 {
                     ChosenText = PickRandomResponse(NPCResponseDB.ThankYouResponseFake);
                     if (GameUIManager.instance != null) GameUIManager.instance.ShowEmptyApplication();
@@ -443,9 +550,11 @@ public class NPCMovement : MonoBehaviour
                 break;
             case LeaveReaction.RejectIncorrectly:
                 ChosenText = PickRandomResponse(NPCResponseDB.RejectSecondComplete);
+                GameUIManager.instance.HideAllItems();
                 IsSuccessExit = false;
                 break;
         }
+        
         if (ActionPanel != null) ActionPanel.SetActive(false);
         GameUIManager.instance.SetDialogueActive(true);
         if (ChatBubble != null) ShowChatBubble();
@@ -462,8 +571,39 @@ public class NPCMovement : MonoBehaviour
         {
             NextButton.gameObject.SetActive(true);
         }
-
         yield return new WaitUntil(() => NextButton == null || !NextButton.gameObject.activeInHierarchy);
+        if (Reaction == LeaveReaction.Accepted && HasTrayMechanic)
+        {
+            GameUIManager.instance.SetDialogueActive(false);
+            if(ChatBubble != null) ChatBubble.SetActive(false);
+            if(GameUIManager.instance != null && GameUIManager.instance.TrayPanelManagerScript != null)
+            {
+                GameUIManager.instance.TrayPanelManagerScript.PrepareTrayItem(CurrentNPCItems);
+                GameUIManager.instance.OpenTray();
+            }
+            yield break;
+        }
+
+        yield return new WaitForSeconds(0.3f);
+
+        if (GameUIManager.instance != null)
+        {
+            GameUIManager.instance.HideAllDocuments();
+        }
+
+        yield return new WaitForSeconds(0.3f);
+
+        if (ObjectiveManager.instance != null & AcceptedByPlayer)
+        {
+            ObjectiveManager.instance.TotalAdmitted++;
+            if(ObjectiveManager.instance.TotalAdmitted >= ObjectiveManager.instance.TargetObjective)
+            {
+                if(GameUIManager.instance != null)
+                {
+                    GameUIManager.instance.LockGame();
+                }
+            }
+        }
 
         if(Reaction == LeaveReaction.RejectedCorrectly)
         {
@@ -477,25 +617,7 @@ public class NPCMovement : MonoBehaviour
         StartLeaving(IsSuccessExit);
     }
 
-    //private IEnumerator TypeTextRoutine(string TextToType)
-    //{
-    //    IsTyping = true;
-    //    DialogueText.text = "";
-    //    foreach (char letter in TextToType.ToCharArray())
-    //    {
-    //        DialogueText.text += letter;
-    //        yield return new WaitForSeconds(TypingSpeed);
-    //    }
-    //    CompleteTyping();
-    //}
-
-    //private void CompleteTyping()
-    //{
-    //    IsTyping = false;
-    //    DialogueText.text = CurrentFullSentence;
-    //    if(NextButton != null) NextButton.gameObject.SetActive(true);
-    //}
-
+    
     List<string> GetListByType(RequestType type)
     {
         switch (type)
@@ -513,8 +635,43 @@ public class NPCMovement : MonoBehaviour
         }
     }
 
+    private void SpawnTrayItems()
+    {
+        CurrentNPCItems.Clear();
+        List<ItemList.ItemEntry> AvailableItems = new List<ItemList.ItemEntry>(MasterItemList.Items);
+        for(int i = 0; i < 3; i++)
+        {
+            if (AvailableItems.Count == 0) break;
+            if (AvailableItems.Count == 0) break;
+            int RandomIndex = Random.Range(0, AvailableItems.Count);
+            ItemList.ItemEntry ChosenItem = AvailableItems[RandomIndex];
+            CurrentNPCItems.Add(ChosenItem);
+            AvailableItems.RemoveAt(RandomIndex);
+            if (GameUIManager.instance.DeskItemRenderers[i] != null)
+            {
+                GameUIManager.instance.DeskItemRenderers[i].sprite = ChosenItem.SmallSprite;
+            }
+            if (GameUIManager.instance.DeskItemAnimators[i] != null)
+            {
+                GameUIManager.instance.DeskItemAnimators[i].ShowItem();
+            }
+        }
+    }
+
     public void EvaluateQuestion(string Topic)
     {
+        if(AskedTopics.Contains(Topic))
+        {
+            if(!PenaltyRepeated)
+            {
+                PenaltyRepeated = true;
+                if (ObjectiveManager.instance != null) ObjectiveManager.instance.DeductAccuracy();
+            }
+            string RepeatedText = PickRandomResponse(NPCResponseDB.AskedQuestionsTwice);
+            TriggerInterrogation(RepeatedText);
+            return;
+        }
+        AskedTopics.Add(Topic);
         string ChosenText = "...";
         if (Topic == "ID")
         {
@@ -548,9 +705,9 @@ public class NPCMovement : MonoBehaviour
                 ChosenText = PickRandomResponse(NPCResponseDB.QuestionIDNotThere);
             }
 
-            if(IsFaceMissmatch == true)
+            if(IsFaceMissmatch == true || IsNameMissmatch == true || IsDOBMissmatch == true)
             {
-                TriggerReaction(LeaveReaction.CaughtFakeID);
+                TriggerReaction(LeaveReaction.CaughtFakeDocument);
                 return;
             }
 
@@ -609,6 +766,7 @@ public class NPCMovement : MonoBehaviour
                     if(DatabaseExcuseChoice == 0)
                     {
                         ChosenText = PickRandomResponse(NPCResponseDB.QuestionDataFailed);
+                        IsTrulyValid = false;
                     }
                     else
                     {
@@ -627,6 +785,57 @@ public class NPCMovement : MonoBehaviour
             return "...";
         }
         return ResponseList[Random.Range(0, ResponseList.Count)];
+    }
+
+    public void FinishTrayInteractionAndLeave()
+    {
+        StartCoroutine(FinalExitRoutine());
+    }
+
+    private IEnumerator FinalExitRoutine()
+    {
+        string ChosenText = PickRandomResponse(NPCResponseDB.Accept);
+
+        if (ActionPanel != null) ActionPanel.SetActive(false);
+        GameUIManager.instance.SetDialogueActive(true);
+        if (ChatBubble != null) ShowChatBubble();
+        DialogueText.text = "";
+        if(NextButton != null) NextButton.gameObject.SetActive(false);
+        
+        foreach(char letter in ChosenText.ToCharArray())
+        {
+            DialogueText.text += letter;
+            yield return new WaitForSeconds(TypingSpeed);
+        }
+        if (NextButton != null)
+        {
+            NextButton.gameObject.SetActive(true);
+        }
+        yield return new WaitUntil(() => NextButton == null || !NextButton.gameObject.activeInHierarchy);
+
+        GameUIManager.instance.SetDialogueActive(false);
+        if(ChatBubble != null) ChatBubble.SetActive(false);
+
+        if(GameUIManager.instance != null)
+        {
+            GameUIManager.instance.HideAllDocuments();
+            GameUIManager.instance.HideAllItems();
+        }
+
+        yield return new WaitForSeconds(0.3f);
+        if (ObjectiveManager.instance != null)
+        {
+            ObjectiveManager.instance.TotalAdmitted++;
+            if (ObjectiveManager.instance.TotalAdmitted >= ObjectiveManager.instance.TargetObjective)
+            {
+                if (GameUIManager.instance != null)
+                {
+                    GameUIManager.instance.LockGame();
+                }
+            }
+        }
+        StartLeaving(true);
+
     }
 
 
@@ -674,6 +883,38 @@ public class NPCMovement : MonoBehaviour
         if(NextButton != null) NextButton.gameObject.SetActive(false);
     }
 
+    public void StartFootstep()
+    {
+        if(!IsWalking)
+        {
+            IsWalking = true;
+            if (FootStepCoroutine != null) StopCoroutine(FootStepCoroutine);
+            FootStepCoroutine = StartCoroutine(FootStepRoutine()); ;
+        }
+    }
+
+    public void StopFootstep()
+    {
+        IsWalking=false;
+        if(FootStepCoroutine != null)
+        {
+            StopCoroutine(FootStepCoroutine);
+            FootStepCoroutine = null;
+        }
+    }
+
+    private IEnumerator FootStepRoutine()
+    {
+        while(IsWalking)
+        {
+            if(WalkingSoundEffect != null && WalkingSoundEffect.clip != null)
+            {
+                WalkingSoundEffect.PlayOneShot(WalkingSoundEffect.clip);
+            }
+            yield return new WaitForSeconds(StepInterval);
+        }
+    }
+
     private void OnMouseDown()
     {
         if (GameUIManager.instance.IsMouseBlocked()) return;
@@ -709,5 +950,8 @@ public class NPCMovement : MonoBehaviour
             ChosenExit = IsSuccess ? ExitPointShelter : ExitPointShelterFailed;
         }
         CurrentState = NPCState.MovingToExit;
+        StartFootstep();
     }
+
+    
 }

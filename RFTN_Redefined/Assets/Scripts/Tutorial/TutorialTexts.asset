@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 593272b60f6260d44aa94278107151ec, type: 3}
+  m_Name: TutorialTexts
+  m_EditorClassIdentifier: 
+  TextList:
+  - Hello, and welcome to the first day of your job in the department of Homeless
+    Services.
+  - The following guide will give you an insight about the things that you need to
+    know as a new hire.
+  - "Your objective is to process shelter intakes by verifying each applicant\u2019s
+    documentation and database profile."
+  - To approve admission, ensure their documents are government-issued and that their
+    profile exist in the database.
+  - You can question applicants regarding their documents or database status, or
+    reject them if they do not meet the requirements.
+  - Immediately reject applicants whose ID Photo, or document details does not match
+    their database record or physical appearance, as they are document counterfeits.
+  - Here is the structure for your office and an overview of how your operations
+    will run.
+  - On the right side of the desk is the sticky note.
+  - Click this to see the day's main objectives and key shift details.
+  - To check further details about the rules, click on this computer.
+  - You can also check the database for each applicants who registered to stay in
+    this shelter.
+  - Be sure to check the policies each day your shift starts, as the rules and requirements
+    can change frequently.
+  - Click on these documents to view the applicant's Identification details.
+  - Keep in mind that if an applicant presents a letter, they must also provide a
+    valid ID.
+  - However, applicants do not need to provide an ID if they submit an application
+    form.
+  - If you are ready, you can click on the applicant to accept or reject their entry
+    request.
+  - You can also question the applicant about their documents or their database presence.
+  - If you reject an applicant who doesn't meet entry requirements, hand them a blank
+    application form to fill out.
+  - However, if you reject the applicans unfairly, a violation will be given.
+  - Receiving three violations will lead to your dismissal.
+  - That is all from us. We wish you luck for the first day of your shift.

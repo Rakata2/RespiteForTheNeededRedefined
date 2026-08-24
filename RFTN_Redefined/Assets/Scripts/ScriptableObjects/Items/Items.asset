@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2380b3f34f410954ea490e3ce4e9f067, type: 3}
+  m_Name: Items
+  m_EditorClassIdentifier: 
+  Items:
+  - Name: 1
+    Safety: 1
+    SmallSprite: {fileID: 21300000, guid: c6aa9c71637d63341be9d14a23fdad96, type: 3}
+    BigSprite: {fileID: 21300000, guid: cc8e08e67006833428ae41fdea8e2c87, type: 3}
+    OutlinedSprite: {fileID: 21300000, guid: 963e4c9128214ba408f12fc75047e674, type: 3}
+  - Name: 2
+    Safety: 1
+    SmallSprite: {fileID: 21300000, guid: 7ede881c8ab16c849ad5e65276168b93, type: 3}
+    BigSprite: {fileID: 21300000, guid: f38cc29dd01dab44c9259c4835d24568, type: 3}
+    OutlinedSprite: {fileID: 21300000, guid: 4c390718da5a1a54da12ee0dafe38e09, type: 3}
+  - Name: 3
+    Safety: 0
+    SmallSprite: {fileID: 21300000, guid: fffcd3cbd5bbb8b4fad8d47be133ff0d, type: 3}
+    BigSprite: {fileID: 21300000, guid: 5e8ee0138a71e5840a9352758bab5521, type: 3}
+    OutlinedSprite: {fileID: 21300000, guid: 45409486d09364b46bee490008cff3ff, type: 3}
+  - Name: 4
+    Safety: 1
+    SmallSprite: {fileID: 21300000, guid: 9cf579794b6387d459ba1c3b782ca479, type: 3}
+    BigSprite: {fileID: 21300000, guid: c89efd3667ee22b44b528baa63d64388, type: 3}
+    OutlinedSprite: {fileID: 21300000, guid: c312e17bd4dc4934abe7cbf041764503, type: 3}
+  - Name: 5
+    Safety: 0
+    SmallSprite: {fileID: 21300000, guid: a98d755676505f64b86a84fc955bd606, type: 3}
+    BigSprite: {fileID: 21300000, guid: 8f93b15a3b5714e4c81f4c6db4df9e61, type: 3}
+    OutlinedSprite: {fileID: 21300000, guid: 1b2efc4b7cfb70f4cad5fc0c468751ba, type: 3}
+  - Name: 6
+    Safety: 1
+    SmallSprite: {fileID: 21300000, guid: 22a7f44b9cbcc1843a14040476c9ff96, type: 3}
+    BigSprite: {fileID: 21300000, guid: 056c75c7407346e48bb558d38e89da5e, type: 3}
+    OutlinedSprite: {fileID: 21300000, guid: 945460e8277a8984a974df764282f4d3, type: 3}
+  - Name: 7
+    Safety: 0
+    SmallSprite: {fileID: 21300000, guid: 200b3dd911c45714ab5d5305c2fb658a, type: 3}
+    BigSprite: {fileID: 21300000, guid: 06b5546482465974eafe1c84eed828a6, type: 3}
+    OutlinedSprite: {fileID: 21300000, guid: 0d115ed4f130a244f8becc3e570927f5, type: 3}
+  - Name: 8
+    Safety: 0
+    SmallSprite: {fileID: 21300000, guid: 2adeb31de88141a42a0c868011b41243, type: 3}
+    BigSprite: {fileID: 21300000, guid: eb5f1cec68e966744ab512bebf922884, type: 3}
+    OutlinedSprite: {fileID: 21300000, guid: 7cd8f506535cfdb40a0541d1fa211af1, type: 3}

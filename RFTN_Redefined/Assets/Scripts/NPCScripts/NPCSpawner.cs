@@ -27,6 +27,11 @@ public class NPCSpawner : MonoBehaviour
         {
             yield return new WaitUntil(() => CurrentNPC == null);
 
+            if (ObjectiveManager.instance != null && ObjectiveManager.instance.IsShiftOver)
+            {
+                yield break;
+            }
+
             yield return new WaitForSeconds(spawnInterval);
 
 
@@ -42,6 +47,11 @@ public class NPCSpawner : MonoBehaviour
 
                 MovementScript.ExitPointShelter = this.ExitPointShelter;
                 MovementScript.ExitPointShelterFailed = this.ExitPointShelterFailed;
+
+                if (LevelManager.instance != null)
+                {
+                    LevelManager.instance.ApplyLevelRules(MovementScript);
+                }
 
                 CurrentNPC = MovementScript;
             }

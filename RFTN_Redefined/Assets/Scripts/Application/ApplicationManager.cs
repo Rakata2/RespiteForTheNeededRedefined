@@ -14,16 +14,17 @@ public class ApplicationManager : MonoBehaviour
     public Image[] ReasoningChecks;
     public Image CircleYes;
     public Image CircleNo;
-    public TMP_Text GovernmentStampCheck;
+    public Image GovernmentStampCheck;
 
     private void Awake()
     {
         instance = this;
     }
 
-    public void DisplayApplication(IdentityProfile profile, bool IsValidGovID, int ReasonIndex, bool Circle)
+    public void DisplayApplication(IdentityProfile profile, bool IsValidGovID, int ReasonIndex, bool Circle, string PrintedName, string PrintedDOB)
     {
-        Name.text = profile.Name;
+        if (Name != null) Name.text = PrintedName;
+        if(DOB != null) DOB.text = PrintedDOB;
         DOB.text = profile.DateOfBirth;
 
         CircleYes.enabled = Circle;
@@ -36,12 +37,11 @@ public class ApplicationManager : MonoBehaviour
 
         if (IsValidGovID == true)
         {
-            GovernmentStampCheck.text = "(Issued by government)";
-            //there will be a logo here later to be placed at the asset
+            GovernmentStampCheck.enabled = true;
         }
         else
         {
-            GovernmentStampCheck.text = "";
+            GovernmentStampCheck.enabled = false;
         }
 
         ApplicationPanelContainer.SetActive(true);

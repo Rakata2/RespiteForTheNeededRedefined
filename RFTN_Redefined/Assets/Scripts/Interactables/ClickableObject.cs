@@ -18,6 +18,9 @@ public class ClickableObject : MonoBehaviour
     private bool IsAlerted = false;
 
     public static ClickableObject instance;
+    public AudioSource ClickingSound;
+    public float MinPitch = 0.8f;
+    public float MaxPitch = 1.5f;
 
     private void Awake()
     {
@@ -54,6 +57,10 @@ public class ClickableObject : MonoBehaviour
         {
             return; 
         }
+
+        float RandomPitch = Random.Range(MinPitch, MaxPitch);
+        ClickingSound.pitch = RandomPitch;
+        if (ClickingSound != null) ClickingSound.Play();
 
         if(ObjectType == InteractionType.Computer && GameUIManager.instance.IsComputerMinimized())
         {

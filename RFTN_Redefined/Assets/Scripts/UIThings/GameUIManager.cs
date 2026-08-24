@@ -25,6 +25,7 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private CanvasGroup ApplicationPanel;
     [SerializeField] public CanvasGroup ActionPanel;
     [SerializeField] public CanvasGroup StickyNotePanel;
+    [SerializeField] public CanvasGroup TrayPanel;
     [SerializeField] private GameObject Action;
     [SerializeField] private GameObject Question;
     [SerializeField] private GameObject ClarificationAccept;
@@ -32,11 +33,13 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private GameObject UIBlocker;
 
     [SerializeField] public GameObject MinimizedTray;
-    [SerializeField] private TMP_Text TrayText;
+    [SerializeField] private TMP_Text TrayText;    
 
     private bool PendingDecision;
 
-    
+    public GameObject[] PhysicalDeskItems;
+
+    public TrayPanelManager TrayPanelManagerScript;
 
     public enum WindowType
     {
@@ -58,6 +61,25 @@ public class GameUIManager : MonoBehaviour
     public DatabaseUI DatabaseUIScript;
     public PoliciesUIManager PoliciesUIScript;
 
+    public bool IsGameLocked = false;
+
+    public AudioSource ClosePaper;
+    public float TargetClosePaperPitch = 0.7f;
+
+    public AudioSource CloseCard;
+    public float TargetCloseCardPitch = 0.7f;
+
+    public AudioSource ClickingSound;
+    public float MinPitchClick = 0.8f;
+    public float MaxPitchClick = 1.5f;
+
+    public AudioSource PaperSlideEnter;
+
+    public SpriteRenderer[] DeskItemRenderers;
+    public TrayItemAnimator[] DeskItemAnimators;
+    
+    
+
 
     private void Awake()
     {
@@ -71,6 +93,7 @@ public class GameUIManager : MonoBehaviour
 
     public bool IsMouseBlocked()
     {
+        if (IsGameLocked) return true;
         return UIBlocker.activeInHierarchy || isDialogueActive;
     }
 
@@ -109,7 +132,7 @@ public class GameUIManager : MonoBehaviour
         PoliciesPanel.SetActive(false);
         if(PoliciesUIScript != null)
         {
-            PoliciesUIScript.PreviousPage();
+            PoliciesUIScript.PageOne();
         }
 
     }
@@ -127,7 +150,7 @@ public class GameUIManager : MonoBehaviour
 
         if(PoliciesUIScript != null)
         {
-            PoliciesUIScript.PreviousPage();
+            PoliciesUIScript.PageOne();
         }
     }
 
@@ -139,6 +162,7 @@ public class GameUIManager : MonoBehaviour
     public void CloseIDCard()
     {
         HidePanel(IDCardPanel);
+        if (CloseCard != null) AudioSource.PlayClipAtPoint(CloseCard.clip, Camera.main.transform.position);
     }
 
     public void OpenLetter()
@@ -176,6 +200,16 @@ public class GameUIManager : MonoBehaviour
         HidePanel(StickyNotePanel);
     }
 
+    public void OpenTray()
+    {
+        ShowPanel(TrayPanel);
+    }
+
+    public void CloseTray()
+    {
+        HidePanel(TrayPanel);
+    }
+
     public void CloseActionMenu()
     {
         Question.SetActive(false);
@@ -187,7 +221,7 @@ public class GameUIManager : MonoBehaviour
 
     public void AcceptEntrance()
     {
-        PendingDecision = true; //[NEW]
+        PendingDecision = true; 
         Question.SetActive(false);
         Action.SetActive(false);
         ClarificationAccept.SetActive(true);
@@ -200,14 +234,21 @@ public class GameUIManager : MonoBehaviour
         Action.SetActive(true);
         CloseActionMenu();
 
-        //[NEW]
         if(NPCMovement.CurrentClient != null)
         {
-            ViolationManager.instance.ProcessPlayerDecision(PendingDecision, NPCMovement.CurrentClient);
+            NPCMovement CurrentNPC = NPCMovement.CurrentClient;
+            if(PendingDecision == true && CurrentNPC.HasTrayMechanic)
+            {
+                CurrentNPC.TriggerReaction(NPCMovement.LeaveReaction.Accepted);
+            }
+            else
+            {
+                ViolationManager.instance.ProcessPlayerDecision(PendingDecision, CurrentNPC);
+            }
         }
         else
         {
-            Debug.LogWarning("No npc at counter");
+            Debug.Log("NO npc");
         }
     }
 
@@ -223,7 +264,7 @@ public class GameUIManager : MonoBehaviour
         PendingDecision = false;
         Question.SetActive(false);
         Action.SetActive(false);
-        ClarificationAccept.SetActive(true);
+        ClarificationReject.SetActive(true);
     }
 
     public void ClarifiedReject()
@@ -276,11 +317,6 @@ public class GameUIManager : MonoBehaviour
         Action.SetActive(true);
         CloseActionMenu();
     }
-
-    
-
-    
-
     public void BackButton()
     {
         Question.SetActive(false);
@@ -373,6 +409,20 @@ public class GameUIManager : MonoBehaviour
         if(DeskApplication != null && DeskApplication.gameObject.activeInHierarchy) DeskApplication.GetComponent<DocumentAnimator>().HideDocument();
     }
 
+    public void HideAllItems()
+    {
+        if(DeskItemAnimators != null)
+        {
+            for (int i = 0; i < DeskItemAnimators.Length; i++)
+            {
+                if (DeskItemAnimators[i] != null & DeskItemAnimators[i].gameObject.activeInHierarchy)
+                {
+                    DeskItemAnimators[i].HideItem();
+                }
+            }
+        }
+    }
+
     public void ShowEmptyApplication()
     {
         if (EmptyApplication != null) EmptyApplication.GetComponent<RejectionApplication>().GiveApplication();
@@ -382,4 +432,51 @@ public class GameUIManager : MonoBehaviour
     {
         if (EmptyApplication != null) EmptyApplication.GetComponent<RejectionApplication>().TakeApplication();
     }
+
+    public void LockGame()
+    {
+        IsGameLocked = true;
+        ComputerPanel.gameObject.SetActive(false);
+        MinimizedTray.gameObject.SetActive(false);
+    }
+
+    public void PlayClickSoundEffect()
+    {
+        if (ClickingSound != null)
+        {
+            ClickingSound.pitch = Random.Range(MinPitchClick, MaxPitchClick);
+            //AudioSource.PlayClipAtPoint(ClickingSound.clip, Camera.main.transform.position);
+            ClickingSound.PlayOneShot(ClickingSound.clip);
+        }
+    }
+
+    public void PlayClosePaperSoundEffect()
+    {
+        if(ClosePaper != null)
+        {
+            ClosePaper.pitch = TargetClosePaperPitch;
+            ClosePaper.PlayOneShot(ClosePaper.clip);
+        }
+    }
+
+    public void PlayCloseCardSoundEffect()
+    {
+        if (CloseCard != null)
+        {
+            CloseCard.pitch = TargetCloseCardPitch;
+            CloseCard.PlayOneShot(CloseCard.clip);
+        }
+    }
+
+    public void RetryLevel()
+    {
+        TransitionManager.Instance.StartCoroutine(TransitionManager.Instance.RetryTransition());
+    }
+
+    public void ReturnToMainMenu()
+    {
+        TransitionManager.Instance.StartCoroutine(TransitionManager.Instance.MainMenuTransition());
+    }
+
+
 }

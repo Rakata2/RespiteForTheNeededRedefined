@@ -12,6 +12,9 @@ public class DocumentAnimator : MonoBehaviour
 
     private bool IsInitialized = false;
 
+    public AudioSource SlidingPaperSound;
+    public float TakeBackDocumentPitch = 0.7f;
+
     private void InitializeIfNeeded()
     {
         if (IsInitialized) return;
@@ -28,6 +31,7 @@ public class DocumentAnimator : MonoBehaviour
     {
         InitializeIfNeeded();
         gameObject.SetActive(true);
+        SlidingPaperSound.PlayOneShot(SlidingPaperSound.clip);
         if(CurrentAnimation != null) StopCoroutine(CurrentAnimation);
         CurrentAnimation = StartCoroutine(AnimateRoutine(StartPoint.position, EndPoint.position, 0f, 1f, false));
     }
@@ -37,6 +41,9 @@ public class DocumentAnimator : MonoBehaviour
         if (!gameObject.activeInHierarchy) return;
         if(CurrentAnimation != null) StopCoroutine(CurrentAnimation);
 
+        SlidingPaperSound.pitch = TakeBackDocumentPitch;
+        SlidingPaperSound.PlayOneShot(SlidingPaperSound.clip);
+        
         CurrentAnimation = StartCoroutine(AnimateRoutine(EndPoint.position, StartPoint.position, SpriteRenderer.color.a, 0f, true));
     }
 
