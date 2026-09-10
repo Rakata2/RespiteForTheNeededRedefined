@@ -1,0 +1,642 @@
+fileFormatVersion: 2
+guid: 8848420d0733c3b4aa8b2f08a9ffabaf
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 640
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1464564981ab1084ea17c7181db2d78a
+      internalID: 721525154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 640
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a114c7b3275964d4988f4d4290f912ca
+      internalID: 505744284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_2
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 640
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef88fb67e735dff409763aebd6ccca8f
+      internalID: 588108901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 640
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96373e8edad140d4c989f794ccb8f3dc
+      internalID: -255909512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb033b6f8d28de24695ae1c12ecff771
+      internalID: -543517998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_5
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 512
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c78ae83ef91c06449f8374b1b6c2d34
+      internalID: 649787146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_6
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 512
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53f78440b61566b44b6c03525c9da534
+      internalID: 1219343915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_7
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 512
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da69cee89e214574a86e515331216f98
+      internalID: 1235703729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 384
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8f2132bfb8eb1543bfed3e8ecf87db4
+      internalID: 266666665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_9
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 384
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33f4789f10ae9024fbefd619ed86a209
+      internalID: -1434434189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_10
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 384
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48a707c8b33682f48bf1cfb3370ca4e0
+      internalID: 925643724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_11
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 384
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e44975af716be6243add24904b2e1fa5
+      internalID: 1985428802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55f181959e8f120458131c53642b70e8
+      internalID: 1406860159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_13
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 256
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe69a09dd8788f146bf723f6db22ca79
+      internalID: -1737644323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_14
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 256
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08ebc0c446bae8943a000cce2e6d0a11
+      internalID: 82704297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_15
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 256
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90bdd68a249456640bdafbdb8328a02e
+      internalID: -707454585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ddf80895f484114da076702631f92dc
+      internalID: 1174213802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_17
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 279f1240bc9e152448099ef3d1e03181
+      internalID: -410613528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_18
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 128
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1c479d11936ef948b99876425c81cb9
+      internalID: -621440577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_19
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 128
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1aba0a0dfdeacae47b74c607455fd23a
+      internalID: -175189107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb59a52417dcc904886cb6e504f71aaf
+      internalID: 1956138077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_21
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71a09895743b8d44e85dc6bdc05dc392
+      internalID: 6661062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_22
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 930bf2c899a55cd43853d2bb2478bc7d
+      internalID: 796785857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MALENPCIDLE64X64_23
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128.25
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26c63ddaca74561478be90538b3b3538
+      internalID: 1943845181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      MALENPCIDLE64X64_0: 721525154
+      MALENPCIDLE64X64_1: 505744284
+      MALENPCIDLE64X64_10: 925643724
+      MALENPCIDLE64X64_11: 1985428802
+      MALENPCIDLE64X64_12: 1406860159
+      MALENPCIDLE64X64_13: -1737644323
+      MALENPCIDLE64X64_14: 82704297
+      MALENPCIDLE64X64_15: -707454585
+      MALENPCIDLE64X64_16: 1174213802
+      MALENPCIDLE64X64_17: -410613528
+      MALENPCIDLE64X64_18: -621440577
+      MALENPCIDLE64X64_19: -175189107
+      MALENPCIDLE64X64_2: 588108901
+      MALENPCIDLE64X64_20: 1956138077
+      MALENPCIDLE64X64_21: 6661062
+      MALENPCIDLE64X64_22: 796785857
+      MALENPCIDLE64X64_23: 1943845181
+      MALENPCIDLE64X64_3: -255909512
+      MALENPCIDLE64X64_4: -543517998
+      MALENPCIDLE64X64_5: 649787146
+      MALENPCIDLE64X64_6: 1219343915
+      MALENPCIDLE64X64_7: 1235703729
+      MALENPCIDLE64X64_8: 266666665
+      MALENPCIDLE64X64_9: -1434434189
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
