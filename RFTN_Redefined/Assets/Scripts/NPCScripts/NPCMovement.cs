@@ -125,9 +125,10 @@ public class NPCMovement : MonoBehaviour
     public List<ItemList.ItemEntry> AllowedItems = new List<ItemList.ItemEntry>();
     public List<ItemList.ItemEntry> RejectedItems = new List<ItemList.ItemEntry>();
 
-    //NEW CODE HERE
+    
     public ItemList MasterItemList;
     public List<ItemList.ItemEntry> CurrentNPCItems = new List<ItemList.ItemEntry>();
+    public Animator NPCAnimator;
 
     void Awake()
     {
@@ -463,6 +464,8 @@ public class NPCMovement : MonoBehaviour
             Debug.LogError("Bellbridge missing from scene");
         }
         GetComponent<AudioSource>().Play();
+
+        
         GameUIManager.instance.SetDialogueActive(true);
         Debug.Log("Interaction type: " + NPCRequestType);
 
@@ -472,6 +475,7 @@ public class NPCMovement : MonoBehaviour
 
         if (NextButton != null) NextButton.gameObject.SetActive(false);
 
+        NPCAnimator.SetBool("IsTalking", true); //new
         foreach (char letter in ChosenText.ToCharArray())
         {
             DialogueText.text += letter;
@@ -482,6 +486,7 @@ public class NPCMovement : MonoBehaviour
             NextButton.gameObject.SetActive(true);
         }
         CurrentState = NPCState.WaitingForDecision;
+        NPCAnimator.SetBool("IsTalking", false); //new
     }
 
     IEnumerator InterrogationRoutine(string ResponseText)
@@ -494,6 +499,8 @@ public class NPCMovement : MonoBehaviour
 
         if (NextButton != null) NextButton.gameObject.SetActive(false);
 
+        NPCAnimator.SetBool("IsTalking", true); //new
+
         foreach (char letter in ResponseText.ToCharArray())
         {
             DialogueText.text += letter;
@@ -503,6 +510,7 @@ public class NPCMovement : MonoBehaviour
         {
             NextButton.gameObject.SetActive(true);
         }
+        NPCAnimator.SetBool("IsTalking", false); //new
     }
 
     //[NEW] coroutine for NPC reactions
@@ -562,6 +570,8 @@ public class NPCMovement : MonoBehaviour
 
         if (NextButton != null) NextButton.gameObject.SetActive(false);
 
+        NPCAnimator.SetBool("IsTalking", true); //new
+        NPCAnimator.SetBool("IsDone", true); //new
         foreach (char letter in ChosenText.ToCharArray())
         {
             DialogueText.text += letter;
@@ -571,6 +581,7 @@ public class NPCMovement : MonoBehaviour
         {
             NextButton.gameObject.SetActive(true);
         }
+        NPCAnimator.SetBool("IsTalking", false); //new
         yield return new WaitUntil(() => NextButton == null || !NextButton.gameObject.activeInHierarchy);
         if (Reaction == LeaveReaction.Accepted && HasTrayMechanic)
         {
@@ -801,8 +812,10 @@ public class NPCMovement : MonoBehaviour
         if (ChatBubble != null) ShowChatBubble();
         DialogueText.text = "";
         if(NextButton != null) NextButton.gameObject.SetActive(false);
-        
-        foreach(char letter in ChosenText.ToCharArray())
+
+        NPCAnimator.SetBool("IsTalking", true); //new
+
+        foreach (char letter in ChosenText.ToCharArray())
         {
             DialogueText.text += letter;
             yield return new WaitForSeconds(TypingSpeed);
@@ -812,6 +825,7 @@ public class NPCMovement : MonoBehaviour
             NextButton.gameObject.SetActive(true);
         }
         yield return new WaitUntil(() => NextButton == null || !NextButton.gameObject.activeInHierarchy);
+        NPCAnimator.SetBool("IsTalking", false); //new
 
         GameUIManager.instance.SetDialogueActive(false);
         if(ChatBubble != null) ChatBubble.SetActive(false);
@@ -931,6 +945,7 @@ public class NPCMovement : MonoBehaviour
 
         if(CurrentState == NPCState.WaitingForDecision && HighlitedSprite != null)
         {
+            NPCAnimator.enabled = false;
             NPCSpriteRenderer.sprite = HighlitedSprite;
         }
     }
@@ -939,6 +954,7 @@ public class NPCMovement : MonoBehaviour
     {
         if(NPCSpriteRenderer != null && NormalSprite != null)
         {
+            NPCAnimator.enabled = true;
             NPCSpriteRenderer.sprite = NormalSprite;
         }
     }
