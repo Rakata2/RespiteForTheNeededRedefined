@@ -479,7 +479,6 @@ MonoBehaviour:
   HighlitedSprite: {fileID: 21300000, guid: 9ffd5414c8358f546a7ba0ecd8615412, type: 3}
   AllGameFaces:
   - {fileID: -1937708181, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
-  - {fileID: -2027561083, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
   - {fileID: 1525328117, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
   - {fileID: -229165567, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
   IsFaceMissmatch: 0

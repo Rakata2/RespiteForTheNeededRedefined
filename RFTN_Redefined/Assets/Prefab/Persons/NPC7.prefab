@@ -299,7 +299,6 @@ MonoBehaviour:
   - {fileID: -1937708181, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
   - {fileID: -2027561083, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
   - {fileID: 1525328117, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
-  - {fileID: -229165567, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
   IsFaceMissmatch: 0
   ActionPanel: {fileID: 0}
   IsHospitalized: 0

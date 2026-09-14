@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 14213627f98610549a5253ddfd58e20a
+guid: 4760b87885478d44d936e44c28a1ad05
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 128
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -97,12 +97,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: POLICIES23192X128_0
+      name: DisabledButtons_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 128
-        width: 192
+        y: 0
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -111,19 +111,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef5bf4e3d7717f746b925d85795fdeee
-      internalID: -1437315902
+      spriteID: 6de9e3a82fc5bc9409f24811ece9bec1
+      internalID: -145884558
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: POLICIES23192X128_1
+      name: DisabledButtons_1
       rect:
         serializedVersion: 2
-        x: 0
+        x: 128
         y: 0
-        width: 192
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -132,8 +132,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 59d2f4610574b8942b105bb404670188
-      internalID: 590818483
+      spriteID: 58c89dfe203475d4f98d0f036272832b
+      internalID: -885642946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DisabledButtons_2
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0adb8988fd85b54c95fda9fd678cb65
+      internalID: 576949574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DisabledButtons_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5144390d43b2124c8a974b743145c13
+      internalID: -629557670
       vertices: []
       indices: 
       edges: []
@@ -149,8 +191,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      POLICIES23192X128_0: -1437315902
-      POLICIES23192X128_1: 590818483
+      DisabledButtons_0: -145884558
+      DisabledButtons_1: -885642946
+      DisabledButtons_2: 576949574
+      DisabledButtons_3: -629557670
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

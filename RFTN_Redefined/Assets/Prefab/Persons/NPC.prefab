@@ -437,7 +437,6 @@ MonoBehaviour:
   PhysicalLetterIsGovIssued: 0
   HighlitedSprite: {fileID: 21300000, guid: c405cab6cae740f4cafa4bb6491b034c, type: 3}
   AllGameFaces:
-  - {fileID: 721525154, guid: 8848420d0733c3b4aa8b2f08a9ffabaf, type: 3}
   - {fileID: -543517998, guid: 8848420d0733c3b4aa8b2f08a9ffabaf, type: 3}
   - {fileID: 266666665, guid: 8848420d0733c3b4aa8b2f08a9ffabaf, type: 3}
   - {fileID: 1406860159, guid: 8848420d0733c3b4aa8b2f08a9ffabaf, type: 3}

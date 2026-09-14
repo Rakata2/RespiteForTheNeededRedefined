@@ -300,8 +300,7 @@ MonoBehaviour:
   - {fileID: -2027561083, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
   - {fileID: 1525328117, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
   - {fileID: -229165567, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
-  - {fileID: -1260955203, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
-  - {fileID: -961864570, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
+  - {fileID: -1070886557, guid: bca81729a621ae648bfb3a7894a5039b, type: 3}
   IsFaceMissmatch: 0
   ActionPanel: {fileID: 0}
   IsHospitalized: 1

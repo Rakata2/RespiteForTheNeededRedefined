@@ -615,7 +615,6 @@ MonoBehaviour:
   - {fileID: 721525154, guid: 8848420d0733c3b4aa8b2f08a9ffabaf, type: 3}
   - {fileID: -543517998, guid: 8848420d0733c3b4aa8b2f08a9ffabaf, type: 3}
   - {fileID: 266666665, guid: 8848420d0733c3b4aa8b2f08a9ffabaf, type: 3}
-  - {fileID: 1406860159, guid: 8848420d0733c3b4aa8b2f08a9ffabaf, type: 3}
   IsFaceMissmatch: 0
   ActionPanel: {fileID: 0}
   IsHospitalized: 0
