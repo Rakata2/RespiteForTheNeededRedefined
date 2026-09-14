@@ -55,6 +55,9 @@ public class CutSceneManager : MonoBehaviour
     public Animator FlashingPerson;
     public Animator FlashingEmptyApplication;
 
+    private bool IsTyping = false;
+    private bool SkipTyping = false;
+
     private void Start()
     {
         BlackScreen.alpha = 1f;
@@ -85,6 +88,14 @@ public class CutSceneManager : MonoBehaviour
         StartCoroutine(Sequence1());
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButton(0) && IsTyping)
+        {
+            SkipTyping = true;
+        }
+    }
+
     private IEnumerator Sequence1()
     {
 
@@ -109,9 +120,11 @@ public class CutSceneManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
         TextPanel.SetActive(true);
+        
         StartCoroutine(Typewriter());
 
         SkipButton.gameObject.SetActive(true);
+        
         while(SkipButton.alpha < 1)
         {
             SkipButton.alpha += Time.deltaTime * FadeSpeed;
@@ -124,11 +137,19 @@ public class CutSceneManager : MonoBehaviour
         GuideText.text = "";
         NextButton.SetActive(false);
 
+        IsTyping = true;
+        SkipTyping = false;
         foreach (char letter in ListOfTexts.TextList[CurrentLineIndex].ToCharArray())
         {
+            if(SkipTyping)
+            {
+                GuideText.text = ListOfTexts.TextList[CurrentLineIndex];
+                break;
+            }
             GuideText.text += letter;
             yield return new WaitForSeconds(TypingSpeed);
         }
+        IsTyping = false;
         NextButton.SetActive(true);
     }
 
@@ -246,6 +267,7 @@ public class CutSceneManager : MonoBehaviour
 
         TextPanel.SetActive(true);
         GuideText.gameObject.SetActive(true);
+        //typing is true
         StartCoroutine(Typewriter());
     }
 
