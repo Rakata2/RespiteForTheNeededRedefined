@@ -903,7 +903,7 @@ public class NPCMovement : MonoBehaviour
         {
             IsWalking = true;
             if (FootStepCoroutine != null) StopCoroutine(FootStepCoroutine);
-            FootStepCoroutine = StartCoroutine(FootStepRoutine()); ;
+            FootStepCoroutine = StartCoroutine(FootStepRoutine()); 
         }
     }
 

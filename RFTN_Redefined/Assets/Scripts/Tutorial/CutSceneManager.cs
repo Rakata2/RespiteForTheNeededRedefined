@@ -55,8 +55,11 @@ public class CutSceneManager : MonoBehaviour
     public Animator FlashingPerson;
     public Animator FlashingEmptyApplication;
 
-    private bool IsTyping = false;
-    private bool SkipTyping = false;
+    public bool IsTyping = false;
+    public bool SkipTyping = false;
+
+    public AudioSource TypewriterSoundSource;
+    public AudioClip TypewriterSoundClip;
 
     private void Start()
     {
@@ -147,6 +150,10 @@ public class CutSceneManager : MonoBehaviour
                 break;
             }
             GuideText.text += letter;
+            if (TypewriterSoundSource != null && TypewriterSoundClip != null)
+            {
+                TypewriterSoundSource.PlayOneShot(TypewriterSoundClip);
+            }
             yield return new WaitForSeconds(TypingSpeed);
         }
         IsTyping = false;
@@ -267,50 +274,87 @@ public class CutSceneManager : MonoBehaviour
 
         TextPanel.SetActive(true);
         GuideText.gameObject.SetActive(true);
-        //typing is true
         StartCoroutine(Typewriter());
     }
 
     private IEnumerator Sequence2Animation()
     {
+        
         RectTransform PersonRect = PersonImage.GetComponent<RectTransform>();
         Vector2 StartPos = PersonRect.anchoredPosition;
         Vector2 TargetPos = new Vector2(StartPos.x - PersonMoveDistance, StartPos.y);
         float ElapsedTime = 0f;
+
         while (ElapsedTime < PersonMoveDuration)
         {
+            if (SkipTyping) break;
             ElapsedTime += Time.deltaTime;
             PersonRect.anchoredPosition = Vector2.Lerp(StartPos, TargetPos, ElapsedTime / PersonMoveDuration);
             yield return null;
         }
-        PersonRect.anchoredPosition = TargetPos;
-        yield return new WaitForSeconds(0.2f);
+        if (!SkipTyping) yield return new WaitForSeconds(FadeSpeed);
         DocumentsApproveImage.gameObject.SetActive(true);
         while (DocumentsApproveImage.alpha < 1)
         {
+            if (SkipTyping) break;
             DocumentsApproveImage.alpha += Time.deltaTime * FadeSpeed;
             yield return null;
         }
         DatabasePresentImage.gameObject.SetActive(true);
         while (DatabasePresentImage.alpha < 1)
         {
+            if (SkipTyping) break;
             DatabasePresentImage.alpha += Time.deltaTime * FadeSpeed;
             yield return null;
         }
+        PersonRect.anchoredPosition = TargetPos;
+        DocumentsApproveImage.gameObject.SetActive(true);
+        DocumentsApproveImage.alpha = 1f;
+        DatabasePresentImage.gameObject.SetActive(true);
+        DatabasePresentImage.alpha = 1f;
+        SkipTyping = false;
     }
 
     private IEnumerator Sequence3()
     {
+        
         QuestionMark.gameObject.SetActive(false);
         DocumentsApproveImage.gameObject.SetActive(false);
         DatabasePresentImage.gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.2f);
+        //yield return new WaitForSeconds(0.2f);
+
+        float timer = 0f;
+        while (timer < 0.2f && !SkipTyping)
+        {
+            if (SkipTyping) break;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        if (!SkipTyping) DocumentInconsistency.gameObject.SetActive(true);
+
+        
+        timer = 0f;
+        while (timer < 0.4f && !SkipTyping)
+        {
+            if (SkipTyping) break;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        if (!SkipTyping) Arrow.gameObject.SetActive(true);
+        
+        while (timer < 0.4f && !SkipTyping)
+        {
+            if (SkipTyping) break;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        if (!SkipTyping) Reject.gameObject.SetActive(true);
+        
 
         DocumentInconsistency.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.4f);
         Arrow.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.4f);
         Reject.gameObject.SetActive(true);
+        SkipTyping = false;
     }
 
     private IEnumerator Sequence4()
@@ -354,15 +398,20 @@ public class CutSceneManager : MonoBehaviour
         PairedDocument.gameObject.SetActive(true);
         while (PairedDocument.alpha < 1)
         {
+            if (SkipTyping) break;
             PairedDocument.alpha += Time.deltaTime * FadeSpeed;
             yield return null;
         }
+
+        PairedDocument.alpha = 1f;
+        SkipTyping = false;
     }
 
     private IEnumerator IDLetterToApplicationAnimation()
     {
         while (IDDocument.alpha > 0 || LetterDocument.alpha > 0 || PairedDocument.alpha > 0)
         {
+            if (SkipTyping) break;
             float FadeAmount = Time.deltaTime * FadeSpeed;
             IDDocument.alpha -= FadeAmount;
             LetterDocument.alpha -= FadeAmount;
@@ -375,57 +424,78 @@ public class CutSceneManager : MonoBehaviour
         LetterDocument.gameObject.SetActive(false);
         PairedDocument.gameObject.SetActive(false);
 
-        yield return new WaitForSeconds(0.2f);
+        if(!SkipTyping)yield return new WaitForSeconds(0.2f);
 
         ApplicationDocument.gameObject.SetActive(true);
         ApplicationText.gameObject.SetActive(true);
         while (ApplicationDocument.alpha < 1 || ApplicationText.alpha < 1)
         {
+            if (SkipTyping) break;
             float FadeAmount = Time.deltaTime * FadeSpeed;
             ApplicationDocument.alpha += FadeAmount;
             ApplicationText.alpha += FadeAmount;
             yield return null;
         }
+
+        ApplicationDocument.alpha = 1f;
+        ApplicationText.alpha = 1f;
         FlashingApplication.SetBool("IsFlashing", true);
+        SkipTyping = false;
     }
 
     private IEnumerator ApplicationTextDisappear()
     {
         while (ApplicationText.alpha > 0)
         {
+            if (SkipTyping) break;
             ApplicationText.alpha -= Time.deltaTime * FadeSpeed;
             yield return null;
         }
         ApplicationText.gameObject.SetActive(false);
+        SkipTyping = false;
     }
 
     private IEnumerator EmptyApplicationGiven()
     {
         while(ApplicationDocument.alpha > 0)
         {
+            if (SkipTyping) break;
             ApplicationDocument.alpha -= Time.deltaTime * FadeSpeed;
             yield return null;
         }
         ApplicationText.gameObject.SetActive(false);
 
-        yield return new WaitForSeconds(0.2f);
+        if (!SkipTyping) yield return new WaitForSeconds(FadeSpeed);
+        
+
+        if(!SkipTyping)yield return new WaitForSeconds(0.2f);
 
         EmptyApplication.gameObject.SetActive(true);
         while (EmptyApplication.alpha < 1)
         {
+            if (SkipTyping) break;
             EmptyApplication.alpha += Time.deltaTime * FadeSpeed;
             yield return null;
         }
+        if(!SkipTyping) yield return new WaitForSeconds(FadeSpeed);
 
-        yield return new WaitForSeconds(0.2f);
+        if (!SkipTyping) yield return new WaitForSeconds(0.2f);
 
         EmptyApplicationText.gameObject.SetActive(true);
         while (EmptyApplicationText.alpha < 1)
         {
+            if (SkipTyping) break;
             EmptyApplicationText.alpha += Time.deltaTime * FadeSpeed;
             yield return null;
         }
+        if(!SkipTyping) yield return new WaitForSeconds(FadeSpeed);
+
+
+        EmptyApplicationText.alpha = 1f;
+        EmptyApplication.alpha = 1f;
         FlashingEmptyApplication.SetBool("IsFlashing", true);
+
+        SkipTyping = false;
     }
     private IEnumerator Sequence5()
     {
@@ -482,5 +552,7 @@ public class CutSceneManager : MonoBehaviour
         Time.timeScale = 1f;
         StartCoroutine(ClosingTransition());
     }
+
+    
 
 }
