@@ -26,11 +26,13 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] public CanvasGroup ActionPanel;
     [SerializeField] public CanvasGroup StickyNotePanel;
     [SerializeField] public CanvasGroup TrayPanel;
+    [SerializeField] public CanvasGroup PauseCanvas;
     [SerializeField] private GameObject Action;
     [SerializeField] private GameObject Question;
     [SerializeField] private GameObject ClarificationAccept;
     [SerializeField] private GameObject ClarificationReject;
     [SerializeField] private GameObject UIBlocker;
+    
 
     [SerializeField] public GameObject MinimizedTray;
     [SerializeField] private TMP_Text TrayText;    
@@ -77,8 +79,8 @@ public class GameUIManager : MonoBehaviour
 
     public SpriteRenderer[] DeskItemRenderers;
     public TrayItemAnimator[] DeskItemAnimators;
-    
-    
+
+    private bool IsPaused = false;
 
 
     private void Awake()
@@ -89,6 +91,21 @@ public class GameUIManager : MonoBehaviour
         IDCardPanel.gameObject.SetActive(false);
 
         if(MinimizedTray != null) MinimizedTray.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(IsPaused == true)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseGame();
+            }
+        }
     }
 
     public bool IsMouseBlocked()
@@ -208,6 +225,16 @@ public class GameUIManager : MonoBehaviour
     public void CloseTray()
     {
         HidePanel(TrayPanel);
+    }
+
+    public void ShowPauseScreen()
+    {
+        ShowPanel(PauseCanvas);
+    }
+
+    public void HidePauseScreen()
+    {
+        HidePanel(PauseCanvas);
     }
 
     public void CloseActionMenu()
@@ -470,11 +497,29 @@ public class GameUIManager : MonoBehaviour
 
     public void RetryLevel()
     {
+        HidePauseScreen();
+        Time.timeScale = 1f;
         TransitionManager.Instance.StartCoroutine(TransitionManager.Instance.RetryTransition());
+    }
+
+    public void PauseGame()
+    {
+        IsPaused = true;
+        ShowPauseScreen();
+        Time.timeScale = 0f;
+    }
+
+    public void ResumeGame()
+    {
+        IsPaused = false;
+        HidePauseScreen();
+        Time.timeScale = 1f;
     }
 
     public void ReturnToMainMenu()
     {
+        HidePauseScreen();
+        Time.timeScale = 1f;
         TransitionManager.Instance.StartCoroutine(TransitionManager.Instance.MainMenuTransition());
     }
 

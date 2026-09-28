@@ -48,7 +48,7 @@ public class TransitionManager : MonoBehaviour
             BlackScreenTransition.alpha += Time.deltaTime * FadeSpeed;
             yield return null;
         }
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenuScene");
     }
 }

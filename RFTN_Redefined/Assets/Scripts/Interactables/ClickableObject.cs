@@ -1,4 +1,3 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -28,7 +27,6 @@ public class ClickableObject : MonoBehaviour
         {
             instance = this;
         }
-        
     }
 
     private void Start()
