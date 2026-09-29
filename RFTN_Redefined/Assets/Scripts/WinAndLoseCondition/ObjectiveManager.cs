@@ -74,12 +74,18 @@ public class ObjectiveManager : MonoBehaviour
         if(CurrentAccepted >= TargetAccepted && CurrentViolations < MaxViolations)
         {
             ShiftStatus.text = "Completed";
-            UnlockNextLevel();
+            //UnlockNextLevel();
+        }
+        else if(CurrentAccepted < TargetAccepted && CurrentViolations < MaxViolations)
+        {
+            ShiftStatus.text = "Completed";
         }
         else
         {
             ShiftStatus.text = "Failed";
         }
+
+        UnlockNextLevel();
 
         AcceptedApplicants.text = CurrentAccepted + " / " + TargetAccepted;
         ViolationsIncurred.text = CurrentViolations + " / " + MaxViolations;
